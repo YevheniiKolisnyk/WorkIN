@@ -1,0 +1,286 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="form" class="register-form">
+  <p class="form__title">Create account</p>
+
+  <div class="fullName">
+    <div class="form-control">
+      <input
+        [ngClass]="{invalid: form.get('firstName').invalid && form.get('firstName').touched}"
+        formControlName="firstName"
+        id="first-name"
+        placeholder="First name"
+        type="text">
+      <label [ngClass]="{'label-animate': !canAnimate}" for="first-name">First name</label>
+      <div *ngFor="let error of errorMessages.firsName" class="error-messages">
+        <p
+          *ngIf="form.get('firstName').hasError(error.type) && form.get('firstName').touched"
+          class="error-message"
+        >
+          {{error.message}}
+        </p>
+      </div>
+    </div>
+
+    <div class="form-control">
+      <input
+        [ngClass]="{invalid: form.get('lastName').invalid && form.get('lastName').touched}"
+        formControlName="lastName"
+        id="last-name"
+        placeholder="Last name"
+        type="text">
+      <label [ngClass]="{'label-animate': !canAnimate}" for="last-name">Second name</label>
+      <div *ngFor="let error of errorMessages.lastName" class="error-messages">
+        <p
+          *ngIf="form.get('lastName').hasError(error.type) && form.get('lastName').touched"
+          class="error-message"
+        >
+          {{error.message}}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-control">
+    <input
+      [ngClass]="{invalid: form.get('email').invalid && form.get('email').touched}"
+      formControlName="email"
+      id="email"
+      placeholder="Email"
+      type="email">
+    <label [ngClass]="{'label-animate': !canAnimate}" for="email">Email</label>
+    <div *ngFor="let error of errorMessages.email" class="error-messages">
+      <p
+        *ngIf="form.get('email').hasError(error.type) && form.get('email').touched"
+        class="error-message"
+      >
+        {{error.message}}
+      </p>
+    </div>
+  </div>
+
+  <div class="address">
+    <div class="form-control">
+      <input
+        (blur)="toggleListDisplay(false, 'countries')"
+        (focus)="toggleListDisplay(true, 'countries')"
+        (input)="getFilteredList('countries')"
+        [(ngModel)]="countriesInputItem"
+        [ngClass]="{invalid: form.get('country').invalid && form.get('country').touched}"
+        autocomplete="none"
+        formControlName="country"
+        id="country"
+        placeholder="Country"
+        type="text">
+      <label [ngClass]="{'label-animate': !canAnimate}" for="country">Country</label>
+      <div *ngIf="!countriesListHidden && !countriesShowError" class="options">
+        <div
+          (click)="selectItem(i, true, 'countries')"
+          (mouseenter)="selectItem(i, false, 'countries')"
+          *ngFor="let item of countriesFilteredList;let i = index"
+          class="item"
+        >
+          <p>{{item.geonameName}}</p>
+        </div>
+      </div>
+
+      <div *ngIf="!countriesListHidden && countriesShowError" class="options">
+        <div class="error">
+          <p>Not found</p>
+        </div>
+      </div>
+
+      <div *ngFor="let error of errorMessages.country" class="error-messages">
+        <p
+          *ngIf="form.get('country').hasError(error.type) && form.get('country').touched"
+          class="error-message"
+        >
+          {{error.message}}
+        </p>
+      </div>
+    </div>
+
+    <div class="form-control">
+      <input
+        (blur)="toggleListDisplay(false, 'states')"
+        (focus)="toggleListDisplay(true, 'states')"
+        (input)="getFilteredList('states')"
+        [(ngModel)]="statesInputItem"
+        [ngClass]="{invalid: form.get('state').invalid && form.get('state').touched}"
+        autocomplete="none"
+        formControlName="state"
+        id="state"
+        placeholder="State"
+        type="text">
+      <label [ngClass]="{'label-animate': !canAnimate}" for="state">State</label>
+      <div *ngIf="!statesListHidden && !statesShowError" class="options">
+        <div
+          (click)="selectItem(i, true, 'states')"
+          (mouseenter)="selectItem(i, false, 'states')"
+          *ngFor="let item of statesFilteredList;let i = index"
+          class="item"
+        >
+          <p>{{item.geonameName}}</p>
+        </div>
+      </div>
+
+      <div *ngIf="!statesListHidden && statesShowError" class="options">
+        <div class="error">
+          <p>Not found</p>
+        </div>
+      </div>
+      <div *ngFor="let error of errorMessages.state" class="error-messages">
+        <p
+          *ngIf="form.get('state').hasError(error.type) && form.get('state').touched"
+          class="error-message"
+        >
+          {{error.message}}
+        </p>
+      </div>
+    </div>
+
+
+  </div>
+
+  <div class="address">
+    <div class="form-control">
+      <input
+        (blur)="toggleListDisplay(false, 'regions')"
+        (focus)="toggleListDisplay(true, 'regions')"
+        (input)="getFilteredList('regions')"
+        [(ngModel)]="regionsInputItem"
+        [ngClass]="{invalid: form.get('region').invalid && form.get('region').touched}"
+        autocomplete="none"
+        formControlName="region"
+        id="region"
+        placeholder="Region"
+        type="text">
+      <label [ngClass]="{'label-animate': !canAnimate}" for="region">Region</label>
+      <div *ngIf="!regionsListHidden && !regionsShowError" class="options">
+        <div
+          (click)="selectItem(i, true, 'regions')"
+          (mouseenter)="selectItem(i, false, 'regions')"
+          *ngFor="let item of regionsFilteredList;let i = index"
+          class="item"
+        >
+          <p>{{item.geonameName}}</p>
+        </div>
+      </div>
+
+      <div *ngIf="!regionsListHidden && regionsShowError" class="options">
+        <div class="error">
+          <p>Not found</p>
+        </div>
+      </div>
+
+      <div *ngFor="let error of errorMessages.region" class="error-messages">
+        <p
+          *ngIf="form.get('region').hasError(error.type) && form.get('region').touched"
+          class="error-message"
+        >
+          {{error.message}}
+        </p>
+      </div>
+    </div>
+
+
+    <div class="form-control">
+      <input
+        (blur)="toggleListDisplay(false, 'cities')"
+        (focus)="toggleListDisplay(true, 'cities')"
+        (input)="getFilteredList('cities')"
+        [(ngModel)]="citiesInputItem"
+        [ngClass]="{invalid: form.get('city').invalid && form.get('city').touched}"
+        autocomplete="none"
+        formControlName="city"
+        id="city"
+        placeholder="City"
+        type="text">
+      <label [ngClass]="{'label-animate': !canAnimate}" for="city">City</label>
+      <div *ngIf="!citiesListHidden && !citiesShowError" class="options">
+        <div
+          (click)="selectItem(i, true, 'cities')"
+          (mouseenter)="selectItem(i,  false, 'cities')"
+          *ngFor="let item of citiesFilteredList;let i = index"
+          class="item"
+        >
+          <p>{{item.geonameName}}</p>
+        </div>
+      </div>
+
+      <div *ngIf="!citiesListHidden && citiesShowError" class="options">
+        <div class="error">
+          <p>Not found</p>
+        </div>
+      </div>
+
+      <div *ngFor="let error of errorMessages.city" class="error-messages">
+        <p
+          *ngIf="form.get('city').hasError(error.type) && form.get('city').touched"
+          class="error-message"
+        >
+          {{error.message}}
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="form-control">
+    <input
+      [ngClass]="{invalid: form.get('phone').invalid && form.get('phone').touched}"
+      formControlName="phone"
+      id="phone"
+      placeholder="Phone"
+      type="tel">
+    <label [ngClass]="{'label-animate': !canAnimate}" for="phone">Phone</label>
+    <div *ngFor="let error of errorMessages.phone" class="error-messages">
+      <p
+        *ngIf="form.get('phone').hasError(error.type) && form.get('phone').touched"
+        class="error-message"
+      >
+        {{error.message}}
+      </p>
+    </div>
+  </div>
+
+  <div class="form-control">
+    <input
+      [ngClass]="{invalid: form.get('password').invalid && form.get('password').touched }"
+      formControlName="password"
+      id="password"
+      placeholder="Password"
+      type="password">
+    <label [ngClass]="{'label-animate': !canAnimate}" for="password">Password</label>
+    <div *ngFor="let error of errorMessages.password" class="error-messages">
+      <p
+        *ngIf="form.get('password').hasError(error.type) && form.get('password').touched"
+        class="error-message"
+      >
+        {{error.message}}
+      </p>
+    </div>
+  </div>
+
+
+  <div class="form-control">
+    <input
+      [ngClass]="{invalid: form.get('confirmPassword').invalid && form.get('confirmPassword').touched}"
+      formControlName="confirmPassword"
+      id="confirm-password"
+      placeholder="Confirm password"
+      type="password">
+    <label [ngClass]="{'label-animate': !canAnimate}" for="confirm-password">Confirm password</label>
+    <div *ngFor="let error of errorMessages.confirmPassword" class="error-messages">
+      <p
+        *ngIf="form.get('confirmPassword').hasError(error.type) && form.get('confirmPassword').touched"
+        class="error-message"
+      >
+        {{error.message}}
+      </p>
+    </div>
+  </div>
+
+  <button [disabled]="form.invalid" class="confirm__btn" type="submit">Create</button>
+</form>
+
+
+

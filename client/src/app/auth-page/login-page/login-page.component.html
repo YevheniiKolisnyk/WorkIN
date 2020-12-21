@@ -1,0 +1,45 @@
+<form [formGroup]="form" action="" class="login-form" (ngSubmit)="onSubmit()">
+  <p class="form__title">Sign in to WorkIN</p>
+
+  <div class="form-control">
+    <input
+      [ngClass]="{invalid: form.get('email').invalid && form.get('email').touched }"
+      formControlName="email"
+      id="login-email"
+      placeholder="Email"
+      type="email">
+    <label [ngClass]="{'label-animate': canAnimate}" for="login-email">Email</label>
+
+    <div *ngFor="let error of errorMessages.email" class="error-messages">
+      <p
+        *ngIf="form.get('email').hasError(error.type) && form.get('email').touched"
+        class="error-message"
+      >
+        {{error.message}}
+      </p>
+    </div>
+  </div>
+  <div class="form-control password">
+    <input
+      [ngClass]="{invalid: form.get('password').invalid && form.get('password').touched }"
+      formControlName="password"
+      id="login-password"
+      placeholder="Password"
+      type="password">
+    <label [ngClass]="{'label-animate': canAnimate}" for="login-password">Password</label>
+
+    <div *ngFor="let error of errorMessages.password" class="error-messages">
+      <p
+        *ngIf="form.get('password').hasError(error.type) && form.get('password').touched"
+        class="error-message"
+      >
+        {{error.message}}
+      </p>
+    </div>
+  </div>
+
+  <div class="buttons">
+    <button [disabled]="form.invalid" class="confirm__btn" type="submit">Sign in</button>
+    <a href="" class="reset-password">Forgot password?</a>
+  </div>
+</form>

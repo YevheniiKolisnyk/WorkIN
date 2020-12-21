@@ -1,0 +1,129 @@
+@import "./variables";
+
+@mixin auth-form($form-width: 440px) {
+  .form__title {
+    margin-bottom: 40px;
+    font-size: 60px;
+    color: $bright-blue;
+  }
+
+
+  .form-control {
+    width: $form-width;
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 50px;
+    background-color: $light-grey;
+    border-radius: 15px;
+
+
+    input {
+      padding: 0 15px;
+      border-radius: 15px;
+      width: 100%;
+      font-size: 18px;
+      height: 50px;
+      -webkit-appearance: none;
+      outline: none;
+      border: none;
+      background: transparent;
+    }
+
+    .invalid {
+      border: 1px solid $error-color;
+    }
+
+    input::placeholder {
+      opacity: 0;
+    }
+
+    input:focus {
+      border: 1px solid $bright-blue;
+    }
+
+
+    label {
+      position: absolute;
+      font-size: 18px;
+      left: 15px;
+      top: 50%;
+      color: $dark-grey;
+      pointer-events: none;
+      transform: translateY(-50%);
+    }
+
+    .label-animate {
+      transition: .3s ease;
+      -moz-transition: .3s ease;
+      -webkit-transition: .3s ease;
+    }
+
+    input:focus,
+    input:not(:placeholder-shown) {
+      color: $dark-blue;
+    }
+
+    input:focus ~ label,
+    input:not(:placeholder-shown) ~ label {
+      top: -10px;
+      left: 10px;
+      font-size: 15px;
+      color: $dark-grey;
+      font-weight: bold;
+    }
+
+    .error-messages {
+      position: absolute;
+      bottom: -47%;
+      left: 10px;
+
+      .error-message {
+        font-size: 14px;
+        margin: 0;
+        color: $error-color;
+      }
+    }
+  }
+
+
+  .confirm__btn {
+    outline: none;
+    cursor: pointer;
+    width: 180px;
+    height: 50px;
+    font-size: 20px;
+    color: #ffffff;
+    background-color: $bright-blue;
+    border: none;
+    border-radius: 20px;
+
+      &:disabled {
+        opacity: .6;
+      }
+  }
+
+}
+
+@mixin description-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 100;
+  width: 500px;
+  height: 100%;
+
+  .title {
+    font-size: 60px;
+    color: #ffffff;
+  }
+
+  .subtitle {
+    font-size: 20px;
+    color: #ffffff;
+    width: 300px;
+    text-align: center;
+  }
+}
+
