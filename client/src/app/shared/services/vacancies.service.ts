@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core'
 import {HttpClient, HttpParams} from '@angular/common/http'
 import {Observable} from 'rxjs'
-import {Vacancy} from '../iterfaces'
+import {User, Vacancy} from '../iterfaces'
 
 
 @Injectable({providedIn: 'root'})
@@ -14,7 +14,13 @@ export class VacanciesService {
   }
 
   search(keywords, location): Observable<Vacancy[]> {
-    return this.http.get<Vacancy[]>(`api/vacancy/search/?keywords=${keywords}&location=${location}`)
+    let params = new HttpParams()
+    keywords = keywords.split(' ')
+    params = params.append('keywords', keywords.join(', '))
+    params = params.append('location', location)
+    return this.http.get<Vacancy[]>('api/vacancy/search/', {
+      params: params
+    })
   }
 
   searchByTags(tags): Observable<any> {
@@ -23,5 +29,9 @@ export class VacanciesService {
     return this.http.get<Vacancy[]>('api/vacancy/searchByTags', {
       params: params
     })
+  }
+
+  toFavorite(id): Observable<User> {
+    return this.http.post<User>(`api/vacancy/${id}/subscribe`, id)
   }
 }

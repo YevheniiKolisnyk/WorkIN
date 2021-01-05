@@ -1,6 +1,6 @@
 export interface User {
   _id?: string
-  name: string
+  firstName: string
   secondName: string
   email: string
   address: string

@@ -36,7 +36,6 @@ module.exports.create = async function (req, res) {
 
 module.exports.getAll = async function (req, res) {
   try {
-    console.log(req.user)
     const vacancies = await Vacancy.find()
 
     const tags = vacancies.map(item => {
@@ -46,8 +45,8 @@ module.exports.getAll = async function (req, res) {
     let cnts = tags.reduce((obj, val) => {
       obj[val] = (obj[val] || 0) + 1;
       return obj;
-    }, {} );
-    let sorted = Object.keys(cnts).sort( function(a,b) {
+    }, {});
+    let sorted = Object.keys(cnts).sort(function (a, b) {
       return cnts[b] - cnts[a];
     })
 
@@ -67,28 +66,30 @@ module.exports.getAll = async function (req, res) {
 module.exports.search = async function (req, res) {
   try {
     const location = req.query.location
-    const keywords = req.query.keywords.split("%").join(" ")
-    const keywordsArray = req.query.keywords.split("%")
-
-    console.log('location', location)
-
-    console.log('array', keywordsArray)
-
+    let keywords
+    let keywordsArray
     let result
     let resultByTags
 
-    if (location === 'GLOBAL') {
-      result = await Vacancy.find({title: {$regex: keywords, $options: 'i'}})
-      resultByTags = await Vacancy.find({tags: {$in: keywordsArray}})
+    if (req.query.keywords === 'ALL') {
+      result = await Vacancy.find({location})
     } else {
-      result = await Vacancy.find({title: {$regex: keywords, $options: 'i'}, location})
-      resultByTags = await Vacancy.find({tags: {$in: keywordsArray}, location})
+      keywords = req.query.keywords.split(", ").join(" ")
+      keywordsArray = req.query.keywords.split("%")
+
+      if (location === 'GLOBAL') {
+        result = await Vacancy.find({title: {$regex: keywords, $options: 'i'}})
+        resultByTags = await Vacancy.find({tags: {$in: keywordsArray}})
+      } else {
+        result = await Vacancy.find({title: {$regex: keywords, $options: 'i'}, location})
+
+        resultByTags = await Vacancy.find({tags: {$in: keywordsArray}, location})
+      }
+
+      result = result.concat(resultByTags)
+      result = [...new Map(result.map(item => [JSON.stringify(item), item])).values()]
     }
 
-
-
-    result = result.concat(resultByTags)
-    result = [...new Map(result.map(item => [JSON.stringify(item), item])).values()]
 
     res.status(200).json(result)
   } catch (e) {
@@ -99,7 +100,6 @@ module.exports.search = async function (req, res) {
 module.exports.searchByTags = async function (req, res) {
   try {
     const tags = req.query.tags.split(', ')
-    console.log(tags)
     const result = await Vacancy.find({tags: {$all: tags}})
     res.status(200).json(result)
   } catch (e) {
@@ -159,7 +159,6 @@ module.exports.apply = async function (req, res) {
     })
 
     if (alreadyApplied) {
-      console.log(1)
       const user = await User.findByIdAndUpdate(
           req.user._id,
           {$pull: {applied: {_id: req.params.id}}},
@@ -174,7 +173,6 @@ module.exports.apply = async function (req, res) {
       await vacancy.save()
       res.status(200).json(vacancy)
     } else {
-      console.log(2)
       const user = await User.findById(req.user._id)
       const vacancy = await Vacancy.findById(req.params.id)
 

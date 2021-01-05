@@ -10,6 +10,12 @@ router.get(
     profileController.getAll
 )
 
+router.get(
+    '/getUser',
+    passport.authenticate('jwt', {session: false}),
+    profileController.getUser
+)
+
 router.post(
     '/cv/:id',
     passport.authenticate('jwt', {session: false}),

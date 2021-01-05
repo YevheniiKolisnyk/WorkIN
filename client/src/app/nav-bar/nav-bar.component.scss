@@ -43,12 +43,12 @@ main {
   }
 
   .user-container {
-    width: 220px;
     display: flex;
     align-items: center;
     justify-content: space-between;
 
     .favorite {
+      margin-right: 30px;
       position: relative;
       display: flex;
       text-decoration: none;
@@ -75,10 +75,13 @@ main {
     }
 
     .user {
+      min-width: 150px;
+      position: relative;
       text-decoration: none;
       color: $bright-blue;
       display: flex;
       align-items: center;
+      cursor: pointer;
 
       .iconify {
         font-size: 38px;
@@ -88,7 +91,77 @@ main {
       .username {
         font-size: 22px;
       }
+
+      .arrow {
+        .iconify {
+          margin: 0;
+          font-size: 22px;
+        }
+      }
+
+      .dropdown {
+        z-index: 100;
+        display: none;
+        align-items: center;
+        width: 150px;
+        left: 0;
+        top: 100%;
+        border: 1px solid $bright-blue;
+        border-radius: 10px;
+        position: absolute;
+        flex-direction: column;
+
+        .btn {
+          position: relative;
+          height: 30px;
+          width: 150px;
+          background-color: transparent;
+          outline: none;
+          cursor: pointer;
+          border: none;
+          color: $bright-blue;
+          font: $primary-font;
+          font-size: 16px;
+
+          &:first-child {
+            border-radius: 10px 10px 0 0;
+
+            &:before {
+              position: absolute;
+              content: '';
+              left: 50%;
+              top: 100%;
+              transform: translateX(-50%);
+              height: 1px;
+              width: 100%;
+              background-color: $bright-blue;
+            }
+
+          }
+
+          &:last-child {
+            border-radius: 0 0 10px 10px;
+          }
+
+          &:hover {
+            background-color: $bright-blue;
+            color: #ffffff;
+          }
+        }
+      }
+
+      &:hover {
+        .arrow {
+          transform: rotate(180deg);
+        }
+
+        .dropdown {
+          display: flex;
+        }
+      }
     }
+
+
   }
 }
 

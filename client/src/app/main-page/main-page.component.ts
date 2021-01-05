@@ -1,8 +1,10 @@
 import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core'
 import {VacanciesService} from '../shared/services/vacancies.service'
-import {Vacancy} from '../shared/iterfaces'
+import {User, Vacancy} from '../shared/iterfaces'
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms'
 import {ActivatedRoute, Router} from '@angular/router'
+import {ProfileService} from '../shared/services/profile.service'
+import {AuthService} from '../shared/services/auth.service'
 
 @Component({
   selector: 'app-main-page',
@@ -11,8 +13,13 @@ import {ActivatedRoute, Router} from '@angular/router'
 })
 export class MainPageComponent implements OnInit {
   @ViewChild('locationInput') locationInputRef: ElementRef
-  form: FormGroup
+  user: User
 
+  canShowStars: boolean = false
+  form: FormGroup
+  favoriteList: string[]
+
+  showLoader: boolean = true
   tags: string[]
   checkboxValues: string[] = []
   searchInputItem: string
@@ -29,12 +36,18 @@ export class MainPageComponent implements OnInit {
     private router: Router,
     private vacanciesService: VacanciesService,
     private FormBuilder: FormBuilder,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private profileService: ProfileService,
   ) {
   }
 
   ngOnInit(): void {
-    this.searchInputItem = this.route.snapshot.queryParamMap.get('keywords')
+    if (this.route.snapshot.queryParamMap.get('keywords') === 'ALL') {
+      this.searchInputItem = ''
+    } else if (this.route.snapshot.queryParamMap.get('keywords')) {
+      this.searchInputItem = this.route.snapshot.queryParamMap.get('keywords')
+    }
+
     if (this.route.snapshot.queryParamMap.get('location') === 'GLOBAL') {
       this.locationsInputItem = ''
     } else if (this.route.snapshot.queryParamMap.get('location')) {
@@ -46,20 +59,33 @@ export class MainPageComponent implements OnInit {
       locationInput: new FormControl(null)
     })
 
-    this.getAll()
+    this.profileService.user.subscribe(user => {
+      console.log('subject',user)
+      if (user) {
+        this.user = user
+        this.favoriteList = user.favorite.map(item => item._id)
+        this.canShowStars = true
+        this.getAll()
+      } else {
+        this.getAll()
+      }
+    })
   }
 
   getAll() {
+    this.showLoader = true
     this.vacanciesService.getAll().subscribe(res => {
       this.tags = res.tags
       this.vacancies = res.vacancies
       this.locations = [...new Map(res.vacancies.map(item => [JSON.stringify(item.location), item.location])).values()]
+      this.showLoader = false
     })
   }
 
   getFilteredList() {
     this.locationsListHidden = false
     this.ref.detectChanges()
+
     if (!this.locationsListHidden && this.locationsInputItem !== undefined) {
       this.locationsFilteredList = this.locations.filter((item) => {
         return item.toLowerCase().startsWith(this.locationsInputItem.toLowerCase())
@@ -87,6 +113,7 @@ export class MainPageComponent implements OnInit {
 
   toggleListDisplay(sender) {
     if (sender) {
+      this.locationsInputItem = ''
       this.getFilteredList()
       this.locationsListHidden = false
       this.ref.detectChanges()
@@ -114,25 +141,28 @@ export class MainPageComponent implements OnInit {
   }
 
   search() {
-    let keywords = this.form.value.searchInput.split(" ")
-    keywords = keywords.join("%")
+    this.showLoader = true
     const location = this.form.value.locationInput ? this.form.value.locationInput : "GLOBAL"
+    const keywords = this.form.value.searchInput ? this.form.value.searchInput : 'ALL'
     this.vacanciesService.search(keywords, location).subscribe(res => {
       this.vacancies = res
       this.router.navigate(['/'], {
         queryParams: {
-          keywords: this.form.value.searchInput,
+          keywords: keywords,
           location: location
         }
       })
+      this.showLoader = false
     })
   }
 
   selectFilter(event, tag) {
+    this.showLoader = true
     if (event.target.checked) {
       this.checkboxValues.push(tag)
       this.vacanciesService.searchByTags(this.checkboxValues).subscribe(res => {
         this.vacancies = res
+        this.showLoader = false
       })
     } else {
       this.checkboxValues = this.checkboxValues.filter(el => el != tag)
@@ -141,6 +171,7 @@ export class MainPageComponent implements OnInit {
       } else {
         this.vacanciesService.searchByTags(this.checkboxValues).subscribe(res => {
           this.vacancies = res
+          this.showLoader = false
         })
       }
     }
@@ -148,4 +179,22 @@ export class MainPageComponent implements OnInit {
 
   }
 
+  clearVacanciesInput() {
+    this.form.controls['searchInput'].reset()
+  }
+
+  clearLocationInput() {
+    this.form.controls['locationInput'].reset()
+  }
+
+  favorite(id) {
+    this.vacanciesService.toFavorite(id).subscribe(res => {
+      if (this.favoriteList.includes(id)) {
+        this.favoriteList = this.favoriteList.filter(item => item !== id)
+      } else {
+        this.favoriteList.push(id)
+      }
+      this.user.favorite = res.favorite
+    })
+  }
 }

@@ -13,6 +13,11 @@
           formControlName="searchInput"
           placeholder="Search for job Posting"
           type="text">
+
+        <div
+          (click)="clearVacanciesInput()"
+          [ngClass]="{visible: form.get('searchInput').value}"
+          class="clear-vacancies-input"></div>
       </div>
 
       <div class="location-container">
@@ -38,6 +43,12 @@
                data-inline="false"></span>
           </div>
 
+          <div
+            (click)="clearLocationInput()"
+            [ngClass]="{visible: form.get('locationInput').value}"
+            class="clear-location-input"
+          ></div>
+
         </div>
 
         <div *ngIf="!locationsListHidden && !locationsShowError" class="options">
@@ -51,22 +62,52 @@
           </div>
         </div>
 
-        <button (click)="search()" [disabled]="form.invalid" class="btn">Search</button>
+        <button
+          (click)="search()"
+          [disabled]="!form.get('searchInput').value && !form.get('locationInput').value"
+          class="btn"
+        >
+          Search
+        </button>
       </div>
     </div>
   </div>
 
   <div class="vacancies-container">
     <div class="vacancies">
-      <div *ngIf="vacancies.length; else notFound" class="vacancy-container">
-        <div *ngFor="let vacancy of vacancies" class="vacancy">
+      <div *ngIf="showLoader" class="loader">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="vacancy-container">
+
+        <div *ngFor="let vacancy of vacancies; let idx = index" class="vacancy">
           <img alt="" src="../../assets/vacancyLogo.svg">
 
           <div class="vacancy-info">
             <div class="top">
-              <p class="vacancy-title">{{vacancy.title}}</p>
+              <a [routerLink]="['/vacancy/' + vacancy._id]" class="vacancy-title">{{vacancy.title}}</a>
 
-              <span class="iconify" data-icon="ant-design:star-outlined" data-inline="false"></span>
+
+              <div *ngIf="canShowStars" (click)="favorite(vacancy._id)" class="favorite">
+                <div *ngIf="!favoriteList.includes(vacancy._id)">
+                  <span
+                    class="iconify"
+                    data-icon="ant-design:star-outlined"
+                    data-inline="false"
+                  ></span>
+                </div>
+
+                <div *ngIf="favoriteList.includes(vacancy._id)">
+                    <span
+                      class="iconify"
+                      data-icon="ant-design:star-filled"
+                      data-inline="false"
+                    ></span>
+                  </div>
+
+              </div>
             </div>
 
             <div class="middle">
@@ -97,9 +138,6 @@
         </div>
       </div>
 
-      <ng-template #notFound>
-        <p class="error-msg">Not found</p>
-      </ng-template>
 
     </div>
 

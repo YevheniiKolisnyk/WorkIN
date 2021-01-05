@@ -1,0 +1,129 @@
+@import "../shared/mixins";
+@import "../shared/variables";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+header {
+  width: calc(100% - 240px);
+  height: 200px;
+  margin: 0 120px;
+  background-color: $bright-blue;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .container {
+    width: 60%;
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .info {
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .vacancy-img {
+        width: 100px;
+        height: 100px;
+        margin-right: 25px;
+      }
+
+      .description {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        .title {
+          font-size: 30px;
+          font-weight: bold;
+          color: #ffffff;
+          font-family: $primary-font;
+        }
+
+        .vacancy-name {
+          font-size: 18px;
+          color: #ffffff;
+          font-family: $primary-font;
+        }
+      }
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-end;
+      height: 100%;
+
+      .iconify {
+        font-size: 30px;
+        color: #ffffff;
+      }
+
+      .btn {
+        width: 160px;
+        height: 50px;
+        border: none;
+        border-radius: 20px;
+        background-color: #ffffff;
+        font-size: 20px;
+        font-family: $primary-font;
+        color: $bright-blue;
+      }
+    }
+  }
+}
+
+main {
+  width: 100%;
+  margin: 50px 120px 0 120px;
+
+  .vacancy-description {
+    width: 60%;
+
+    .head {
+      display: flex;
+      justify-content: space-evenly;
+      width: 100%;
+      padding: 30px;
+      border-top: 1px solid #bbbbbb;
+      border-bottom: 1px solid #bbbbbb;
+
+      .head-info {
+        height: 50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        .title {
+          font-family: $primary-font;
+          color: $dark-blue;
+          font-size: 18px;
+        }
+
+        .description {
+          font-family: $primary-font;
+          color: $dark-grey;
+          font-size: 14px;
+        }
+      }
+    }
+
+    .responsibilities {
+      @include vacancy-description-list;
+    }
+
+    .expectations {
+      @include vacancy-description-list;
+    }
+  }
+}

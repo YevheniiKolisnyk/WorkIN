@@ -1,26 +1,35 @@
 <main>
   <div class="links-container">
-    <a class="logo" routerLink="/">
+    <a [routerLink]="['/']" class="logo">
       <img alt="logo" src="../../assets/logo.svg">
     </a>
 
     <div class="links">
-      <a href="">Vacancies</a>
+      <a routerLink="/">Vacancies</a>
       <a href="">Create Vacancy</a>
       <a href="">Create CV</a>
     </div>
   </div>
 
-  <div class="user-container">
+  <div *ngIf="user && showUser" class="user-container">
     <a class="favorite" href="">
       <span class="iconify" data-icon="ant-design:star-outlined" data-inline="false"></span>
-      <p class="count">22</p>
+      <p class="count">{{user.favorite.length}}</p>
     </a>
 
-    <a class="user" routerLink="/auth">
+    <div class="user">
       <span class="iconify" data-icon="bi:person" data-inline="false"></span>
-      <p class="username">Username</p>
-    </a>
+      <p class="username">{{user.firstName}}</p>
+      <div class="arrow">
+        <span class="iconify arrow" data-icon="eva:arrow-ios-downward-outline" data-inline="false"></span>
+      </div>
+      <div class="dropdown">
+        <button (click)="viewProfile(user._id)" class="btn">View Profile</button>
+        <button (click)="logout()" class="btn">Logout</button>
+      </div>
+    </div>
   </div>
+
+    <a *ngIf="user === showUser && null" routerLink="/auth">LogIn</a>
 
 </main>

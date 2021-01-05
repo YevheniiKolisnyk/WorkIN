@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core'
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms'
 import {AuthService} from '../../shared/services/auth.service'
 import {Router} from '@angular/router'
+import {ProfileService} from '../../shared/services/profile.service'
 
 @Component({
   selector: 'app-login-page',
@@ -27,6 +28,7 @@ export class LoginPageComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private profileService: ProfileService,
     private formBuilder: FormBuilder,
     private router: Router
   ) {
@@ -46,7 +48,6 @@ export class LoginPageComponent implements OnInit {
   }
 
   onSubmit() {
-
     this.authService.login(this.form.value).subscribe(
       res => {
         this.router.navigate(['/'])
@@ -54,6 +55,6 @@ export class LoginPageComponent implements OnInit {
       error => {
         console.log(error.error.message)
       }
-      )
+    )
   }
 }
