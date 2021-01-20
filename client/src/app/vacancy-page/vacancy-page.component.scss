@@ -1,129 +1,212 @@
 @import "../shared/mixins";
 @import "../shared/variables";
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+@mixin list() {
+  width: 100%;
+  margin-top: 30px;
+  border-bottom: 1px solid #bbbbbb;
+  padding-bottom: 30px;
 
-header {
-  width: calc(100% - 240px);
-  height: 200px;
-  margin: 0 120px;
-  background-color: $bright-blue;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  .title {
+    font-size: 30px;
+    color: $dark-blue;
+    margin-bottom: 25px;
+  }
 
-  .container {
-    width: 60%;
-    height: 100px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    .info {
-      height: 100%;
+  .list {
+    li {
+      list-style: none;
       display: flex;
-      justify-content: center;
       align-items: center;
+      margin-bottom: 20px;
 
-      .vacancy-img {
-        width: 100px;
-        height: 100px;
-        margin-right: 25px;
+      &:last-child {
+        margin: 0;
       }
 
-      .description {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+      .arrow {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+        border: 1px solid $bright-blue;
+        border-radius: 5px;
+        position: relative;
 
-        .title {
-          font-size: 30px;
-          font-weight: bold;
-          color: #ffffff;
-          font-family: $primary-font;
+        &:before {
+          content: '';
+          position: absolute;
+          top: 2px;
+          left: 6px;
+          width: 6px;
+          height: 10px;
+          border-right: 1px solid $bright-blue;
+          border-bottom: 1px solid $bright-blue;
+          transform: rotate(45deg);
         }
-
-        .vacancy-name {
-          font-size: 18px;
-          color: #ffffff;
-          font-family: $primary-font;
-        }
-      }
-    }
-
-    .buttons {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: flex-end;
-      height: 100%;
-
-      .iconify {
-        font-size: 30px;
-        color: #ffffff;
       }
 
-      .btn {
-        width: 160px;
-        height: 50px;
-        border: none;
-        border-radius: 20px;
-        background-color: #ffffff;
-        font-size: 20px;
-        font-family: $primary-font;
-        color: $bright-blue;
+      .text {
+        font-size: 18px;
+        color: $dark-blue;
       }
     }
   }
 }
 
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: $primary-font;
+}
+
 main {
   width: 100%;
-  margin: 50px 120px 0 120px;
+  min-height: 100vh;
+  padding: 0 140px 50px;
 
-  .vacancy-description {
-    width: 60%;
+  .head {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    background-color: $bright-blue;
 
-    .head {
+    .container {
+      width: 70%;
+      height: 120px;
       display: flex;
-      justify-content: space-evenly;
-      width: 100%;
-      padding: 30px;
-      border-top: 1px solid #bbbbbb;
-      border-bottom: 1px solid #bbbbbb;
+      align-items: center;
+      justify-content: space-between;
 
-      .head-info {
-        height: 50px;
+      .left {
+        height: 120px;
+        display: flex;
+        align-items: center;
+
+        img {
+          width: 120px;
+          height: 120px;
+          border-radius: 20px;
+          margin-right: 25px;
+        }
+
+        .wrapper {
+          height: 120px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+
+          .title {
+            font-size: 30px;
+            color: #ffffff;
+            font-weight: bold;
+          }
+
+          .company-name {
+            font-size: 18px;
+            color: #ffffff;
+          }
+        }
+      }
+
+      .right {
+        height: 120px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        align-items: flex-end;
 
-        .title {
-          font-family: $primary-font;
-          color: $dark-blue;
-          font-size: 18px;
+        .favorite {
+          font-size: 40px;
+          color: #ffffff;
         }
 
-        .description {
-          font-family: $primary-font;
-          color: $dark-grey;
-          font-size: 14px;
+        .btn {
+          width: 180px;
+          height: 50px;
+          border: none;
+          border-radius: 20px;
+          background-color: #ffffff;
+          color: $bright-blue;
+          font-size: 20px;
+          cursor: pointer;
+          outline: none;
         }
       }
     }
+  }
 
-    .responsibilities {
-      @include vacancy-description-list;
-    }
+  .description-container {
+    margin-top: 50px;
+    width: 100%;
 
-    .expectations {
-      @include vacancy-description-list;
+    .description {
+      width: calc(100% - 550px);
+
+      .top {
+        width: 100%;
+        height: 110px;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        border-top: 1px solid #bbbbbb;
+        border-bottom: 1px solid #bbbbbb;
+
+        .salary, .expiry-time,
+        .location, .experience,
+        .contract-type {
+          display: flex;
+          flex-direction: column;
+          height: 50px;
+          justify-content: space-between;
+          align-items: flex-start;
+
+          .title {
+            font-weight: bold;
+            font-size: 17px;
+            color: $dark-blue;
+          }
+
+          .text {
+            font-size: 15px;
+            color: $dark-grey;
+          }
+        }
+      }
+
+      .about {
+        width: 100%;
+        margin-top: 30px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid #bbbbbb;
+
+        .title {
+          font-size: 30px;
+          color: $dark-blue;
+          margin-bottom: 25px;
+        }
+
+        .text {
+          font-size: 18px;
+          color: $dark-blue;
+        }
+      }
+
+      .responsibilities {
+        @include list();
+      }
+
+      .expectations {
+        @include list();
+      }
+
+      .benefits {
+        @include list();
+      }
     }
   }
 }

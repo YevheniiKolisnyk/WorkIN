@@ -59,7 +59,8 @@ module.exports.login = async function (req, res) {
           email: candidate.email,
           userId: candidate._id
         }, keys.JWT)
-        res.status(200).json({token: `Bearer ${token}`})
+        const response = {token: `Bearer ${token}`, user: candidate}
+        res.status(200).json(response)
       } else {
         return res.status(400).json({message: "Invalid password"})
       }

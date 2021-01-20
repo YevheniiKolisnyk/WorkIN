@@ -38,7 +38,9 @@ export class MainPageComponent implements OnInit {
     private FormBuilder: FormBuilder,
     private ref: ChangeDetectorRef,
     private profileService: ProfileService,
+    private authService: AuthService
   ) {
+
   }
 
   ngOnInit(): void {
@@ -59,17 +61,25 @@ export class MainPageComponent implements OnInit {
       locationInput: new FormControl(null)
     })
 
-    this.profileService.user.subscribe(user => {
-      console.log('subject',user)
+    // this.profileService.user.subscribe(user => {
+    //   console.log('subject', user)
+    //   if (user) {
+    //     this.user = user
+    //     this.favoriteList = user.favorite.map(item => item._id)
+    //     this.canShowStars = true
+    //     this.getAll()
+    //   } else {
+    //     this.getAll()
+    //   }
+    // })
+    this.authService.currentUser.subscribe(user => {
+      this.user = user
       if (user) {
-        this.user = user
         this.favoriteList = user.favorite.map(item => item._id)
         this.canShowStars = true
-        this.getAll()
-      } else {
-        this.getAll()
       }
     })
+    this.getAll()
   }
 
   getAll() {
@@ -179,6 +189,10 @@ export class MainPageComponent implements OnInit {
 
   }
 
+  includeInFavorite(id) {
+    return this.user.favorite.some(item => item._id === id)
+  }
+
   clearVacanciesInput() {
     this.form.controls['searchInput'].reset()
   }
@@ -189,12 +203,15 @@ export class MainPageComponent implements OnInit {
 
   favorite(id) {
     this.vacanciesService.toFavorite(id).subscribe(res => {
-      if (this.favoriteList.includes(id)) {
-        this.favoriteList = this.favoriteList.filter(item => item !== id)
+
+      if (this.user.favorite.some(item => item._id === id)) {
+        this.user.favorite = this.user.favorite.filter(item => item._id !== id)
+        localStorage.setItem('user', JSON.stringify(this.user))
+
       } else {
-        this.favoriteList.push(id)
+        this.user.favorite.push({_id: id})
+        localStorage.setItem('user', JSON.stringify(this.user))
       }
-      this.user.favorite = res.favorite
     })
   }
 }

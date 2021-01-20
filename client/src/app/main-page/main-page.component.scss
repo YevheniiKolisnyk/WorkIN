@@ -236,6 +236,7 @@ main {
           align-items: center;
 
           img {
+            border-radius: 20px;
             width: 100px;
             height: 100px;
             margin-right: 15px;
@@ -252,6 +253,7 @@ main {
               margin-bottom: 5px;
 
               .vacancy-title {
+                text-decoration: none;
                 font-size: 25px;
                 color: $bright-blue;
               }
@@ -281,14 +283,20 @@ main {
               justify-content: space-between;
 
               .vacancy-description {
-                width: 350px;
+                width: 510px;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
 
+
                 .description {
+                  width: 170px;
                   display: flex;
                   align-items: center;
+
+                  &:nth-child(2) {
+                    width: 110px;
+                  }
 
                   .iconify {
                     font-size: 20px;
@@ -387,4 +395,155 @@ main {
 
     }
   }
+
+  .loader-container {
+    width: 100%;
+    display: flex;
+
+    .vacancies {
+      width: calc(100% - 550px);
+      margin-right: 150px;
+      display: flex;
+      flex-direction: column;
+
+      .vacancy-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        .vacancy {
+          margin-top: 35px;
+          padding-bottom: 20px;
+          border-bottom: 1px solid #bbbbbb;
+          display: flex;
+          align-items: center;
+
+          .img {
+            width: 100px;
+            height: 100px;
+            margin-right: 15px;
+            @include loader();
+            border-radius: 5px;
+            animation: animate-loader $loader-animation-duration infinite ease-out;
+          }
+
+          .vacancy-info {
+            width: calc(100% - 115px);
+            display: flex;
+            flex-direction: column;
+
+            .top {
+              display: flex;
+              justify-content: space-between;
+              margin-bottom: 5px;
+
+              .vacancy-title {
+                width: 300px;
+                height: 45px;
+                @include loader();
+                border-radius: 5px;
+                animation: animate-loader $loader-animation-duration infinite ease-out;
+              }
+
+              .favorite {
+                width: 40px;
+                height: 40px;
+                @include loader();
+                border-radius: 5px;
+                animation: animate-loader $loader-animation-duration infinite ease-out;
+              }
+            }
+
+            .company-name {
+              margin-bottom: 15px;
+              height: 26px;
+              width: 150px;
+              @include loader();
+              border-radius: 5px;
+              animation: animate-loader $loader-animation-duration infinite ease-out;
+            }
+
+            .bottom {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+
+              .vacancy-description {
+                width: 400px;
+                height: 20px;
+                @include loader();
+                border-radius: 5px;
+                animation: animate-loader $loader-animation-duration infinite ease-out;
+              }
+
+              .expiry-time {
+                width: 90px;
+                height: 20px;
+                @include loader();
+                border-radius: 5px;
+                animation: animate-loader $loader-animation-duration infinite ease-out;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .filter-container {
+      width: 400px;
+      display: flex;
+      flex-direction: column;
+
+      .filter-title {
+        height: 30px;
+        width: 400px;
+        margin-bottom: 30px;
+        @include loader();
+        border-radius: 5px;
+        animation: animate-loader $loader-animation-duration infinite ease-out;
+      }
+
+      .line {
+        margin-bottom: 30px;
+        width: 100%;
+        border-bottom: 1px solid #bbbbbb;
+      }
+
+      .filter {
+        li {
+          display: flex;
+          list-style: none;
+          justify-content: space-between;
+          margin-bottom: 25px;
+
+          .checkbox {
+            width: 25px;
+            height: 25px;
+            @include loader();
+            border-radius: 5px;
+            animation: animate-loader $loader-animation-duration infinite ease-out;
+          }
+
+          .label {
+            height: 25px;
+            width: 350px;
+            @include loader();
+            border-radius: 5px;
+            animation: animate-loader $loader-animation-duration infinite ease-out;
+          }
+        }
+      }
+    }
+
+  }
 }
+
+@keyframes animate-loader {
+  0% {
+    background-position: -100px
+  }
+  40%, 100% {
+    background-position: 500px
+  }
+}
+

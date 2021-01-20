@@ -78,7 +78,7 @@
           *ngFor="let item of countriesFilteredList;let i = index"
           class="item"
         >
-          <p>{{item.geonameName}}</p>
+          <p>{{item}}</p>
         </div>
       </div>
 
@@ -100,90 +100,6 @@
 
     <div class="form-control">
       <input
-        (blur)="toggleListDisplay(false, 'states')"
-        (focus)="toggleListDisplay(true, 'states')"
-        (input)="getFilteredList('states')"
-        [(ngModel)]="statesInputItem"
-        [ngClass]="{invalid: form.get('state').invalid && form.get('state').touched}"
-        autocomplete="none"
-        formControlName="state"
-        id="state"
-        placeholder="State"
-        type="text">
-      <label [ngClass]="{'label-animate': !canAnimate}" for="state">State</label>
-      <div *ngIf="!statesListHidden && !statesShowError" class="options">
-        <div
-          (click)="selectItem(i, true, 'states')"
-          (mouseenter)="selectItem(i, false, 'states')"
-          *ngFor="let item of statesFilteredList;let i = index"
-          class="item"
-        >
-          <p>{{item.geonameName}}</p>
-        </div>
-      </div>
-
-      <div *ngIf="!statesListHidden && statesShowError" class="options">
-        <div class="error">
-          <p>Not found</p>
-        </div>
-      </div>
-      <div *ngFor="let error of errorMessages.state" class="error-messages">
-        <p
-          *ngIf="form.get('state').hasError(error.type) && form.get('state').touched"
-          class="error-message"
-        >
-          {{error.message}}
-        </p>
-      </div>
-    </div>
-
-
-  </div>
-
-  <div class="address">
-    <div class="form-control">
-      <input
-        (blur)="toggleListDisplay(false, 'regions')"
-        (focus)="toggleListDisplay(true, 'regions')"
-        (input)="getFilteredList('regions')"
-        [(ngModel)]="regionsInputItem"
-        [ngClass]="{invalid: form.get('region').invalid && form.get('region').touched}"
-        autocomplete="none"
-        formControlName="region"
-        id="region"
-        placeholder="Region"
-        type="text">
-      <label [ngClass]="{'label-animate': !canAnimate}" for="region">Region</label>
-      <div *ngIf="!regionsListHidden && !regionsShowError" class="options">
-        <div
-          (click)="selectItem(i, true, 'regions')"
-          (mouseenter)="selectItem(i, false, 'regions')"
-          *ngFor="let item of regionsFilteredList;let i = index"
-          class="item"
-        >
-          <p>{{item.geonameName}}</p>
-        </div>
-      </div>
-
-      <div *ngIf="!regionsListHidden && regionsShowError" class="options">
-        <div class="error">
-          <p>Not found</p>
-        </div>
-      </div>
-
-      <div *ngFor="let error of errorMessages.region" class="error-messages">
-        <p
-          *ngIf="form.get('region').hasError(error.type) && form.get('region').touched"
-          class="error-message"
-        >
-          {{error.message}}
-        </p>
-      </div>
-    </div>
-
-
-    <div class="form-control">
-      <input
         (blur)="toggleListDisplay(false, 'cities')"
         (focus)="toggleListDisplay(true, 'cities')"
         (input)="getFilteredList('cities')"
@@ -202,7 +118,7 @@
           *ngFor="let item of citiesFilteredList;let i = index"
           class="item"
         >
-          <p>{{item.geonameName}}</p>
+          <p>{{item}}</p>
         </div>
       </div>
 
@@ -221,8 +137,8 @@
         </p>
       </div>
     </div>
-  </div>
 
+  </div>
 
   <div class="form-control">
     <input

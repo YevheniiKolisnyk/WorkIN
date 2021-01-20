@@ -13,6 +13,9 @@ module.exports.create = async function (req, res) {
       workTime: req.body.workTime,
       experience: req.body.experience,
       description: req.body.description,
+      expectations: req.body.expectations,
+      responsibilities: req.body.responsibilities,
+      benefits: req.body.benefits,
       salary: req.body.salary,
       createdBy: req.user.id,
       tags: req.body.tags,
@@ -133,13 +136,22 @@ module.exports.subscribe = async function (req, res) {
           {$pull: {favorite: {_id: req.params.id}}},
           {new: true}
       )
-      const vacancy = await Vacancy.findById({_id: req.params.id})
+
+        const vacancy = await Vacancy.findByIdAndUpdate(
+            req.params.id,
+            {$pull: {subscribers: {_id: req.user._id}}}
+            )
+
+      await vacancy.save()
       await user.save()
       res.status(200).json(user)
     } else {
       const user = await User.findById(req.user._id)
-      const vacancy = await Vacancy.findById({_id: req.params.id})
+      const vacancy = await Vacancy.findById(req.params.id)
+
+      vacancy.subscribers.push({_id: user._id})
       user.favorite.push({_id: vacancy._id})
+      await vacancy.save()
       await user.save()
       res.status(200).json(user)
     }

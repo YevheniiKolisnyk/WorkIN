@@ -1,87 +1,101 @@
- <header>
+<main *ngIf="!showLoader">
+  <div class="head">
     <div class="container">
-      <div class="info">
-        <img class="vacancy-img" src="../../assets/vacancyLogo.svg" alt="">
-        <div class="description">
-          <p class="title">Junior UI designer for Spotify</p>
-          <div class="vacancy-name">Spotify Incorporated</div>
+      <div class="left">
+        <img [src]="vacancy.companyPic" alt="Company logo">
+        <div class="wrapper">
+          <p class="title">{{vacancy.title}}</p>
+          <p class="company-name">{{vacancy.companyName}}</p>
         </div>
       </div>
 
-      <div class="buttons">
-        <span class="iconify" data-icon="ant-design:star-outlined" data-inline="false"></span>
+      <div class="right">
+        <div class="favorite" (click)="addToFavorite()">
+          <div *ngIf="!includeInFavorite()">
+          <span
+            class="iconify"
+            data-icon="ant-design:star-outlined"
+            data-inline="false"
+          ></span>
+          </div>
 
-        <button class="btn">Apply now</button>
+          <div *ngIf="includeInFavorite()">
+            <span
+                  class="iconify"
+                  data-icon="ant-design:star-filled"
+                  data-inline="false"
+            ></span>
+          </div>
+        </div>
+
+        <button class="btn" (click)="apply()">{{isApplied() ? 'Cancel' : 'Apply'}}</button>
       </div>
     </div>
-  </header>
-
- <main>
-  <div class="vacancy-description">
-    <div class="head">
-
-      <div class="head-info">
-        <p class="title">SALARY</p>
-        <p class="description">$50,000</p>
-      </div>
-
-      <div class="head-info">
-        <p class="title">ACTIVE FOR</p>
-        <p class="description">6th of October, 2020</p>
-      </div>
-
-      <div class="head-info">
-        <p class="title">LOCATION</p>
-        <p class="description">Warsaw, Poland</p>
-      </div>
-    </div>
-
-    <div class="responsibilities">
-      <p class="title">Your responsibilities:</p>
-
-      <ul class="list">
-        <li>
-          <p>Implementation of new functionalities in mobile applications</p>
-        </li>
-        <li>
-          <p>Work with existing code</p>
-        </li>
-        <li>
-          <p>Care for the performance and stability of the application</p>
-        </li>
-        <li>
-          <p>Cooperation with other teams</p>
-        </li>
-        <li>
-          <p>Participation in the Code Review process</p>
-        </li>
-      </ul>
-    </div>
-
-    <div class="expectations">
-      <p class="title">Our expectations:</p>
-
-      <ul class="list">
-        <li>
-          <p>Implementation of new functionalities in mobile applications</p>
-        </li>
-        <li>
-          <p>Work with existing code</p>
-        </li>
-        <li>
-          <p>Care for the performance and stability of the application</p>
-        </li>
-        <li>
-          <p>Cooperation with other teams</p>
-        </li>
-        <li>
-          <p>Participation in the Code Review process</p>
-        </li>
-      </ul>
-    </div>
-
-
   </div>
- </main>
 
+  <div class="description-container">
+    <div class="description">
+      <div class="top">
+        <div class="salary">
+          <p class="title">SALARY</p>
+          <p class="text">{{vacancy.salary}}</p>
+        </div>
 
+        <div class="expiry-time">
+          <p class="title">ACTIVE UNTIL</p>
+          <p class="text">{{vacancy.expiryTime | date: "dd:MM:yyyy"}}</p>
+        </div>
+
+        <div class="experience">
+          <p class="title">EXPERIENCE</p>
+          <p class="text">{{vacancy.experience}}</p>
+        </div>
+
+        <div class="contract-type">
+          <p class="title">CONTRACT TIME</p>
+          <p class="text">{{vacancy.contractType}}</p>
+        </div>
+
+        <div class="location">
+          <p class="title">LOCATION</p>
+          <p class="text">{{vacancy.location}}</p>
+        </div>
+      </div>
+
+      <div class="about">
+        <p class="title">About us:</p>
+        <div class="text">{{vacancy.description}}</div>
+      </div>
+
+      <div class="responsibilities">
+        <p class="title">Your responsibilities:</p>
+        <ul class="list">
+          <li *ngFor="let item of vacancy.responsibilities">
+            <div class="arrow"></div>
+            <p class="text">{{item}}</p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="expectations">
+        <p class="title">Our expectations:</p>
+        <ul class="list">
+          <li *ngFor="let item of vacancy.expectations">
+            <div class="arrow"></div>
+            <p class="text">{{item}}</p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="benefits">
+        <p class="title">Benefits:</p>
+        <ul class="list">
+          <li *ngFor="let item of vacancy.benefits">
+            <div class="arrow"></div>
+            <p class="text">{{item}}</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</main>

@@ -25,7 +25,7 @@ router.post(
     vacancyController.subscribe
 )
 router.post(
-    ':id/apply',
+    '/:id/apply',
     passport.authenticate('jwt', {session: false}),
     vacancyController.apply
 )

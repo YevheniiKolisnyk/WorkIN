@@ -6,12 +6,12 @@
 
     <div class="links">
       <a routerLink="/">Vacancies</a>
-      <a href="">Create Vacancy</a>
+      <a routerLink="/createVacancy">Create Vacancy</a>
       <a href="">Create CV</a>
     </div>
   </div>
 
-  <div *ngIf="user && showUser" class="user-container">
+  <div *ngIf="user" class="user-container">
     <a class="favorite" href="">
       <span class="iconify" data-icon="ant-design:star-outlined" data-inline="false"></span>
       <p class="count">{{user.favorite.length}}</p>
@@ -30,6 +30,6 @@
     </div>
   </div>
 
-    <a *ngIf="user === showUser && null" routerLink="/auth">LogIn</a>
+    <a *ngIf="!user" routerLink="/auth">LogIn</a>
 
 </main>

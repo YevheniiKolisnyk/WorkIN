@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core'
-import {Observable} from 'rxjs'
+import {BehaviorSubject, Observable} from 'rxjs'
 import {HttpClient} from '@angular/common/http'
 import {tap} from 'rxjs/operators'
 import {User} from '../iterfaces'
@@ -8,6 +8,12 @@ import {User} from '../iterfaces'
 
 export class AuthService {
   private token = null
+  private currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user')))
+  public currentUser = this.currentUserSubject.asObservable()
+
+  public get currentUserValue() {
+    return this.currentUserSubject.value
+  }
 
   constructor(private http: HttpClient) {
   }
@@ -16,12 +22,14 @@ export class AuthService {
     return this.http.post<User>('api/auth/register', user)
   }
 
-  login(user: User): Observable<{ token: string }> {
-    return this.http.post<{ token: string }>('api/auth/login', user)
+  login(user: User): Observable<{ token: string, user: User }> {
+    return this.http.post<{ token: string, user: User }>('api/auth/login', user)
       .pipe(
-        tap(({token}) => {
-          localStorage.setItem('auth-token', token)
-          this.setToken(token)
+        tap(res => {
+          localStorage.setItem('auth-token', res.token)
+          localStorage.setItem('user', JSON.stringify(res.user))
+          this.setToken(res.token)
+          this.currentUserSubject.next(res.user)
         })
       )
   }
@@ -41,5 +49,6 @@ export class AuthService {
   logout() {
     this.setToken(null)
     localStorage.clear()
+    this.currentUserSubject.next(null)
   }
 }

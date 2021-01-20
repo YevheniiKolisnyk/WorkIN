@@ -73,25 +73,59 @@
     </div>
   </div>
 
+
+<!--  <div *ngIf="showLoader" class="loader-container">-->
+<!--    <div class="vacancies">-->
+<!--      <div class="vacancy-container">-->
+<!--        <div *ngFor="let vacancy of vacancies" class="vacancy">-->
+<!--          <div class="img"></div>-->
+<!--          <div class="vacancy-info">-->
+<!--            <div class="top">-->
+<!--              <div class="vacancy-title"></div>-->
+<!--              <div class="favorite"></div>-->
+<!--            </div>-->
+<!--            <div class="company-name"></div>-->
+<!--            <div class="bottom">-->
+<!--              <div class="vacancy-description"></div>-->
+<!--              <div class="expiry-time"></div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    <div class="filter-container">-->
+<!--      <div class="filter-title"></div>-->
+<!--      <div class="line"></div>-->
+<!--      <ul class="filter">-->
+<!--        <li *ngFor="let tag of tags">-->
+<!--          <div class="checkbox"></div>-->
+<!--          <div class="label"></div>-->
+<!--        </li>-->
+<!--      </ul>-->
+<!--    </div>-->
+<!--  </div>-->
+
+
   <div class="vacancies-container">
     <div class="vacancies">
-      <div *ngIf="showLoader" class="loader">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
+            <div *ngIf="showLoader" class="loader">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
       <div class="vacancy-container">
 
-        <div *ngFor="let vacancy of vacancies; let idx = index" class="vacancy">
-          <img alt="" src="../../assets/vacancyLogo.svg">
+        <div *ngFor="let vacancy of vacancies" class="vacancy">
+          <img [src]="vacancy.companyPic" alt="">
 
           <div class="vacancy-info">
             <div class="top">
               <a [routerLink]="['/vacancy/' + vacancy._id]" class="vacancy-title">{{vacancy.title}}</a>
 
 
-              <div *ngIf="canShowStars" (click)="favorite(vacancy._id)" class="favorite">
-                <div *ngIf="!favoriteList.includes(vacancy._id)">
+              <div (click)="favorite(vacancy._id)" *ngIf="canShowStars" class="favorite">
+                <div *ngIf="!includeInFavorite(vacancy._id)">
                   <span
                     class="iconify"
                     data-icon="ant-design:star-outlined"
@@ -99,13 +133,13 @@
                   ></span>
                 </div>
 
-                <div *ngIf="favoriteList.includes(vacancy._id)">
+                <div *ngIf="includeInFavorite(vacancy._id)">
                     <span
                       class="iconify"
                       data-icon="ant-design:star-filled"
                       data-inline="false"
                     ></span>
-                  </div>
+                </div>
 
               </div>
             </div>
@@ -145,8 +179,8 @@
       <p class="title">Filter</p>
       <ul class="filter">
         <li *ngFor="let tag of tags">
-          <input (change)="selectFilter($event, tag)" id="{{tag}}" type="checkbox">
-          <label for="{{tag}}">{{tag}}</label>
+          <input (change)="selectFilter($event, tag)" [id]="tag" type="checkbox">
+          <label [for]="tag">{{tag}}</label>
         </li>
       </ul>
     </div>

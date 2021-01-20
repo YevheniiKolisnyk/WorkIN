@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core'
+import {Component, OnInit} from '@angular/core'
 import {AuthService} from '../shared/services/auth.service'
 import {ProfileService} from '../shared/services/profile.service'
 import {User} from '../shared/iterfaces'
@@ -11,7 +11,7 @@ import {Router} from '@angular/router'
 })
 export class NavBarComponent implements OnInit {
 
-  user: User = null
+  user: User
   showUser: boolean = false
 
   constructor(
@@ -22,7 +22,7 @@ export class NavBarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-      this.profileService.user.subscribe(item => {
+      this.authService.currentUser.subscribe(item => {
         this.user = item
         this.showUser = true
       })

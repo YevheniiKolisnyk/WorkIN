@@ -1,0 +1,86 @@
+@import "../shared/variables";
+@import "../shared/mixins";
+
+form {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  input {
+    display: flex;
+    width: 500px;
+    height: 50px;
+    border: 1px solid $bright-blue;
+  }
+  button {
+    width: 100px;
+    height: 50px;
+  }
+  .form-control {
+
+
+    input:focus ~ .clear {
+      user-select: all;
+      &:before {
+        opacity: 1;
+        transform: rotate(45deg);
+      }
+
+      &:after {
+        opacity: 1;
+        transform: rotate(135deg);
+      }
+    }
+
+
+    .options {
+      border-radius: 15px;
+      position: absolute;
+      top: 52px;
+      right: 50%;
+      transform: translateX(50%);
+      width: 230px;
+      max-height: 200px;
+      overflow: scroll;
+      display: flex;
+      flex-direction: column;
+      background-color: $light-grey;
+      z-index: 2;
+      border: 1px solid $bright-blue;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      .item {
+        min-height: 48px;
+        padding: 0 20px;
+        color: $dark-blue;
+        cursor: pointer;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+
+        &:hover {
+          background-color: $bright-blue;
+          color: #ffffff;
+        }
+
+        p {
+          margin: 0;
+        }
+      }
+
+      .error {
+        height: 48px;
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        color: $dark-grey;
+        padding: 0 15px;
+      }
+    }
+  }
+}

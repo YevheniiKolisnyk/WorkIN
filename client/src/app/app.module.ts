@@ -15,7 +15,9 @@ import { MainLayoutComponent } from './shared/main-layout/main-layout.component'
 import { MainPageComponent } from './main-page/main-page.component'
 import {TokenInterceptor} from './shared/token.interceptor';
 import { VacancyPageComponent } from './vacancy-page/vacancy-page.component';
-import { UserPageComponent } from './user-page/user-page.component'
+import { UserPageComponent } from './user-page/user-page.component';
+import { CreateVacancyPageComponent } from './create-vacancy-page/create-vacancy-page.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component'
 
 
 
@@ -30,6 +32,8 @@ import { UserPageComponent } from './user-page/user-page.component'
     MainPageComponent,
     VacancyPageComponent,
     UserPageComponent,
+    CreateVacancyPageComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,

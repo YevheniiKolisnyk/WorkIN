@@ -7,7 +7,7 @@ export interface User {
   phone: string
   cvSrc?: string
   userPic?: string
-  favorite?: Vacancy[]
+  favorite?: {_id: string}[]
   createdVacancies?: Vacancy[]
   applied?: Vacancy[]
 }
@@ -23,17 +23,17 @@ export interface Vacancy {
   experience: string
   postingDate: Date
   description: string
+  expectations: string[]
+  responsibilities: string[]
+  benefits: string[]
   salary: string
   companyPic: string
   createdBy: User
-  applicants: applicant[]
+  applicants: {_id: string, cvSrc: string}[]
+  subscribers: {_id: string}[]
   tags: string[]
 }
 
-export interface applicant {
-  user: User
-  cvSrc?: string
-}
 
 export interface Countries {
   adminCode1: string
