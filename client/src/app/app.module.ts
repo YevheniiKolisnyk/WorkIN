@@ -17,7 +17,8 @@ import {TokenInterceptor} from './shared/token.interceptor';
 import { VacancyPageComponent } from './vacancy-page/vacancy-page.component';
 import { UserPageComponent } from './user-page/user-page.component';
 import { CreateVacancyPageComponent } from './create-vacancy-page/create-vacancy-page.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component'
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { DropDownComponent } from './create-vacancy-page/drop-down/drop-down.component';
 
 
 
@@ -34,6 +35,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     UserPageComponent,
     CreateVacancyPageComponent,
     PageNotFoundComponent,
+    DropDownComponent,
   ],
   imports: [
     BrowserModule,

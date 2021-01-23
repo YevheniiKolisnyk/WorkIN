@@ -1,0 +1,29 @@
+<div class="form-control dropdown">
+  <input
+    (blur)="toggleListDisplay(false)"
+    (focus)="toggleListDisplay(true)"
+    (input)="getFilteredList()"
+    [(ngModel)]="InputItem"
+    autocomplete="none"
+    id="city"
+    [placeholder]="title"
+    type="text">
+  <label class="label-animate" for="city">{{title}}</label>
+  <div *ngIf="!ListHidden && !ShowError" class="options">
+    <div
+      (click)="selectItem(i, true)"
+      (mouseenter)="selectItem(i,  false)"
+      *ngFor="let item of FilteredList;let i = index"
+      class="item"
+    >
+      <p>{{item}}</p>
+    </div>
+  </div>
+
+  <div *ngIf="!ListHidden && ShowError" class="options">
+    <div class="error">
+      <p>Not found</p>
+    </div>
+  </div>
+
+</div>

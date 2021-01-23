@@ -1,108 +1,172 @@
 @import "./variables";
 
-@mixin auth-form($form-width: 440px) {
-  .form__title {
-    margin-bottom: 40px;
-    font-size: 60px;
-    color: $bright-blue;
+@mixin form-control($form-width: 440px, $margin-bottom: 50px) {
+  width: $form-width;
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: $margin-bottom;
+  background-color: $light-grey;
+  border-radius: 15px;
+
+
+  input, .input {
+    padding: 0 15px;
+    border-radius: 15px;
+    width: 100%;
+    font-size: 18px;
+    height: 50px;
+    -webkit-appearance: none;
+    outline: none;
+    border: none;
+    background: transparent;
+  }
+
+  .invalid {
+    border: 1px solid $error-color;
+  }
+
+  input::placeholder, textarea::placeholder {
+    opacity: 0;
+  }
+
+  input:focus, textarea:focus {
+    border: 1px solid $bright-blue;
   }
 
 
-  .form-control {
-    width: $form-width;
-    position: relative;
-    display: flex;
-    align-items: center;
-    margin-bottom: 50px;
-    background-color: $light-grey;
+  label {
+    position: absolute;
+    font-size: 18px;
+    left: 15px;
+    top: 50%;
+    color: $dark-grey;
+    pointer-events: none;
+    transform: translateY(-50%);
+  }
+
+  .label-animate {
+    transition: .3s ease;
+    -moz-transition: .3s ease;
+    -webkit-transition: .3s ease;
+  }
+
+  input:focus,
+  input:not(:placeholder-shown),
+  textarea:focus,
+  textarea:not(:placeholder-shown) {
+    color: $dark-blue;
+  }
+
+  input:focus ~ label,
+  input:not(:placeholder-shown) ~ label,
+  textarea:focus ~ label,
+  textarea:focus ~ label, {
+    top: -10px;
+    left: 10px;
+    font-size: 15px;
+    color: $dark-grey;
+    font-weight: bold;
+  }
+
+  textarea:focus,
+  textarea:not(:placeholder-shown) {
+    height: 310px;
+  }
+
+  .error-messages {
+    position: absolute;
+    bottom: -47%;
+    left: 10px;
+
+    .error-message {
+      font-size: 14px;
+      margin: 0;
+      color: $error-color;
+    }
+  }
+}
+
+@mixin confirm-btn() {
+
+  outline: none;
+  cursor: pointer;
+  width: 180px;
+  height: 50px;
+  font-size: 20px;
+  color: #ffffff;
+  background-color: $bright-blue;
+  border: none;
+  border-radius: 20px;
+
+  &:disabled {
+    opacity: .6;
+  }
+}
+
+@mixin dropdown($option-width: 230px) {
+  input:focus ~ .clear {
+    user-select: all;
+
+    &:before {
+      opacity: 1;
+      transform: rotate(45deg);
+    }
+
+    &:after {
+      opacity: 1;
+      transform: rotate(135deg);
+    }
+  }
+
+
+  .options {
     border-radius: 15px;
+    position: absolute;
+    top: 52px;
+    right: 50%;
+    transform: translateX(50%);
+    width: $option-width;
+    max-height: 200px;
+    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+    background-color: $light-grey;
+    z-index: 2;
+    border: 1px solid $bright-blue;
 
-
-    input {
-      padding: 0 15px;
-      border-radius: 15px;
-      width: 100%;
-      font-size: 18px;
-      height: 50px;
-      -webkit-appearance: none;
-      outline: none;
-      border: none;
-      background: transparent;
+    &::-webkit-scrollbar {
+      display: none;
     }
 
-    .invalid {
-      border: 1px solid $error-color;
-    }
-
-    input::placeholder {
-      opacity: 0;
-    }
-
-    input:focus {
-      border: 1px solid $bright-blue;
-    }
-
-
-    label {
-      position: absolute;
-      font-size: 18px;
-      left: 15px;
-      top: 50%;
-      color: $dark-grey;
-      pointer-events: none;
-      transform: translateY(-50%);
-    }
-
-    .label-animate {
-      transition: .3s ease;
-      -moz-transition: .3s ease;
-      -webkit-transition: .3s ease;
-    }
-
-    input:focus,
-    input:not(:placeholder-shown) {
+    .item {
+      min-height: 48px;
+      padding: 0 20px;
       color: $dark-blue;
-    }
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
 
-    input:focus ~ label,
-    input:not(:placeholder-shown) ~ label {
-      top: -10px;
-      left: 10px;
-      font-size: 15px;
-      color: $dark-grey;
-      font-weight: bold;
-    }
+      &:hover {
+        background-color: $bright-blue;
+        color: #ffffff;
+      }
 
-    .error-messages {
-      position: absolute;
-      bottom: -47%;
-      left: 10px;
-
-      .error-message {
-        font-size: 14px;
+      p {
         margin: 0;
-        color: $error-color;
       }
     }
-  }
 
-
-  .confirm__btn {
-    outline: none;
-    cursor: pointer;
-    width: 180px;
-    height: 50px;
-    font-size: 20px;
-    color: #ffffff;
-    background-color: $bright-blue;
-    border: none;
-    border-radius: 20px;
-
-    &:disabled {
-      opacity: .6;
+    .error {
+      height: 48px;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      color: $dark-grey;
+      padding: 0 15px;
     }
   }
-
 }
 
 @mixin description-text {
@@ -164,57 +228,57 @@
 }
 
 @mixin vacancy-description-list {
-    padding: 30px;
-    border-bottom: 1px solid #bbbbbb;
+  padding: 30px;
+  border-bottom: 1px solid #bbbbbb;
 
-    .title {
-      font-size: 30px;
-      font: $primary-font;
-      color: $dark-blue;
-      margin-bottom: 25px;
-    }
+  .title {
+    font-size: 30px;
+    font: $primary-font;
+    color: $dark-blue;
+    margin-bottom: 25px;
+  }
 
-    .list {
-      li {
-        list-style: none;
-        position: relative;
-        padding-left: 30px;
-        margin-bottom: 15px;
+  .list {
+    li {
+      list-style: none;
+      position: relative;
+      padding-left: 30px;
+      margin-bottom: 15px;
 
-        &:last-child {
-          margin: 0;
-        }
+      &:last-child {
+        margin: 0;
+      }
 
-        &:before {
-          position: absolute;
-          content: '';
-          top: 0;
-          left: 0;
-          width: 20px;
-          height: 20px;
-          border: 2px solid $bright-blue;
-          border-radius: 5px;
-        }
+      &:before {
+        position: absolute;
+        content: '';
+        top: 0;
+        left: 0;
+        width: 20px;
+        height: 20px;
+        border: 2px solid $bright-blue;
+        border-radius: 5px;
+      }
 
-        &:after {
-          content: '';
-          position: absolute;
-          top: 4px;
-          left: 8px;
-          width: 6px;
-          height: 10px;
-          border: solid $bright-blue;
-          border-width: 0 2px 2px 0;
-          transform: rotate(45deg);
-        }
+      &:after {
+        content: '';
+        position: absolute;
+        top: 4px;
+        left: 8px;
+        width: 6px;
+        height: 10px;
+        border: solid $bright-blue;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+      }
 
-        p {
-          font-size: 18px;
-          font: $primary-font;
-          color: $dark-blue;
-        }
+      p {
+        font-size: 18px;
+        font: $primary-font;
+        color: $dark-blue;
       }
     }
+  }
 }
 
 @mixin loader() {

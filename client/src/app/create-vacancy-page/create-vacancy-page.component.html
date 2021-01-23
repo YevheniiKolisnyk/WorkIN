@@ -1,133 +1,258 @@
-<form (ngSubmit)="onSubmit()" [formGroup]="form">
-  <input
-    formControlName="title"
-    placeholder="title"
-    type="text"
-  >
-  <input
-    formControlName="companyName"
-    placeholder="companyName"
-    type="text"
-  >
+<!--  <div class="form-control">-->
+<!--    <input-->
+<!--      (blur)="toggleListDisplay(false, 'countries')"-->
+<!--      (focus)="toggleListDisplay(true, 'countries')"-->
+<!--      (input)="getFilteredList('countries')"-->
+<!--      [(ngModel)]="countriesInputItem"-->
+<!--      autocomplete="none"-->
+<!--      formControlName="country"-->
+<!--      id="country"-->
+<!--      placeholder="Country"-->
+<!--      type="text">-->
+<!--    <div *ngIf="!countriesListHidden && !countriesShowError" class="options">-->
+<!--      <div-->
+<!--        (click)="selectItem(i, true, 'countries')"-->
+<!--        (mouseenter)="selectItem(i, false, 'countries')"-->
+<!--        *ngFor="let item of countriesFilteredList;let i = index"-->
+<!--        class="item"-->
+<!--      >-->
+<!--        <p>{{item}}</p>-->
+<!--      </div>-->
+<!--    </div>-->
 
-  <div class="form-control">
-    <input
-      (blur)="toggleListDisplay(false, 'countries')"
-      (focus)="toggleListDisplay(true, 'countries')"
-      (input)="getFilteredList('countries')"
-      [(ngModel)]="countriesInputItem"
-      autocomplete="none"
-      formControlName="country"
-      id="country"
-      placeholder="Country"
-      type="text">
-    <div *ngIf="!countriesListHidden && !countriesShowError" class="options">
-      <div
-        (click)="selectItem(i, true, 'countries')"
-        (mouseenter)="selectItem(i, false, 'countries')"
-        *ngFor="let item of countriesFilteredList;let i = index"
-        class="item"
-      >
-        <p>{{item}}</p>
-      </div>
+<!--    <div *ngIf="!countriesListHidden && countriesShowError" class="options">-->
+<!--      <div class="error">-->
+<!--        <p>Not found</p>-->
+<!--      </div>-->
+<!--    </div>-->
+
+
+<!--  </div>-->
+<!--  <div class="form-control">-->
+<!--    <input-->
+<!--      (blur)="toggleListDisplay(false, 'cities')"-->
+<!--      (focus)="toggleListDisplay(true, 'cities')"-->
+<!--      (input)="getFilteredList('cities')"-->
+<!--      [(ngModel)]="citiesInputItem"-->
+<!--      autocomplete="none"-->
+<!--      formControlName="city"-->
+<!--      id="city"-->
+<!--      placeholder="City"-->
+<!--      type="text">-->
+<!--    <div *ngIf="!citiesListHidden && !citiesShowError" class="options">-->
+<!--      <div-->
+<!--        (click)="selectItem(i, true, 'cities')"-->
+<!--        (mouseenter)="selectItem(i,  false, 'cities')"-->
+<!--        *ngFor="let item of citiesFilteredList;let i = index"-->
+<!--        class="item"-->
+<!--      >-->
+<!--        <p>{{item}}</p>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    <div *ngIf="!citiesListHidden && citiesShowError" class="options">-->
+<!--      <div class="error">-->
+<!--        <p>Not found</p>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--  </div>-->
+
+<main>
+  <p class="head">Create Vacancy</p>
+
+  <div class="progress-bar">
+    <p class="percent">25% <span>Complete</span></p>
+    <div class="bar">
+      <div class="complete-bar"></div>
     </div>
-
-    <div *ngIf="!countriesListHidden && countriesShowError" class="options">
-      <div class="error">
-        <p>Not found</p>
-      </div>
-    </div>
-
-
-  </div>
-  <div class="form-control">
-    <input
-      (blur)="toggleListDisplay(false, 'cities')"
-      (focus)="toggleListDisplay(true, 'cities')"
-      (input)="getFilteredList('cities')"
-      [(ngModel)]="citiesInputItem"
-      autocomplete="none"
-      formControlName="city"
-      id="city"
-      placeholder="City"
-      type="text">
-    <div *ngIf="!citiesListHidden && !citiesShowError" class="options">
-      <div
-        (click)="selectItem(i, true, 'cities')"
-        (mouseenter)="selectItem(i,  false, 'cities')"
-        *ngFor="let item of citiesFilteredList;let i = index"
-        class="item"
-      >
-        <p>{{item}}</p>
-      </div>
-    </div>
-
-    <div *ngIf="!citiesListHidden && citiesShowError" class="options">
-      <div class="error">
-        <p>Not found</p>
-      </div>
-    </div>
-
   </div>
 
-  <input
-    formControlName="expiryTime"
-    placeholder="expiryTime"
-    type="text"
-  >
-  <input
-    formControlName="contractType"
-    placeholder="contractType"
-    type="text"
-  >
-  <input
-    formControlName="workTime"
-    placeholder="workTime"
-    type="text"
-  >
-  <input
-    formControlName="experience"
-    placeholder="experience"
-    type="text"
-  >
-  <input
-    formControlName="description"
-    placeholder="description"
-    type="text"
-  >
-  <input
-    formControlName="expectations"
-    placeholder="expectations"
-    type="text"
-  >
-  <input
-    formControlName="responsibilities"
-    placeholder="responsibilities"
-    type="text"
-  >
-  <input
-    formControlName="benefits"
-    placeholder="benefits"
-    type="text"
-  >
-  <input
-    formControlName="salary"
-    placeholder="salary"
-    type="text"
-  >
-  <input
-    formControlName="tags"
-    placeholder="tags"
-    type="text"
-  >
+  <form [formGroup]="form">
+    <div class="company-details">
+      <div class="left">
+        <p class="title">Company Details</p>
+        <div class="form-control">
+          <input id="job-title" placeholder="Job title" type="text">
+          <label class="label-animate" for="job-title">Job title</label>
+        </div>
 
-  <input
-    #fileInput
-    (change)="onFileUpload($event)"
-    type="file"
-  >
+        <div class="form-control">
+          <input id="company-name" placeholder="Company name" type="text">
+          <label class="label-animate" for="company-name">Company name</label>
+        </div>
 
-  <img *ngIf="imagePreview" [src]="imagePreview" alt="Company picture">
+        <div class="form-control dropdown">
+          <input
+            (blur)="toggleListDisplay(false, 'countries')"
+            (focus)="toggleListDisplay(true, 'countries')"
+            (input)="getFilteredList('countries')"
+            [(ngModel)]="countriesInputItem"
+            autocomplete="none"
+            formControlName="country"
+            id="country"
+            placeholder="Country"
+            type="text">
+          <label class="label-animate" for="country">Country</label>
+          <div *ngIf="!countriesListHidden && !countriesShowError" class="options">
+            <div
+              (click)="selectItem(i, true, 'countries')"
+              (mouseenter)="selectItem(i, false, 'countries')"
+              *ngFor="let item of countriesFilteredList;let i = index"
+              class="item"
+            >
+              <p>{{item}}</p>
+            </div>
+          </div>
 
-  <button type="submit">Create</button>
-</form>
+          <div *ngIf="!countriesListHidden && countriesShowError" class="options">
+            <div class="error">
+              <p>Not found</p>
+            </div>
+          </div>
+
+
+        </div>
+
+        <div class="form-control dropdown">
+          <input
+            (blur)="toggleListDisplay(false, 'cities')"
+            (focus)="toggleListDisplay(true, 'cities')"
+            (input)="getFilteredList('cities')"
+            [(ngModel)]="citiesInputItem"
+            autocomplete="none"
+            formControlName="city"
+            id="city"
+            placeholder="City"
+            type="text">
+          <label class="label-animate" for="city">City</label>
+          <div *ngIf="!citiesListHidden && !citiesShowError" class="options">
+            <div
+              (click)="selectItem(i, true, 'cities')"
+              (mouseenter)="selectItem(i,  false, 'cities')"
+              *ngFor="let item of citiesFilteredList;let i = index"
+              class="item"
+            >
+              <p>{{item}}</p>
+            </div>
+          </div>
+
+          <div *ngIf="!citiesListHidden && citiesShowError" class="options">
+            <div class="error">
+              <p>Not found</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="right">
+        <div class="img-container">
+          <div class="wrapper">
+            <p class="title">Photo</p>
+            <div class="img">
+              <img
+                (click)="changeUserPic()"
+                [src]="!image ? '../../assets/create-page/upload-image.svg' : imagePreview"
+                alt="Company image">
+            </div>
+          </div>
+
+          <div class="buttons">
+            <input
+              #fileInput
+              (change)="onFileUpload($event)"
+              accept=".png, .jpg, .jpeg"
+              formControlName="companyPic" id="image-upload"
+              type="file">
+            <label for="image-upload">
+              <span class="iconify" data-icon="feather:edit" data-inline="false" style="color: #757575;"></span>
+              Upload photo
+            </label>
+            <div (click)="deleteImg()" class="delete">
+            <span class="iconify" data-icon="ic:baseline-delete-outline" data-inline="false"
+                  style="color: #757575;"></span>
+              <p>Delete</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-control">
+          <input id="expiryTime" placeholder="Active until" type="text">
+          <label class="label-animate" for="expiryTime">Active until</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="description">
+      <p class="title">Description</p>
+      <div class="form-control">
+        <textarea
+          class="input"
+          cols="30"
+          id="description"
+          placeholder="Include 2-3 clear sentences about your company"
+          rows="10"
+        ></textarea>
+        <label class="label-animate" for="description">
+          Include 2-3 clear sentences about your company
+        </label>
+      </div>
+    </div>
+
+    <div class="organizational-matters">
+      <div class="left">
+        <div class="form-control">
+          <input id="contract" placeholder="Contract type" type="text">
+          <label class="label-animate" for="contract">Contract type</label>
+        </div>
+
+        <div class="form-control">
+          <input id="work-time" placeholder="Work time" type="text">
+          <label class="label-animate" for="work-time">Work time</label>
+        </div>
+      </div>
+
+      <div class="right">
+        <div class="form-control">
+          <input
+            (focus)="showExperienceList = true"
+            formControlName="experience"
+            id="experience"
+            placeholder="Experience"
+            readonly
+            type="text"
+          >
+          <label class="label-animate" for="experience">Experience</label>
+          <div (focus)="showExperienceList = true"
+               *ngIf="showExperienceList" class="options">
+            <div
+              (click)="setExperienceItem(item)"
+              *ngFor="let item of experience"
+              class="item"
+            >
+              <p>{{item}}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-control">
+          <input id="salary" placeholder="Salary $" type="text">
+          <label class="label-animate" for="salary">Salary $</label>
+        </div>
+      </div>
+    </div>
+  </form>
+</main>
+
+<app-drop-down
+  (outputItem)="getCities($event)"
+  [title]="'Country'"
+  [dataArray]="countries"
+></app-drop-down>
+
+<app-drop-down
+  (outputItem)="citiesInputItem = $event"
+  [title]="'City'"
+  [dataArray]="cities"
+></app-drop-down>

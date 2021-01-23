@@ -11,7 +11,7 @@ import countriesJSON from '../shared/countries.min.json'
 })
 export class CreateVacancyPageComponent implements OnInit {
 
-  @ViewChild('fileInput') fileInput: ElementRef
+  @ViewChild('fileInput') fileInputRef: ElementRef
 
   countries: string[] = Object.keys(countriesJSON)
   countriesInputItem = ''
@@ -30,6 +30,31 @@ export class CreateVacancyPageComponent implements OnInit {
   image: File
   form: FormGroup
   imagePreview: string | ArrayBuffer = ''
+  showExperienceList:boolean = false
+
+  contractTypes: string[] = [
+    'Employment contract',
+    'Commission contract',
+    'Specific-task contract',
+    'Commission contract with an economic entity',
+    'Student and postgraduate internship contract'
+  ]
+
+  workTimes: {title: string, description: string}[] = [
+    {title: 'Full-Time', description: 'Full-time work schedules often require a commitment of 37 to 40 hours per week. Employees can expect to receive benefits if they work this type of schedule because of the long hours they put in. These benefits can include being able to take a vacation and taking sick days. Other benefits include health insurance and varying retirement plan options. While full-time schedules will vary depending on which company you work for, most of the time, employees are expected to work the same shift every week. The most commonly discussed full-time work schedule would be the variant of 9:00 AM to 5:00 PM, Monday through Friday. These hours amount to 40 hours per week.'},
+    {title: 'Part-Time', description: 'Employees will be able to immediately tell the difference between working full-time and part-time because of the number of hours. A part-time schedule is any schedule that has fewer hours than full-time employment. One key benefit of working part-time is that the employee is allowed to have greater flexibility to maintain other responsibilities outside of work. However, one key drawback to working a part-time schedule is that employees will not be given the same kind of benefits that are given to full-time employees. Hours can be erratic and inconsistent on a weekly basis. An example of a part-time schedule is Monday through Wednesday from 7:00 to 11:00 AM and the weekends from 11:00 AM to 7:00 PM.'},
+    {title: 'Fixed', description: 'A fixed work schedule is made up of the same number of hours and days worked per week. When the employer and the employee both agree on the number of hours and days that will be worked, fixed work schedules tend to stay consistent. Fixed work schedules are similar to the standard full-time work schedule, but the key difference is that they can apply to alternative work times such as Tuesday through Saturday from 10:00 AM to 6:00 PM. For employers, fixed schedules allow for long-term planning, making it easier to calculate labor costs. With this schedule, you don’t have to change your regular template every time you make a new work schedule.'},
+    {title: 'Flextime', description: 'Also known as a flexible work schedule, this variant is less rigid than a fixed work schedule. An employee who works a flexible work schedule is someone that is required to work core hours with the rest of their hours to be worked according to the employee’s preferences. Employees work together with their employers to determine the times the employee will work. Depending on the policy of the employer, employees may be expected to work a minimum number of hours or be at work at a certain daily block of time. However, shifts can often be switched with other employees to satisfy the needs of both the employer and the busy life of the employee.'},
+  ]
+
+  experience: string[] = [
+    'Trainee',
+    'Junior',
+    'Middle',
+    'Senior'
+  ]
+
+  showContracts: boolean = false
 
   constructor(
     private formBuilder: FormBuilder,
@@ -38,11 +63,14 @@ export class CreateVacancyPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+
     this.form = this.formBuilder.group({
         title: new FormControl('', Validators.required),
         companyName: new FormControl('', Validators.required),
         country: new FormControl('', Validators.required),
         city: new FormControl('', Validators.required),
+        companyPic: new FormControl(null),
         expiryTime: new FormControl('', Validators.required),
         contractType: new FormControl('', Validators.required),
         workTime: new FormControl('', Validators.required),
@@ -78,7 +106,6 @@ export class CreateVacancyPageComponent implements OnInit {
       this.citiesListHidden = false
 
       if (!this.citiesListHidden && this.citiesInputItem !== undefined) {
-        console.log(this.cities)
         this.citiesFilteredList = this.cities.filter((item) => {
           return item.toLowerCase().startsWith(this.citiesInputItem.toLowerCase())
         })
@@ -171,13 +198,37 @@ export class CreateVacancyPageComponent implements OnInit {
 
   onFileUpload(event) {
     const file = event.target.files[0]
-    this.image = file
+    if (file) {
+      this.image = file
 
-    const reader = new FileReader()
-    reader.onload = () => {
-      this.imagePreview = reader.result
+      const reader = new FileReader()
+      reader.onload = () => {
+        this.imagePreview = reader.result
+      }
+
+      reader.readAsDataURL(file)
+    } else {
+      return
     }
+  }
 
-    reader.readAsDataURL(file)
+  deleteImg() {
+    this.imagePreview = ''
+    this.image = undefined
+    this.form.controls['companyPic'].reset()
+  }
+
+  setExperienceItem(item) {
+    this.form.controls['experience'].setValue(item)
+    this.showExperienceList = false
+  }
+
+  changeUserPic() {
+    this.fileInputRef.nativeElement.click()
+  }
+
+  getCities(event) {
+    this.countriesInputItem = event
+    this.cities = countriesJSON[event]
   }
 }
