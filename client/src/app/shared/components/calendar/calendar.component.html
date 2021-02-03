@@ -1,0 +1,66 @@
+ <div [formGroup]="parenFormGroup" class="datepicker">
+    <input #calendarInput
+           (click)="openCalendar()" [formControlName]="controlName"
+           readonly
+           id="datepicker"
+           placeholder="Available until"
+           type="text">
+    <label class="label-animate" for="datepicker">Available until</label>
+
+
+    <div #calendar *ngIf="showCalendar" class="calendar">
+      <div class="year">
+        <p>{{currentYear}}</p>
+      </div>
+
+      <div class="month">
+        <div class="btn-container">
+          <button
+            (click)="changeMonth(false)"
+            [ngStyle]="{'visibility': currentMonth !== firstDate.getMonth() ? 'visible' : 'hidden'}"
+            class="btn">
+            <span class="iconify" data-icon="grommet-icons:form-previous" data-inline="false"></span>
+          </button>
+        </div>
+        <p>{{months[currentMonth]}}</p>
+        <div class="btn-container">
+          <button
+            (click)="changeMonth(true)"
+            [ngStyle]="{'visibility': currentMonth !== lastDate.getMonth() ? 'visible' : 'hidden'}"
+            class="btn">
+            <span class="iconify" data-icon="grommet-icons:form-next" data-inline="false"></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="daysOfWeek">
+        <p *ngFor="let day of daysOfWeek">{{day}}</p>
+      </div>
+
+
+      <div class="days">
+        <p *ngFor="let day of daysInPreviousMonthWeek"
+           class="invalid-day"
+        >
+          {{day}}
+        </p>
+        <p *ngFor="let day of previousInvalidDays" [ngClass]="{'invalid-day': day.status === 'invalid'}">{{day.day}}</p>
+        <p
+          (click)="selectDay(days.day)"
+          *ngFor="let days of daysInCurrentMonth"
+          [ngClass]="{
+          'selected-day': days.status === 'selected',
+          'invalid-day': days.status === 'invalid',
+          'available-day': days.status === 'available'
+          }"
+        >
+          {{days.day}}
+        </p>
+        <p *ngFor="let day of afterInvalidDays" [ngClass]="{'invalid-day': day.status === 'invalid'}">{{day.day}}</p>
+        <p *ngFor="let day of daysInNextMonthWeek"
+           class="invalid-day">
+          {{day}}
+        </p>
+      </div>
+    </div>
+  </div>

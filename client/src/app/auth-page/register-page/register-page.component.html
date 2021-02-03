@@ -59,34 +59,6 @@
 
   <div class="address">
     <div class="form-control">
-      <input
-        (blur)="toggleListDisplay(false, 'countries')"
-        (focus)="toggleListDisplay(true, 'countries')"
-        (input)="getFilteredList('countries')"
-        [(ngModel)]="countriesInputItem"
-        [ngClass]="{invalid: form.get('country').invalid && form.get('country').touched}"
-        autocomplete="none"
-        formControlName="country"
-        id="country"
-        placeholder="Country"
-        type="text">
-      <label [ngClass]="{'label-animate': !canAnimate}" for="country">Country</label>
-      <div *ngIf="!countriesListHidden && !countriesShowError" class="options">
-        <div
-          (click)="selectItem(i, true, 'countries')"
-          (mouseenter)="selectItem(i, false, 'countries')"
-          *ngFor="let item of countriesFilteredList;let i = index"
-          class="item"
-        >
-          <p>{{item}}</p>
-        </div>
-      </div>
-
-      <div *ngIf="!countriesListHidden && countriesShowError" class="options">
-        <div class="error">
-          <p>Not found</p>
-        </div>
-      </div>
 
       <div *ngFor="let error of errorMessages.country" class="error-messages">
         <p

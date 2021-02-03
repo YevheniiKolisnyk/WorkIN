@@ -22,6 +22,11 @@ export class AuthService {
     return this.http.post<User>('api/auth/register', user)
   }
 
+  updateUser(user) {
+    localStorage.setItem('user', JSON.stringify(user))
+    this.currentUserSubject.next(user)
+  }
+
   login(user: User): Observable<{ token: string, user: User }> {
     return this.http.post<{ token: string, user: User }>('api/auth/login', user)
       .pipe(

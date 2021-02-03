@@ -1,5 +1,11 @@
 @import "./variables";
 
+@mixin validation-error() {
+  position: absolute;
+  top: 100%;
+  left: 15px;
+}
+
 @mixin form-control($form-width: 440px, $margin-bottom: 50px) {
   width: $form-width;
   position: relative;
@@ -61,7 +67,7 @@
   input:focus ~ label,
   input:not(:placeholder-shown) ~ label,
   textarea:focus ~ label,
-  textarea:focus ~ label, {
+  textarea:not(:placeholder-shown) ~ label, {
     top: -10px;
     left: 10px;
     font-size: 15px;
@@ -293,4 +299,36 @@
   40%, 100% {
     background-position: $width
   }
+}
+
+@mixin arrow($width: 20px, $height: 20px) {
+  width: $width;
+  height: $height;
+  border: 1px solid $bright-blue;
+  border-radius: 5px;
+  position: relative;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 6px;
+    width: 6px;
+    height: 10px;
+    border-right: 1px solid $bright-blue;
+    border-bottom: 1px solid $bright-blue;
+    transform: rotate(45deg);
+  }
+}
+
+@mixin add-list-container() {
+  width: 100%;
+  margin-top: 70px;
+  padding-bottom: 70px;
+  border-bottom: 1px solid #bbbbbb;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }

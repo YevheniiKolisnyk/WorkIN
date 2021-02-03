@@ -18,7 +18,10 @@ import { VacancyPageComponent } from './vacancy-page/vacancy-page.component';
 import { UserPageComponent } from './user-page/user-page.component';
 import { CreateVacancyPageComponent } from './create-vacancy-page/create-vacancy-page.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { DropDownComponent } from './create-vacancy-page/drop-down/drop-down.component';
+import {YKDropDownFilterModule} from 'drop-down-filter';
+import { CalendarComponent } from './shared/components/calendar/calendar.component';
+import { FormErrorComponent } from './shared/components/form-error/form-error.component';
+import { AddListComponent } from './shared/components/add-list/add-list.component'
 
 
 
@@ -35,7 +38,9 @@ import { DropDownComponent } from './create-vacancy-page/drop-down/drop-down.com
     UserPageComponent,
     CreateVacancyPageComponent,
     PageNotFoundComponent,
-    DropDownComponent,
+    CalendarComponent,
+    FormErrorComponent,
+    AddListComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,7 +49,8 @@ import { DropDownComponent } from './create-vacancy-page/drop-down/drop-down.com
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    InternationalPhoneNumberModule
+    InternationalPhoneNumberModule,
+    YKDropDownFilterModule
   ],
   providers: [
     {

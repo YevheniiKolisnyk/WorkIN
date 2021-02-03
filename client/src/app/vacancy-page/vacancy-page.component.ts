@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core'
 import {User, Vacancy} from '../shared/iterfaces'
 import {VacanciesService} from '../shared/services/vacancies.service'
 import {ActivatedRoute} from '@angular/router'
+import {AuthService} from '../shared/services/auth.service'
 
 @Component({
   selector: 'app-vacancy-page',
@@ -11,17 +12,17 @@ import {ActivatedRoute} from '@angular/router'
 export class VacancyPageComponent implements OnInit {
 
   vacancy: Vacancy
-  user: User
+  user: User = JSON.parse(localStorage.getItem('user'))
   showLoader: boolean = true
 
   constructor(
+    private authService: AuthService,
     private vacanciesService: VacanciesService,
     private route: ActivatedRoute
   ) {
   }
 
   ngOnInit(): void {
-    this.user = JSON.parse(localStorage.getItem('user'))
     this.route.params.subscribe(param => {
       this.vacanciesService.getById(param.id).subscribe(res => {
         this.vacancy = res
@@ -33,23 +34,16 @@ export class VacancyPageComponent implements OnInit {
   includeInFavorite() {
     return this.vacancy.subscribers.some(item => item._id === this.user._id)
   }
+
   isApplied() {
     return this.vacancy.applicants.some(item => item._id === this.user._id)
   }
 
   addToFavorite() {
-    this.vacanciesService.toFavorite(this.vacancy._id).subscribe(() => {
-
-      if (this.user.favorite.some(item => item._id === this.vacancy._id)) {
-        this.vacancy.subscribers = this.vacancy.subscribers.filter(item => item._id !== this.user._id)
-        this.user.favorite = this.user.favorite.filter(item => item._id !== this.vacancy._id)
-        localStorage.setItem('user', JSON.stringify(this.user))
-
-      } else {
-        this.user.favorite.push({_id: this.vacancy._id})
-        this.vacancy.subscribers.push({_id: this.user._id})
-        localStorage.setItem('user', JSON.stringify(this.user))
-      }
+    this.vacanciesService.toFavorite(this.vacancy._id).subscribe((res) => {
+      this.vacancy.subscribers = res.vacancy.subscribers
+      this.user.favorite = res.user.favorite
+      this.authService.updateUser(res.user)
     })
   }
 

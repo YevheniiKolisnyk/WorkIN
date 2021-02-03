@@ -1,0 +1,33 @@
+<div [formGroup]="parentFormGroup" class="container">
+  <div class="head">
+    <p class="title">{{title}}</p>
+
+    <button (click)="canShowInput = true" *ngIf="!canShowInput" class="add-input" type="button">
+      <span class="iconify" data-icon="bi:plus" data-inline="false"></span>
+      Add {{title}}
+    </button>
+  </div>
+
+  <div *ngIf="canShowInput" class="add">
+        <textarea (keydown.enter)="addListItem()"
+                  [formControlName]="controlName"
+                  cols="30" rows="10">
+        </textarea>
+    <button (click)="addListItem()">
+      <span class="iconify" data-icon="bi:plus" data-inline="false"></span>
+    </button>
+  </div>
+
+  <ul class="list">
+    <li *ngFor="let item of itemList; let idx = index" class="item">
+      <div class="arrow"></div>
+      <div (click)="deleteListItem(idx)" class="delete">
+        <span class="iconify" data-icon="mi:delete-alt" data-inline="false"></span>
+      </div>
+      <p>{{item}}</p>
+    </li>
+  </ul>
+  <div class="error-message">
+    <ng-content></ng-content>
+  </div>
+</div>

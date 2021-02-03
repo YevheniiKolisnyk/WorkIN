@@ -1,70 +1,25 @@
-<!--  <div class="form-control">-->
-<!--    <input-->
-<!--      (blur)="toggleListDisplay(false, 'countries')"-->
-<!--      (focus)="toggleListDisplay(true, 'countries')"-->
-<!--      (input)="getFilteredList('countries')"-->
-<!--      [(ngModel)]="countriesInputItem"-->
-<!--      autocomplete="none"-->
-<!--      formControlName="country"-->
-<!--      id="country"-->
-<!--      placeholder="Country"-->
-<!--      type="text">-->
-<!--    <div *ngIf="!countriesListHidden && !countriesShowError" class="options">-->
-<!--      <div-->
-<!--        (click)="selectItem(i, true, 'countries')"-->
-<!--        (mouseenter)="selectItem(i, false, 'countries')"-->
-<!--        *ngFor="let item of countriesFilteredList;let i = index"-->
-<!--        class="item"-->
-<!--      >-->
-<!--        <p>{{item}}</p>-->
-<!--      </div>-->
-<!--    </div>-->
-
-<!--    <div *ngIf="!countriesListHidden && countriesShowError" class="options">-->
-<!--      <div class="error">-->
-<!--        <p>Not found</p>-->
-<!--      </div>-->
-<!--    </div>-->
-
-
-<!--  </div>-->
-<!--  <div class="form-control">-->
-<!--    <input-->
-<!--      (blur)="toggleListDisplay(false, 'cities')"-->
-<!--      (focus)="toggleListDisplay(true, 'cities')"-->
-<!--      (input)="getFilteredList('cities')"-->
-<!--      [(ngModel)]="citiesInputItem"-->
-<!--      autocomplete="none"-->
-<!--      formControlName="city"-->
-<!--      id="city"-->
-<!--      placeholder="City"-->
-<!--      type="text">-->
-<!--    <div *ngIf="!citiesListHidden && !citiesShowError" class="options">-->
-<!--      <div-->
-<!--        (click)="selectItem(i, true, 'cities')"-->
-<!--        (mouseenter)="selectItem(i,  false, 'cities')"-->
-<!--        *ngFor="let item of citiesFilteredList;let i = index"-->
-<!--        class="item"-->
-<!--      >-->
-<!--        <p>{{item}}</p>-->
-<!--      </div>-->
-<!--    </div>-->
-
-<!--    <div *ngIf="!citiesListHidden && citiesShowError" class="options">-->
-<!--      <div class="error">-->
-<!--        <p>Not found</p>-->
-<!--      </div>-->
-<!--    </div>-->
-
-<!--  </div>-->
-
 <main>
   <p class="head">Create Vacancy</p>
 
-  <div class="progress-bar">
-    <p class="percent">25% <span>Complete</span></p>
-    <div class="bar">
-      <div class="complete-bar"></div>
+  <div class="progress-bar-container">
+    <div
+      #progressBar
+      class="progress-bar">
+      <p
+        [ngStyle]="{'color': progressBarPercent() === 100 ? '#81F67E' : '#FF0000'}"
+        class="percent"
+      >
+        {{progressBarPercent()}}%<span>Complete</span>
+      </p>
+      <div class="bar">
+        <div
+          [ngStyle]="{
+      'width': progressBarPercent() + '%',
+      'background-color': progressBarPercent() === 100 ? '#81F67E' : '#FF0000'
+      }"
+          class="complete-bar"
+        ></div>
+      </div>
     </div>
   </div>
 
@@ -73,76 +28,61 @@
       <div class="left">
         <p class="title">Company Details</p>
         <div class="form-control">
-          <input id="job-title" placeholder="Job title" type="text">
+          <input autocomplete="off" formControlName="title" id="job-title" placeholder="Job title" type="text">
           <label class="label-animate" for="job-title">Job title</label>
+          <div class="validation-error">
+            <app-form-error
+              [displayError]="isControlValid('title')"
+              [errorsMessages]="errorsArray.title"
+            ></app-form-error>
+          </div>
         </div>
 
         <div class="form-control">
-          <input id="company-name" placeholder="Company name" type="text">
+          <input autocomplete="off" formControlName="companyName" id="company-name" placeholder="Company name"
+                 type="text">
           <label class="label-animate" for="company-name">Company name</label>
+          <div class="validation-error">
+            <app-form-error
+              [displayError]="isControlValid('companyName')"
+              [errorsMessages]="errorsArray.companyName"
+            ></app-form-error>
+          </div>
         </div>
 
-        <div class="form-control dropdown">
-          <input
-            (blur)="toggleListDisplay(false, 'countries')"
-            (focus)="toggleListDisplay(true, 'countries')"
-            (input)="getFilteredList('countries')"
-            [(ngModel)]="countriesInputItem"
-            autocomplete="none"
-            formControlName="country"
-            id="country"
-            placeholder="Country"
-            type="text">
-          <label class="label-animate" for="country">Country</label>
-          <div *ngIf="!countriesListHidden && !countriesShowError" class="options">
-            <div
-              (click)="selectItem(i, true, 'countries')"
-              (mouseenter)="selectItem(i, false, 'countries')"
-              *ngFor="let item of countriesFilteredList;let i = index"
-              class="item"
-            >
-              <p>{{item}}</p>
-            </div>
+
+        <div class="dropdown">
+          <yk-drop-down-filter
+            (outputItem)="getCities($event)"
+            [allowFilter]="true"
+            [controlName]="'country'"
+            [dataArray]="countries"
+            [parentFormGroup]="form"
+            [title]="'Countries'"
+          ></yk-drop-down-filter>
+          <div class="validation-error">
+            <app-form-error
+              [displayError]="isControlValid('country')"
+              [errorsMessages]="errorsArray.country"
+            ></app-form-error>
           </div>
-
-          <div *ngIf="!countriesListHidden && countriesShowError" class="options">
-            <div class="error">
-              <p>Not found</p>
-            </div>
-          </div>
-
-
         </div>
 
-        <div class="form-control dropdown">
-          <input
-            (blur)="toggleListDisplay(false, 'cities')"
-            (focus)="toggleListDisplay(true, 'cities')"
-            (input)="getFilteredList('cities')"
-            [(ngModel)]="citiesInputItem"
-            autocomplete="none"
-            formControlName="city"
-            id="city"
-            placeholder="City"
-            type="text">
-          <label class="label-animate" for="city">City</label>
-          <div *ngIf="!citiesListHidden && !citiesShowError" class="options">
-            <div
-              (click)="selectItem(i, true, 'cities')"
-              (mouseenter)="selectItem(i,  false, 'cities')"
-              *ngFor="let item of citiesFilteredList;let i = index"
-              class="item"
-            >
-              <p>{{item}}</p>
-            </div>
+        <div class="dropdown">
+          <yk-drop-down-filter
+            (outputItem)="citiesItem = $event"
+            [allowFilter]="true"
+            [controlName]="'city'"
+            [dataArray]="cities"
+            [parentFormGroup]="form"
+            [title]="'Cities'"
+          ></yk-drop-down-filter>
+          <div class="validation-error">
+            <app-form-error
+              [displayError]="isControlValid('city')"
+              [errorsMessages]="errorsArray.city"
+            ></app-form-error>
           </div>
-
-          <div *ngIf="!citiesListHidden && citiesShowError" class="options">
-            <div class="error">
-              <p>Not found</p>
-            </div>
-          </div>
-
         </div>
       </div>
 
@@ -155,6 +95,12 @@
                 (click)="changeUserPic()"
                 [src]="!image ? '../../assets/create-page/upload-image.svg' : imagePreview"
                 alt="Company image">
+            </div>
+            <div class="validation-error">
+              <app-form-error
+                [displayError]="isControlValid('companyPic')"
+                [errorsMessages]="errorsArray.companyPic"
+              ></app-form-error>
             </div>
           </div>
 
@@ -177,9 +123,18 @@
           </div>
         </div>
 
-        <div class="form-control">
-          <input id="expiryTime" placeholder="Active until" type="text">
-          <label class="label-animate" for="expiryTime">Active until</label>
+        <div class="expiry-time">
+          <app-calendar
+            (days)="getExpiryDays($event)"
+            [controlName]="'expiryTime'"
+            [parenFormGroup]="form"
+          ></app-calendar>
+          <div class="validation-error">
+            <app-form-error
+              [displayError]="isControlValid('expiryTime')"
+              [errorsMessages]="errorsArray.expiryTime"
+            ></app-form-error>
+          </div>
         </div>
       </div>
     </div>
@@ -190,6 +145,7 @@
         <textarea
           class="input"
           cols="30"
+          formControlName="description"
           id="description"
           placeholder="Include 2-3 clear sentences about your company"
           rows="10"
@@ -197,62 +153,160 @@
         <label class="label-animate" for="description">
           Include 2-3 clear sentences about your company
         </label>
+        <div class="validation-error">
+          <app-form-error
+            [displayError]="isControlValid('description')"
+            [errorsMessages]="errorsArray.description"
+          ></app-form-error>
+        </div>
       </div>
     </div>
 
     <div class="organizational-matters">
       <div class="left">
-        <div class="form-control">
-          <input id="contract" placeholder="Contract type" type="text">
-          <label class="label-animate" for="contract">Contract type</label>
+        <div class="dropdown">
+          <yk-drop-down-filter
+            (outputItem)="contractItem = $event"
+            [allowFilter]="false"
+            [controlName]="'contractType'"
+            [dataArray]="contractTypes"
+            [parentFormGroup]="form"
+            [title]="'Contract Type'"
+          ></yk-drop-down-filter>
+          <div class="validation-error">
+            <app-form-error
+              [displayError]="isControlValid('contractType')"
+              [errorsMessages]="errorsArray.contractType"
+            ></app-form-error>
+          </div>
         </div>
 
-        <div class="form-control">
-          <input id="work-time" placeholder="Work time" type="text">
-          <label class="label-animate" for="work-time">Work time</label>
+        <div class="dropdown">
+          <yk-drop-down-filter
+            (outputItem)="workTimeItem = $event"
+            [allowFilter]="false"
+            [controlName]="'workTime'"
+            [dataArray]="workTimes"
+            [parentFormGroup]="form"
+            [title]="'Work Time'"
+          ></yk-drop-down-filter>
+          <div class="validation-error">
+            <app-form-error
+              [displayError]="isControlValid('workTime')"
+              [errorsMessages]="errorsArray.workTime"
+            ></app-form-error>
+          </div>
         </div>
       </div>
 
       <div class="right">
-        <div class="form-control">
-          <input
-            (focus)="showExperienceList = true"
-            formControlName="experience"
-            id="experience"
-            placeholder="Experience"
-            readonly
-            type="text"
-          >
-          <label class="label-animate" for="experience">Experience</label>
-          <div (focus)="showExperienceList = true"
-               *ngIf="showExperienceList" class="options">
-            <div
-              (click)="setExperienceItem(item)"
-              *ngFor="let item of experience"
-              class="item"
-            >
-              <p>{{item}}</p>
-            </div>
+        <div class="dropdown">
+          <yk-drop-down-filter
+            (outputItem)="experienceItem = $event"
+            [allowFilter]="false"
+            [controlName]="'experience'"
+            [dataArray]="experience"
+            [parentFormGroup]="form"
+            [title]="'Experience'"
+          ></yk-drop-down-filter>
+          <div class="validation-error">
+            <app-form-error
+              [displayError]="isControlValid('experience')"
+              [errorsMessages]="errorsArray.experience"
+            ></app-form-error>
           </div>
         </div>
 
         <div class="form-control">
-          <input id="salary" placeholder="Salary $" type="text">
+          <input formControlName="salary" id="salary" placeholder="Salary $" type="number">
           <label class="label-animate" for="salary">Salary $</label>
+          <div class="validation-error">
+            <app-form-error
+              [displayError]="isControlValid('salary')"
+              [errorsMessages]="errorsArray.salary"
+            ></app-form-error>
+          </div>
         </div>
       </div>
     </div>
+
+    <div class="responsibilities">
+      <app-add-list
+        (outputItem)="responsibilities = $event"
+        [controlName]="'responsibilities'"
+        [parentFormGroup]="form"
+        [title]="'responsibilities'">
+        <div class="validation-error">
+          <app-form-error
+            [displayError]="isControlValid('responsibilities')"
+            [errorsMessages]="errorsArray.responsibilities"
+          ></app-form-error>
+        </div>
+      </app-add-list>
+    </div>
+
+    <div class="expectations">
+      <app-add-list
+        (outputItem)="expectations = $event"
+        [controlName]="'expectations'"
+        [parentFormGroup]="form"
+        [title]="'expectations'">
+        <div class="validation-error">
+          <app-form-error
+            [displayError]="isControlValid('expectations')"
+            [errorsMessages]="errorsArray.expectations"
+          ></app-form-error>
+        </div>
+      </app-add-list>
+    </div>
+
+    <div class="benefits">
+      <app-add-list
+        (outputItem)="benefits = $event"
+        [controlName]="'benefits'"
+        [parentFormGroup]="form"
+        [title]="'benefits'">
+        <div class="validation-error">
+          <app-form-error
+            [displayError]="isControlValid('benefits')"
+            [errorsMessages]="errorsArray.benefits"
+          ></app-form-error>
+        </div>
+      </app-add-list>
+    </div>
+
+    <div class="tags">
+      <div class="container">
+        <p class="title">
+          Tags
+        </p>
+        <div class="tags-container">
+          <div class="addTag">
+            <input (keydown.enter)="addTag()" formControlName="tags" placeholder="Tag" type="text">
+            <div (click)="addTag()" class="add">
+              <span class="iconify" data-icon="bi:plus" data-inline="false"></span>
+            </div>
+          </div>
+
+          <div *ngFor="let tag of tags; let idx = index" class="tag">
+            <p>{{tag}}</p>
+
+            <div (click)="deleteTag(idx)" class="delete">
+              <span class="iconify" data-icon="mi:delete-alt" data-inline="false"></span>
+            </div>
+          </div>
+        </div>
+        <div class="validation-error">
+          <app-form-error
+            [displayError]="isControlValid('tags')"
+            [errorsMessages]="errorsArray.tags"
+          ></app-form-error>
+        </div>
+      </div>
+    </div>
+
+    <button (click)="submit()" class="create" type="button">Save</button>
   </form>
 </main>
 
-<app-drop-down
-  (outputItem)="getCities($event)"
-  [title]="'Country'"
-  [dataArray]="countries"
-></app-drop-down>
 
-<app-drop-down
-  (outputItem)="citiesInputItem = $event"
-  [title]="'City'"
-  [dataArray]="cities"
-></app-drop-down>

@@ -61,17 +61,6 @@ export class MainPageComponent implements OnInit {
       locationInput: new FormControl(null)
     })
 
-    // this.profileService.user.subscribe(user => {
-    //   console.log('subject', user)
-    //   if (user) {
-    //     this.user = user
-    //     this.favoriteList = user.favorite.map(item => item._id)
-    //     this.canShowStars = true
-    //     this.getAll()
-    //   } else {
-    //     this.getAll()
-    //   }
-    // })
     this.authService.currentUser.subscribe(user => {
       this.user = user
       if (user) {
@@ -203,15 +192,8 @@ export class MainPageComponent implements OnInit {
 
   favorite(id) {
     this.vacanciesService.toFavorite(id).subscribe(res => {
-
-      if (this.user.favorite.some(item => item._id === id)) {
-        this.user.favorite = this.user.favorite.filter(item => item._id !== id)
-        localStorage.setItem('user', JSON.stringify(this.user))
-
-      } else {
-        this.user.favorite.push({_id: id})
-        localStorage.setItem('user', JSON.stringify(this.user))
-      }
+      this.user.favorite = res.user.favorite
+      this.authService.updateUser(res.user)
     })
   }
 }

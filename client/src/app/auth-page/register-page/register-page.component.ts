@@ -72,9 +72,6 @@ export class RegisterPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    setInterval(() => {
-      console.log(this.countriesInputItem)
-    }, 1000)
     this.form = this.formBuilder.group({
       firstName: new FormControl(null, Validators.required),
       lastName: new FormControl(null, Validators.required),
@@ -138,7 +135,6 @@ export class RegisterPageComponent implements OnInit {
       this.citiesListHidden = false
       this.ref.detectChanges()
       if (!this.citiesListHidden && this.citiesInputItem !== undefined) {
-        console.log(this.cities)
         this.citiesFilteredList = this.cities.filter((item) => {
           return item.toLowerCase().startsWith(this.citiesInputItem.toLowerCase())
         })

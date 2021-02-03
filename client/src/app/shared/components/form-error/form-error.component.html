@@ -1,0 +1,5 @@
+<div *ngIf="displayError" class="container">
+  <div class="wrapper" *ngFor="let error of errorsMessages">
+    <p *ngIf="error.type === displayError">{{error.message}}</p>
+  </div>
+</div>
