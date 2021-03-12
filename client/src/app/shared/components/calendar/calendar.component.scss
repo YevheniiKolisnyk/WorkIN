@@ -1,0 +1,197 @@
+@import "../../mixins";
+@import "../../variables";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Noto Sans', sans-serif;
+}
+
+.datepicker {
+  position: relative;
+  margin: 0;
+
+  .form-control {
+    width: 100%;
+    @include form-control(100%, 0);
+  }
+
+  input {
+    cursor: pointer;
+  }
+
+  .calendar {
+    background-color: #ffffff;
+    z-index: 5;
+    border-radius: 15px;
+    width: 282px;
+    height: 310px;
+    position: absolute;
+    border: 1px solid $bright-blue;
+    top: 101%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .head {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+
+      .year {
+        font-size: 16px;
+        color: $bright-blue;
+        border: none;
+        background-color: transparent;
+        outline: none;
+        cursor: pointer;
+      }
+
+      .container {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 15px;
+
+        .btn-container {
+          width: 20px;
+          height: 20px;
+
+          .btn {
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            background-color: transparent;
+            outline: none;
+            border: none;
+
+            .iconify {
+              color: $bright-blue;
+              font-size: 16px;
+            }
+          }
+        }
+
+        .month {
+          font-size: 16px;
+          color: $bright-blue;
+          border: none;
+          background-color: transparent;
+          outline: none;
+          cursor: pointer;
+        }
+      }
+    }
+
+
+    .current-month {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .btn-container {
+        width: 20px;
+        height: 20px;
+
+
+      }
+
+      p {
+        user-select: none;
+        font-size: 16px;
+        color: $bright-blue;
+        cursor: pointer;
+      }
+    }
+
+    .daysOfWeek {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+
+      p {
+        user-select: none;
+        width: 40px;
+        text-align: center;
+        font-size: 14px;
+        color: $dark-grey;
+      }
+    }
+
+    .days {
+      display: flex;
+      flex-wrap: wrap;
+
+      p {
+        border: 1px solid transparent;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #262D33;
+        border-radius: 5px;
+        user-select: none;
+
+
+      }
+
+      .available-day {
+        cursor: pointer;
+
+        &:hover {
+          border-color: $bright-blue;
+        }
+      }
+
+      .invalid-day {
+        color: #929699;
+      }
+
+      .selected-day {
+        color: #ffffff;
+        background-color: $bright-blue;
+      }
+    }
+
+    .months, .years {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+
+      .month, .year {
+        width: 70px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        user-select: none;
+        cursor: pointer;
+        color: #262D33;
+
+        &:hover {
+          border: 1px solid $bright-blue;
+          border-radius: 10px;
+        }
+      }
+    }
+
+    .still-here {
+      position: absolute;
+      top: 101%;
+      width: 100%;
+      padding: 10px;
+      background-color: #fff;
+      border: 1px solid $bright-blue;
+      border-radius: 15px;
+      @include checkbox(10px, 0);
+    }
+  }
+}

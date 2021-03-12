@@ -1,0 +1,432 @@
+@import "./variables";
+
+@mixin checkbox($margin-right: 15px, $margin-bottom: 0) {
+  input {
+    display: none;
+  }
+
+  label {
+    position: relative;
+    cursor: pointer;
+    font-size: 14px;
+    color: $dark-blue;
+    display: flex;
+    align-items: center;
+    margin-bottom: $margin-bottom;
+
+    &:before {
+      content: '';
+      -webkit-appearance: none;
+      background: transparent;
+      border: 1px solid $dark-grey;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 20px;
+      height: 20px;
+      margin-right: $margin-right;
+      display: inline-block;
+      position: relative;
+    }
+  }
+
+
+  input:checked + label:before {
+    background-color: $bright-blue;
+  }
+
+  input:checked + label:after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 7px;
+    width: 6px;
+    height: 10px;
+    border: solid #ffffff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+}
+
+@mixin validation-error($top: 100%, $left: 15px) {
+  position: absolute;
+  top: $top;
+  left: $left;
+}
+
+@mixin form-control($form-width: 440px, $margin-bottom: 50px) {
+  width: $form-width;
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: $margin-bottom;
+  background-color: $light-grey;
+  border-radius: 15px;
+
+
+  input, .input {
+    padding: 0 15px;
+    border-radius: 15px;
+    width: 100%;
+    font-size: 18px;
+    height: 50px;
+    -webkit-appearance: none;
+    outline: none;
+    border: none;
+    background: transparent;
+  }
+
+  .invalid {
+    border: 1px solid $error-color;
+  }
+
+  input::placeholder, textarea::placeholder {
+    opacity: 0;
+  }
+
+  input:focus, textarea:focus {
+    border: 1px solid $bright-blue;
+  }
+
+
+  label {
+    position: absolute;
+    font-size: 18px;
+    left: 15px;
+    top: 50%;
+    color: $dark-grey;
+    pointer-events: none;
+    transform: translateY(-50%);
+  }
+
+  .label-animate {
+    transition: .3s ease;
+    -moz-transition: .3s ease;
+    -webkit-transition: .3s ease;
+  }
+
+  input:focus,
+  input:not(:placeholder-shown),
+  textarea:focus,
+  textarea:not(:placeholder-shown) {
+    color: $dark-blue;
+  }
+
+  input:focus ~ label,
+  input:not(:placeholder-shown) ~ label,
+  textarea:focus ~ label,
+  textarea:not(:placeholder-shown) ~ label, {
+    top: -10px;
+    left: 10px;
+    font-size: 15px;
+    color: $dark-grey;
+    font-weight: bold;
+  }
+
+  textarea:focus,
+  textarea:not(:placeholder-shown) {
+    height: 310px;
+  }
+
+  .error-messages {
+    position: absolute;
+    bottom: -47%;
+    left: 10px;
+
+    .error-message {
+      font-size: 14px;
+      margin: 0;
+      color: $error-color;
+    }
+  }
+}
+
+@mixin confirm-btn() {
+
+  outline: none;
+  cursor: pointer;
+  width: 180px;
+  height: 50px;
+  font-size: 20px;
+  color: #ffffff;
+  background-color: $bright-blue;
+  border: none;
+  border-radius: 20px;
+
+  &:disabled {
+    opacity: .6;
+  }
+}
+
+@mixin dropdown($option-width: 230px) {
+  input:focus ~ .clear {
+    user-select: all;
+
+    &:before {
+      opacity: 1;
+      transform: rotate(45deg);
+    }
+
+    &:after {
+      opacity: 1;
+      transform: rotate(135deg);
+    }
+  }
+
+
+  .options {
+    border-radius: 15px;
+    position: absolute;
+    top: 52px;
+    right: 50%;
+    transform: translateX(50%);
+    width: $option-width;
+    max-height: 200px;
+    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+    background-color: $light-grey;
+    z-index: 2;
+    border: 1px solid $bright-blue;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .item {
+      min-height: 48px;
+      padding: 0 20px;
+      color: $dark-blue;
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+
+      &:hover {
+        background-color: $bright-blue;
+        color: #ffffff;
+      }
+
+      p {
+        margin: 0;
+      }
+    }
+
+    .error {
+      height: 48px;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      color: $dark-grey;
+      padding: 0 15px;
+    }
+  }
+}
+
+@mixin description-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 100;
+  width: 500px;
+  height: 100%;
+
+  .title {
+    font-size: 60px;
+    color: #ffffff;
+  }
+
+  .subtitle {
+    font-size: 20px;
+    color: #ffffff;
+    width: 300px;
+    text-align: center;
+  }
+}
+
+@mixin clear-cross($width: 20px, $height: 20px) {
+  visibility: hidden;
+  width: $width;
+  height: $height;
+  position: relative;
+  cursor: pointer;
+
+  &:before {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    border-radius: 20px;
+    transform: translate(-50%, -50%) rotate(90deg);
+    transition: .6s ease;
+    content: '';
+    width: $width;
+    height: 3px;
+    opacity: 0;
+    background-color: $bright-blue;
+  }
+
+  &:after {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    border-radius: 20px;
+    transform: translate(-50%, -50%) rotate(270deg);
+    transition: .6s ease;
+    content: '';
+    width: $width;
+    height: 3px;
+    opacity: 0;
+    background-color: $bright-blue;
+  }
+}
+
+@mixin vacancy-description-list {
+  padding: 30px;
+  border-bottom: 1px solid #bbbbbb;
+
+  .title {
+    font-size: 30px;
+    font: $primary-font;
+    color: $dark-blue;
+    margin-bottom: 25px;
+  }
+
+  .list {
+    li {
+      list-style: none;
+      position: relative;
+      padding-left: 30px;
+      margin-bottom: 15px;
+
+      &:last-child {
+        margin: 0;
+      }
+
+      &:before {
+        position: absolute;
+        content: '';
+        top: 0;
+        left: 0;
+        width: 20px;
+        height: 20px;
+        border: 2px solid $bright-blue;
+        border-radius: 5px;
+      }
+
+      &:after {
+        content: '';
+        position: absolute;
+        top: 4px;
+        left: 8px;
+        width: 6px;
+        height: 10px;
+        border: solid $bright-blue;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+      }
+
+      p {
+        font-size: 18px;
+        font: $primary-font;
+        color: $dark-blue;
+      }
+    }
+  }
+}
+
+@mixin loader() {
+  background-image: linear-gradient(90deg, $loader-base-color 0px, $loader-shine-color 40px, $loader-base-color 80px);
+  background-size: 600px;
+}
+
+@mixin loader-animation($width) {
+  0% {
+    background-position: -100px
+  }
+  40%, 100% {
+    background-position: $width
+  }
+}
+
+@mixin arrow($width: 20px, $top: 2px, $left: 6px, $arrow-width: 6px, $arrow-height: 10px) {
+  width: $width;
+  height: $width;
+  border: 1px solid $bright-blue;
+  border-radius: 5px;
+  position: relative;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: $top;
+    left: $left;
+    width: $arrow-width;
+    height: $arrow-height;
+    border-right: 1px solid $bright-blue;
+    border-bottom: 1px solid $bright-blue;
+    transform: rotate(45deg);
+  }
+}
+
+@mixin add-list-container() {
+  width: 100%;
+  margin-top: 70px;
+  padding-bottom: 70px;
+  border-bottom: 1px solid #bbbbbb;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+@mixin progress-bar() {
+  width: 100%;
+  height: 60px;
+
+  .progress-bar {
+    z-index: 10;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+
+    .percent {
+      font-size: 25px;
+      margin-bottom: 20px;
+
+      span {
+        margin-left: 10px;
+        color: $dark-grey;
+      }
+    }
+
+    .bar {
+      z-index: 1;
+      width: 100%;
+      height: 2px;
+      background-color: #bbbbbb;
+      position: relative;
+
+      .complete-bar {
+        z-index: 2;
+        height: 2px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        transition: .3s ease;
+      }
+
+    }
+  }
+
+  .sticky {
+    background-color: #ffffff;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 0 150px 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}

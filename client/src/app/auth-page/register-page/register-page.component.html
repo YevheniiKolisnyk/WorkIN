@@ -1,0 +1,147 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="form" class="register-form">
+  <p class="form-title">Create account</p>
+
+  <div class="fullName">
+    <div class="form-control">
+      <input
+        [ngClass]="{invalid: form.get('firstName').invalid && form.get('firstName').touched}"
+        formControlName="firstName"
+        id="first-name"
+        placeholder="First name"
+        type="text">
+      <label [ngClass]="{'label-animate': !canAnimate}" for="first-name">First name</label>
+      <div *ngFor="let error of errorMessages.firsName" class="error-messages">
+        <p
+          *ngIf="form.get('firstName').hasError(error.type) && form.get('firstName').touched"
+          class="error-message"
+        >
+          {{error.message}}
+        </p>
+      </div>
+    </div>
+
+    <div class="form-control">
+      <input
+        [ngClass]="{invalid: form.get('lastName').invalid && form.get('lastName').touched}"
+        formControlName="lastName"
+        id="last-name"
+        placeholder="Last name"
+        type="text">
+      <label [ngClass]="{'label-animate': !canAnimate}" for="last-name">Second name</label>
+      <div *ngFor="let error of errorMessages.lastName" class="error-messages">
+        <p
+          *ngIf="form.get('lastName').hasError(error.type) && form.get('lastName').touched"
+          class="error-message"
+        >
+          {{error.message}}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-control">
+    <input
+      [ngClass]="{invalid: form.get('email').invalid && form.get('email').touched}"
+      formControlName="email"
+      id="email"
+      placeholder="Email"
+      type="email">
+    <label [ngClass]="{'label-animate': !canAnimate}" for="email">Email</label>
+    <div *ngFor="let error of errorMessages.email" class="error-messages">
+      <p
+        *ngIf="form.get('email').hasError(error.type) && form.get('email').touched"
+        class="error-message"
+      >
+        {{error.message}}
+      </p>
+    </div>
+  </div>
+
+  <div class="address">
+    <div class="dropdown">
+      <yk-drop-down-filter
+      [allowFilter]="true"
+      [controlName]="'country'"
+      [parentFormGroup]="form"
+      [title]="'Country'"
+      [dataArray]="countries"
+      (outputItem)="getCities($event)"
+      [autocomplete]="'none'"
+      >
+      </yk-drop-down-filter>
+    </div>
+
+    <div class="dropdown">
+      <yk-drop-down-filter
+        [allowFilter]="true"
+        [controlName]="'city'"
+        [parentFormGroup]="form"
+        [title]="'City'"
+        [dataArray]="cities"
+        (outputItem)="city = $event"
+        [autocomplete]="'none'"
+      >
+      </yk-drop-down-filter>
+    </div>
+  </div>
+
+  <div class="form-control">
+    <input
+      [ngClass]="{invalid: form.get('phone').invalid && form.get('phone').touched}"
+      formControlName="phone"
+      id="phone"
+      placeholder="Phone"
+      type="tel">
+    <label [ngClass]="{'label-animate': !canAnimate}" for="phone">Phone</label>
+    <div *ngFor="let error of errorMessages.phone" class="error-messages">
+      <p
+        *ngIf="form.get('phone').hasError(error.type) && form.get('phone').touched"
+        class="error-message"
+      >
+        {{error.message}}
+      </p>
+    </div>
+  </div>
+
+  <div class="form-control">
+    <input
+      [ngClass]="{invalid: form.get('password').invalid && form.get('password').touched }"
+      formControlName="password"
+      id="password"
+      placeholder="Password"
+      type="password">
+    <label [ngClass]="{'label-animate': !canAnimate}" for="password">Password</label>
+    <div *ngFor="let error of errorMessages.password" class="error-messages">
+      <p
+        *ngIf="form.get('password').hasError(error.type) && form.get('password').touched"
+        class="error-message"
+      >
+        {{error.message}}
+      </p>
+    </div>
+  </div>
+
+
+  <div class="form-control">
+    <input
+      [ngClass]="{invalid: form.get('confirmPassword').invalid && form.get('confirmPassword').touched}"
+      formControlName="confirmPassword"
+      id="confirm-password"
+      placeholder="Confirm password"
+      type="password">
+    <label [ngClass]="{'label-animate': !canAnimate}" for="confirm-password">Confirm password</label>
+    <div *ngFor="let error of errorMessages.confirmPassword" class="error-messages">
+      <p
+        *ngIf="form.get('confirmPassword').hasError(error.type) && form.get('confirmPassword').touched"
+        class="error-message"
+      >
+        {{error.message}}
+      </p>
+    </div>
+  </div>
+
+  <button [disabled]="form.invalid" class="confirm-btn" type="submit">Create</button>
+</form>
+
+
+

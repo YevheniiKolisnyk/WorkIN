@@ -29,6 +29,16 @@ module.exports.getAll = async function (req, res) {
   }
 }
 
+module.exports.getUser = async function (req, res) {
+  try {
+    const user = await User.findOne({_id: req.user._id})
+
+    res.status(200).json(user)
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 module.exports.update = async function (req, res) {
   try {
     const update = req.body

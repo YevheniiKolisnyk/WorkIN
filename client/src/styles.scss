@@ -1,0 +1,43 @@
+@import "./app/shared/variables";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.loader {
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-self: center;
+
+  span {
+    width: 20px;
+    height: 20px;
+    background-color: $bright-blue;
+    border-radius: 50%;
+    animation: loader-animation .6s infinite alternate;
+  }
+
+  span:nth-child(2) {
+    animation-delay: .2s;
+  }
+
+  span:nth-child(3) {
+    animation-delay: .4s;
+  }
+}
+
+@keyframes loader-animation {
+  to {
+    opacity: .1;
+    transform: translateY(20px);
+  }
+}

@@ -1,0 +1,29 @@
+<div class="container" [formGroup]="parentFormGroup">
+  <div class="wrapper">
+    <p class="title">Photo</p>
+    <div [class]="className">
+      <img
+        (click)="changeUserPic()"
+        [src]="!image ? '../../assets/create-page/upload-image.svg' : imagePreview"
+        alt="Company image">
+    </div>
+  </div>
+
+  <div class="buttons">
+    <input
+      #fileInput
+      (change)="onFileUpload($event)"
+      accept=".png, .jpg, .jpeg"
+      [formControlName]="controlName" id="image-upload"
+      type="file">
+    <label for="image-upload">
+      <span class="iconify" data-icon="feather:edit" data-inline="false" style="color: #757575;"></span>
+      Upload photo
+    </label>
+    <div (click)="deleteImg()" class="delete">
+            <span class="iconify" data-icon="ic:baseline-delete-outline" data-inline="false"
+                  style="color: #757575;"></span>
+      <p>Delete</p>
+    </div>
+  </div>
+</div>

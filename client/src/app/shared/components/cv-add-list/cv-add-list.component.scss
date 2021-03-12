@@ -1,0 +1,211 @@
+@import "../../../shared/variables";
+@import "../../../shared/mixins";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: $primary-font;
+}
+
+.container {
+  width: 100%;
+  position: relative;
+
+  .head-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .title {
+      text-transform: capitalize;
+      width: 100%;
+      font-size: 35px;
+      color: $dark-blue;
+      margin-bottom: 30px;
+    }
+
+    .head {
+
+      .add-input {
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        border: none;
+        cursor: pointer;
+        outline: none;
+        background-color: transparent;
+        font-size: 25px;
+        color: $bright-blue;
+      }
+    }
+  }
+
+  .add {
+    width: 100%;
+    padding: 40px 50px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid $bright-blue;
+    border-radius: 25px;
+
+    .wrapper {
+      display: flex;
+      justify-content: space-between;
+
+      .left {
+        .form-control {
+          @include form-control(440px, 40px);
+
+          .validation-error {
+            @include validation-error();
+          }
+
+          &:last-child {
+            margin: 0;
+          }
+        }
+
+        .duration {
+          width: 440px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          .calendar {
+            width: 210px;
+            position: relative;
+
+            .validation-error {
+              @include validation-error();
+            }
+          }
+
+        }
+      }
+
+      .right {
+        display: flex;
+        flex-direction: column;
+
+        .form-control {
+          width: 440px;
+          margin-bottom: 40px;
+          position: relative;
+
+          .validation-error {
+            @include validation-error();
+          }
+        }
+
+        .employer {
+          @include form-control(440px, 40px);
+
+          .validation-error {
+            @include validation-error();
+          }
+        }
+
+        .address {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          .country, .city {
+            width: 210px;
+            position: relative;
+
+            .validation-error {
+              @include validation-error();
+            }
+          }
+        }
+      }
+    }
+
+    .add-btn {
+      margin-top: 40px;
+      align-self: flex-end;
+      @include confirm-btn();
+    }
+  }
+
+  .list {
+    width: 1000px;
+    margin: 35px 0;
+
+    li {
+      margin-bottom: 35px;
+      list-style: none;
+      width: 100%;
+      padding: 30px 50px;
+      border: 1px solid $bright-blue;
+      border-radius: 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      animation: enter .4s forwards;
+
+      .arrow {
+        @include arrow(30px, 3px, 8px, 10px, 16px);
+      }
+
+      .delete {
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        align-self: center;
+        justify-content: center;
+        display: none;
+
+        .iconify {
+          font-size: 30px;
+          color: #FF0000;
+        }
+      }
+
+      .item {
+        width: calc(100% - 60px);
+
+        .title {
+          font-size: 24px;
+          color: $dark-blue;
+          margin-bottom: 10px;
+        }
+
+
+        .subtitle {
+          font-size: 20px;
+          color: $dark-blue;
+          margin-bottom: 15px;
+        }
+
+        .info {
+          font-size: 18px;
+          color: $dark-grey;
+        }
+      }
+
+      &:hover {
+        border-color: #FF0000;
+
+        .arrow {
+          display: none;
+        }
+
+        .delete {
+          display: flex;
+        }
+      }
+    }
+  }
+}
+
+@keyframes enter {
+  from {
+    transform: scale(0.5);
+  }
+  to {
+    transform: scale(1);
+  }
+}

@@ -1,0 +1,96 @@
+<main *ngIf="!showLoader">
+  <div class="head">
+    <div class="container">
+      <div class="left">
+        <img [src]="vacancy.companyPic" alt="Company logo">
+        <div class="wrapper">
+          <p class="title">{{vacancy.title}}</p>
+          <p class="company-name">{{vacancy.companyName}}</p>
+        </div>
+      </div>
+
+      <div class="right">
+        <div class="favorite">
+          <app-favorite [id]="vacancy._id"></app-favorite>
+        </div>
+
+        <button (click)="apply()" class="btn">{{isApplied() ? 'Cancel' : 'Apply'}}</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="description-container">
+    <div class="description">
+      <div class="top">
+        <div class="salary">
+          <p class="title">SALARY</p>
+          <p class="text">{{vacancy.salary}}</p>
+        </div>
+
+        <div class="expiry-time">
+          <p class="title">ACTIVE UNTIL</p>
+          <p class="text">{{vacancy.expiryTime | date: "dd:MM:yyyy"}}</p>
+        </div>
+
+        <div class="experience">
+          <p class="title">EXPERIENCE</p>
+          <p class="text">{{vacancy.experience}}</p>
+        </div>
+
+        <div class="contract-type">
+          <p class="title">CONTRACT TIME</p>
+          <p class="text">{{vacancy.contractType}}</p>
+        </div>
+
+        <div class="location">
+          <p class="title">LOCATION</p>
+          <p class="text">{{vacancy.location}}</p>
+        </div>
+      </div>
+
+      <div class="about">
+        <p class="title">About us:</p>
+        <div class="text">{{vacancy.description}}</div>
+      </div>
+
+      <div class="responsibilities">
+        <p class="title">Your responsibilities:</p>
+        <ul class="list">
+          <li *ngFor="let item of vacancy.responsibilities">
+            <div class="arrow"></div>
+            <p class="text">{{item}}</p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="expectations">
+        <p class="title">Our expectations:</p>
+        <ul class="list">
+          <li *ngFor="let item of vacancy.expectations">
+            <div class="arrow"></div>
+            <p class="text">{{item}}</p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="benefits">
+        <p class="title">Benefits:</p>
+        <ul class="list">
+          <li *ngFor="let item of vacancy.benefits">
+            <div class="arrow"></div>
+            <p class="text">{{item}}</p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="tags-container">
+        <p class="title">Tags</p>
+        <div class="tags">
+          <div *ngFor="let tag of vacancy.tags" class="tag">
+            <p>{{tag}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

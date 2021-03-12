@@ -1,0 +1,49 @@
+@import "../../shared/variables";
+@import "../../shared/mixins";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: $primary-font;
+}
+
+.register-form {
+
+  .form-title {
+    margin-bottom: 40px;
+    font-size: 60px;
+    color: $bright-blue;
+  }
+
+  .fullName {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 440px;
+
+    .form-control {
+      @include form-control(215px)
+    }
+  }
+
+  .address {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 440px;
+    margin-bottom: 50px;
+
+    .dropdown {
+      width: 215px;
+    }
+  }
+
+  .form-control {
+    @include form-control();
+  }
+
+  .confirm-btn {
+    @include confirm-btn();
+  }
+}

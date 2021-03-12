@@ -1,0 +1,26 @@
+<div [formGroup]="parentFormGroup" class="container">
+  <div class="wrapper">
+    <p class="title">
+      {{title}}
+    </p>
+    <div class="list-container">
+      <div class="add-item">
+        <input (keydown.enter)="addItem()" [formControlName]="controlName" [placeholder]="placeholder" type="text">
+        <div (click)="addItem()" class="add">
+          <span class="iconify" data-icon="bi:plus" data-inline="false"></span>
+        </div>
+      </div>
+
+      <div *ngFor="let item of itemList; let idx = index" [@scaleAnimation] class="item-list">
+        <p class="item">{{item}}</p>
+
+        <div (click)="deleteItem(idx)" class="delete">
+          <span class="iconify" data-icon="mi:delete-alt" data-inline="false"></span>
+        </div>
+      </div>
+    </div>
+    <div class="error-message">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>

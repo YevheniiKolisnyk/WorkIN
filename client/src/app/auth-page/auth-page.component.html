@@ -1,0 +1,31 @@
+<main>
+  <div class="auth-container">
+    <div [@description]="canShowLogin ? 'move' : 'default'" class="description">
+      <div class="description-text">
+        <div [@description-login]="canShowLogin ? 'default' : 'move'" class="description-login">
+          <p class="title">Hello!</p>
+          <p class="subtitle">Enter your personal details and find your dream job</p>
+        </div>
+        <div [@description-register]="canShowLogin ? 'move' : 'default'" class="description-register">
+          <p class="title">Welcome back!</p>
+          <p class="subtitle">To keep connected with us please log with your personal account</p>
+        </div>
+      </div>
+      <div (click)="switchAuth()" class="button-container">
+        <p [@button-text-login]="canShowLogin ? 'default' : 'move'">Sign Up</p>
+        <p [@button-text-register]="canShowLogin ? 'move' : 'default'">Sign In</p>
+      </div>
+    </div>
+
+    <div [@form-container]="canShowLogin ? 'move' : 'default'" class="register-container">
+      <app-register-page
+        [@form]="canShowLogin ? 'default' : 'move'"
+        [canAnimate]="canShowLogin"
+        class="register"></app-register-page>
+      <app-login-page
+        [@form]="canShowLogin ? 'move' : 'default'"
+        [canAnimate]="canShowLogin"
+        class="login"></app-login-page>
+    </div>
+  </div>
+</main>

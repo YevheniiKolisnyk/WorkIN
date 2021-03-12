@@ -1,0 +1,126 @@
+<div #datepicker [formGroup]="parenFormGroup" class="datepicker">
+  <div class="form-control">
+    <input #calendarInput
+           (blur)="keepFocus()" (click)="openCalendar()"
+           [formControlName]="controlName"
+           [id]="controlName"
+           [placeholder]="title"
+           readonly
+           type="text">
+    <label [for]="controlName" class="label-animate">{{title}}</label>
+  </div>
+
+
+  <div #calendar *ngIf="showCalendar" class="calendar">
+    <div class="head">
+      <button
+        (click)="toggleSelection('year')"
+        [hidden]="showSelectorType === 'year'"
+        class="year"
+      >
+        {{currentYear}}
+      </button>
+
+      <button
+        (click)="toggleSelection('year')"
+        [hidden]="showSelectorType !== 'year'"
+        class="year"
+      >
+        {{currentYear + yearMultiplier}} - {{currentYear + yearMultiplier + 11}}
+      </button>
+
+      <div class="container">
+        <div class="btn-container">
+          <button
+            (click)="navigateSelector(false)"
+            [hidden]="!showPrevArrow"
+            class="btn">
+            <span class="iconify" data-icon="grommet-icons:form-previous" data-inline="false"></span>
+          </button>
+        </div>
+
+        <button
+          (click)="toggleSelection('month')"
+          class="month"
+        >
+          {{months[currentMonth]}}
+        </button>
+
+        <div class="btn-container">
+          <button
+            (click)="navigateSelector(true)"
+            [hidden]="!showNextArrow"
+            class="btn">
+            <span class="iconify" data-icon="grommet-icons:form-next" data-inline="false"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="showSelectorType === 'day'" class="daysOfWeek">
+      <p *ngFor="let day of daysOfWeek">{{day}}</p>
+    </div>
+
+
+    <div *ngIf="showSelectorType === 'day'" class="days">
+      <p *ngFor="let day of daysInPreviousMonthWeek"
+         class="invalid-day"
+      >
+        {{day}}
+      </p>
+
+      <p
+        *ngFor="let day of previousInvalidDays"
+        [ngClass]="{'invalid-day': day.status === 'invalid'}"
+      >
+        {{day.day}}
+      </p>
+
+      <p
+        (click)="selectDay(days.day)"
+        *ngFor="let days of daysInCurrentMonth"
+        [ngClass]="{
+          'selected-day': days.status === 'selected',
+          'invalid-day': days.status === 'invalid',
+          'available-day': days.status === 'available'
+          }"
+      >
+        {{days.day}}
+      </p>
+
+      <p
+        *ngFor="let day of afterInvalidDays"
+        [ngClass]="{'invalid-day': day.status === 'invalid'}"
+      >
+        {{day.day}}
+      </p>
+
+      <p *ngFor="let day of daysInNextMonthWeek"
+         class="invalid-day"
+      >
+        {{day}}
+      </p>
+    </div>
+
+    <div *ngIf="showSelectorType === 'month'" class="months">
+      <p
+        (click)="selectMonth(idx); $event.stopPropagation()"
+        *ngFor="let month of months; let idx = index"
+        class="month"
+      >{{month | slice:0:3}}</p>
+    </div>
+
+    <div *ngIf="showSelectorType === 'year'" class="years">
+      <p
+        (click)="selectYear(currentYear + yearMultiplier + idx); $event.stopPropagation()"
+        *ngFor="let _ of years; let idx = index"
+        class="year"
+      >{{currentYear + yearMultiplier + idx}}</p>
+    </div>
+
+  <div class="still-here" *ngIf="stillHere">
+    <input id="still" type="checkbox" (change)="isStillHere($event)">
+    <label for="still">Still study here?</label>
+  </div>
+  </div>
+</div>

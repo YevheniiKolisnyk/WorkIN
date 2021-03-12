@@ -1,0 +1,235 @@
+@import "../shared/variables";
+@import "../shared/mixins";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: $primary-font;
+}
+
+@mixin title() {
+  font-size: 35px;
+  color: $dark-blue;
+  margin-bottom: 70px;
+}
+
+main {
+  width: 100%;
+  padding: 0 150px 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .head {
+    font-size: 65px;
+    color: $dark-blue;
+  }
+
+
+  .progress-bar-container {
+    @include progress-bar();
+  }
+
+  form {
+    margin-top: 70px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .company-details {
+      width: 100%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 70px;
+      border-bottom: 1px solid #bbbbbb;
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        width: 1000px;
+
+        .title {
+          @include title();
+        }
+
+        .wrapper {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: flex-end;
+
+          .left {
+            .form-control {
+              @include form-control(440px, 35px);
+
+              .validation-error {
+                @include validation-error();
+              }
+            }
+
+            .dropdown {
+              width: 440px;
+              margin-bottom: 35px;
+              position: relative;
+
+              .validation-error {
+                @include validation-error();
+              }
+
+              &:last-child {
+                margin: 0;
+              }
+            }
+          }
+
+          .right {
+            margin-left: 120px;
+
+            .img-container {
+              position: relative;
+              display: flex;
+              flex-direction: column;
+
+              .validation-error {
+                @include validation-error();
+              }
+            }
+
+            .expiry-time {
+              margin-top: 35px;
+              position: relative;
+
+              .validation-error {
+                @include validation-error();
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .description {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-top: 70px;
+      padding-bottom: 70px;
+      border-bottom: 1px solid #bbbbbb;
+
+      .container {
+        width: 1000px;
+        display: flex;
+        flex-direction: column;
+
+        .title {
+          @include title();
+        }
+
+        .form-control {
+          @include form-control(1000px, 0);
+
+          .input {
+            padding: 10px;
+            resize: none;
+            transition: .3s ease;
+            -moz-transition: .3s ease;
+            -webkit-transition: .3s ease;
+
+            &:focus {
+              height: 310px;
+            }
+          }
+
+          .validation-error {
+            @include validation-error();
+          }
+        }
+      }
+    }
+
+    .organizational-matters {
+      width: 100%;
+      margin-top: 70px;
+      padding-bottom: 70px;
+      border-bottom: 1px solid #bbbbbb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .left {
+        .dropdown {
+          width: 440px;
+          position: relative;
+
+          .validation-error {
+            @include validation-error();
+          }
+
+          &:first-child {
+            margin-bottom: 35px;
+          }
+        }
+      }
+
+      .right {
+        margin-left: 120px;
+
+        .dropdown {
+          width: 440px;
+          margin-bottom: 35px;
+          position: relative;
+
+          .validation-error {
+            @include validation-error();
+          }
+        }
+
+        .form-control {
+          @include form-control();
+
+          input::-webkit-inner-spin-button,
+          input::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+          }
+
+          margin: 0;
+
+          .validation-error {
+            @include validation-error();
+          }
+        }
+      }
+    }
+
+    .responsibilities, .expectations, .benefits {
+      @include add-list-container();
+      position: relative;
+
+      .validation-error {
+        @include validation-error();
+      }
+    }
+  }
+
+  .tags {
+    width: 100%;
+    position: relative;
+
+    .validation-error {
+      @include validation-error();
+    }
+  }
+
+  .create {
+    margin-top: 70px;
+    @include confirm-btn();
+  }
+}

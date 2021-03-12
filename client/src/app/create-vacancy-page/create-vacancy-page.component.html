@@ -1,0 +1,336 @@
+<main>
+  <p class="head">Create Vacancy</p>
+
+  <div class="progress-bar-container">
+    <div
+      #progressBar
+      class="progress-bar">
+      <p
+        [ngStyle]="{'color': progressBarPercent() === 100 ? '#81F67E' : '#FF0000'}"
+        class="percent"
+      >
+        {{progressBarPercent()}}%<span>Complete</span>
+      </p>
+      <div class="bar">
+        <div
+          [ngStyle]="{
+      'width': progressBarPercent() + '%',
+      'background-color': progressBarPercent() === 100 ? '#81F67E' : '#FF0000'
+      }"
+          class="complete-bar"
+        ></div>
+      </div>
+    </div>
+  </div>
+
+  <form [formGroup]="form">
+    <div class="company-details">
+      <div class="container">
+        <p class="title">Company Details</p>
+        <div class="wrapper">
+          <div class="left">
+            <div class="form-control">
+              <input autocomplete="off" formControlName="title" id="job-title" placeholder="Job title" type="text">
+              <label class="label-animate" for="job-title">Job title</label>
+              <div class="validation-error">
+                <app-validation-error
+                  [control]="'title'"
+                  [errorType]="isControlValid('title')"
+                  [errorsArray]="errorsArray"
+                ></app-validation-error>
+              </div>
+            </div>
+
+            <div class="form-control">
+              <input autocomplete="off" formControlName="companyName" id="company-name" placeholder="Company name"
+                     type="text">
+              <label class="label-animate" for="company-name">Company name</label>
+              <div class="validation-error">
+                <app-validation-error
+                  [control]="'companyName'"
+                  [errorType]="isControlValid('companyName')"
+                  [errorsArray]="errorsArray"
+                ></app-validation-error>
+              </div>
+            </div>
+
+
+            <div class="dropdown">
+              <yk-drop-down-filter
+                (outputItem)="getCities($event)"
+                [allowFilter]="true"
+                [autocomplete]="'none'"
+                [controlName]="'country'"
+                [dataArray]="countries"
+                [parentFormGroup]="form"
+                [title]="'Countries'"
+              ></yk-drop-down-filter>
+              <div class="validation-error">
+                <app-validation-error
+                  [control]="'country'"
+                  [errorType]="isControlValid('country')"
+                  [errorsArray]="errorsArray"
+                ></app-validation-error>
+              </div>
+            </div>
+
+            <div class="dropdown">
+              <yk-drop-down-filter
+                (outputItem)="citiesItem = $event"
+                [allowFilter]="true"
+                [autocomplete]="'none'"
+                [controlName]="'city'"
+                [dataArray]="cities"
+                [parentFormGroup]="form"
+                [title]="'Cities'"
+              ></yk-drop-down-filter>
+              <div class="validation-error">
+                <app-validation-error
+                  [control]="'city'"
+                  [errorType]="isControlValid('city')"
+                  [errorsArray]="errorsArray"
+                ></app-validation-error>
+              </div>
+            </div>
+          </div>
+
+          <div class="right">
+            <!--        <div class="img-container">-->
+            <!--          <div class="wrapper">-->
+            <!--            <p class="title">Photo</p>-->
+            <!--            <div class="img">-->
+            <!--              <img-->
+            <!--                (click)="changeUserPic()"-->
+            <!--                [src]="!image ? '../../assets/create-page/upload-image.svg' : imagePreview"-->
+            <!--                alt="Company image">-->
+            <!--            </div>-->
+            <!--            <div class="validation-error">-->
+            <!--              <app-form-error-->
+            <!--                [displayError]="isControlValid('companyPic')"-->
+            <!--                [errorsMessages]="errorsArray.companyPic"-->
+            <!--              ></app-form-error>-->
+            <!--            </div>-->
+            <!--          </div>-->
+
+            <!--          <div class="buttons">-->
+            <!--            <input-->
+            <!--              #fileInput-->
+            <!--              (change)="onFileUpload($event)"-->
+            <!--              accept=".png, .jpg, .jpeg"-->
+            <!--              formControlName="companyPic" id="image-upload"-->
+            <!--              type="file">-->
+            <!--            <label for="image-upload">-->
+            <!--              <span class="iconify" data-icon="feather:edit" data-inline="false" style="color: #757575;"></span>-->
+            <!--              Upload photo-->
+            <!--            </label>-->
+            <!--            <div (click)="deleteImg()" class="delete">-->
+            <!--            <span class="iconify" data-icon="ic:baseline-delete-outline" data-inline="false"-->
+            <!--                  style="color: #757575;"></span>-->
+            <!--              <p>Delete</p>-->
+            <!--            </div>-->
+            <!--          </div>-->
+            <!--        </div>-->
+
+            <div class="img-container">
+              <app-upload-photo
+                (uploadedFile)="onImageUpload($event)"
+                [className]="'create-vacancy'"
+                [controlName]="'companyPic'"
+                [parentFormGroup]="form"
+              ></app-upload-photo>
+              <div class="validation-error">
+                <app-validation-error
+                  [control]="'title'"
+                  [errorType]="isControlValid('title')"
+                  [errorsArray]="errorsArray"
+                ></app-validation-error>
+              </div>
+            </div>
+
+
+            <div class="expiry-time">
+              <app-calendar
+                (output)="getExpiryDays($event)"
+                [controlName]="'expiryTime'"
+                [fixedDate]="60"
+                [parenFormGroup]="form"
+                [stillHere]="false"
+                [title]="'Available until'"
+              ></app-calendar>
+              <div class="validation-error">
+                <app-validation-error
+                  [control]="'expiryTime'"
+                  [errorType]="isControlValid('expiryTime')"
+                  [errorsArray]="errorsArray"
+                ></app-validation-error>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="description">
+      <div class="container">
+        <p class="title">Description</p>
+        <div class="form-control">
+        <textarea
+          class="input"
+          cols="30"
+          formControlName="description"
+          id="description"
+          placeholder="Include 2-3 clear sentences about your company"
+          rows="10"
+        ></textarea>
+          <label class="label-animate" for="description">
+            Include 2-3 clear sentences about your company
+          </label>
+          <div class="validation-error">
+            <app-validation-error
+              [control]="'description'"
+              [errorType]="isControlValid('description')"
+              [errorsArray]="errorsArray"
+            ></app-validation-error>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="organizational-matters">
+      <div class="left">
+        <div class="dropdown">
+          <yk-drop-down-filter
+            [allowFilter]="false"
+            [autocomplete]="'off'"
+            [controlName]="'contractType'"
+            [dataArray]="contractTypes"
+            [parentFormGroup]="form"
+            [title]="'Contract Type'"
+          ></yk-drop-down-filter>
+          <div class="validation-error">
+            <app-validation-error
+              [control]="'contractType'"
+              [errorType]="isControlValid('contractType')"
+              [errorsArray]="errorsArray"
+            ></app-validation-error>
+          </div>
+        </div>
+
+        <div class="dropdown">
+          <yk-drop-down-filter
+            [allowFilter]="false"
+            [autocomplete]="'off'"
+            [controlName]="'workTime'"
+            [dataArray]="workTimes"
+            [parentFormGroup]="form"
+            [title]="'Work Time'"
+          ></yk-drop-down-filter>
+          <div class="validation-error">
+            <app-validation-error
+              [control]="'workTime'"
+              [errorType]="isControlValid('workTime')"
+              [errorsArray]="errorsArray"
+            ></app-validation-error>
+          </div>
+        </div>
+      </div>
+
+      <div class="right">
+        <div class="dropdown">
+          <yk-drop-down-filter
+            [allowFilter]="false"
+            [autocomplete]="'off'"
+            [controlName]="'experience'"
+            [dataArray]="experience"
+            [parentFormGroup]="form"
+            [title]="'Experience'"
+          ></yk-drop-down-filter>
+          <div class="validation-error">
+            <app-validation-error
+              [control]="'experience'"
+              [errorType]="isControlValid('experience')"
+              [errorsArray]="errorsArray"
+            ></app-validation-error>
+          </div>
+        </div>
+
+        <div class="form-control">
+          <input formControlName="salary" id="salary" placeholder="Salary $" type="number">
+          <label class="label-animate" for="salary">Salary $</label>
+          <div class="validation-error">
+            <app-validation-error
+              [control]="'salary'"
+              [errorType]="isControlValid('salary')"
+              [errorsArray]="errorsArray"
+            ></app-validation-error>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="responsibilities">
+      <app-add-list
+        (outputItem)="responsibilities = $event"
+        [controlName]="'responsibilities'"
+        [parentFormGroup]="form"
+        [title]="'responsibilities'"
+      >
+        <app-validation-error
+          [control]="'responsibilities'"
+          [errorType]="isControlValid('responsibilities')"
+          [errorsArray]="errorsArray"
+        ></app-validation-error>
+      </app-add-list>
+    </div>
+
+    <div class="expectations">
+      <app-add-list
+        (outputItem)="expectations = $event"
+        [controlName]="'expectations'"
+        [parentFormGroup]="form"
+        [title]="'expectations'"
+      >
+        <app-validation-error
+          [control]="'expectations'"
+          [errorType]="isControlValid('expectations')"
+          [errorsArray]="errorsArray"
+        ></app-validation-error>
+      </app-add-list>
+    </div>
+
+    <div class="benefits">
+      <app-add-list
+        (outputItem)="benefits = $event"
+        [controlName]="'benefits'"
+        [parentFormGroup]="form"
+        [title]="'benefits'"
+      >
+        <app-validation-error
+          [control]="'benefits'"
+          [errorType]="isControlValid('benefits')"
+          [errorsArray]="errorsArray"
+        ></app-validation-error>
+      </app-add-list>
+    </div>
+
+    <div class="tags">
+      <app-chips
+        (outputArray)="tags = $event"
+        [controlName]="'tags'"
+        [parentFormGroup]="form"
+        [placeholder]="'Tag'"
+        [title]="'Tags'"
+      >
+        <app-validation-error
+          [control]="'tags'"
+          [errorType]="isControlValid('tags')"
+          [errorsArray]="errorsArray"
+        ></app-validation-error>
+      </app-chips>
+    </div>
+
+    <button (click)="submit()" class="create" type="button">Save</button>
+  </form>
+</main>
+
+

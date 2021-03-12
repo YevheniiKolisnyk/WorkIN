@@ -1,0 +1,35 @@
+<main>
+  <div class="links-container">
+    <a routerLink="/" class="logo">
+      <img alt="logo" src="../../assets/logo.svg">
+    </a>
+
+    <div class="links">
+      <a routerLink="/">Vacancies</a>
+      <a routerLink="/createVacancy">Create Vacancy</a>
+      <a routerLink="/createCv">Create CV</a>
+    </div>
+  </div>
+
+  <div *ngIf="user" class="user-container">
+    <a class="favorite" href="">
+      <span class="iconify" data-icon="ant-design:star-outlined" data-inline="false"></span>
+      <p class="count">{{user.favorite.length}}</p>
+    </a>
+
+    <div class="user">
+      <span class="iconify" data-icon="bi:person" data-inline="false"></span>
+      <p class="username">{{user.firstName}}</p>
+      <div class="arrow">
+        <span class="iconify arrow" data-icon="eva:arrow-ios-downward-outline" data-inline="false"></span>
+      </div>
+      <div class="dropdown">
+        <button (click)="viewProfile(user._id)" class="btn">View Profile</button>
+        <button (click)="logout()" class="btn">Logout</button>
+      </div>
+    </div>
+  </div>
+
+    <a *ngIf="!user" routerLink="/auth">LogIn</a>
+
+</main>

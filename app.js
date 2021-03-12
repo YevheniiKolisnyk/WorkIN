@@ -6,6 +6,7 @@ const cors = require('cors')
 const passportMiddleware = require('./middlewares/passport')
 const authRoute = require('./routes/auth.route')
 const vacancyRoute = require('./routes/vacancy.route')
+const cvRoute = require('./routes/cv.route')
 const profileRoute = require('./routes/profile.route')
 const keys = require('./config/keys')
 
@@ -27,5 +28,6 @@ app.use(cors())
 app.use('/api/auth', authRoute)
 app.use('/api/vacancy', vacancyRoute)
 app.use('/api/profile', profileRoute)
+app.use('/api/cv', cvRoute)
 
 module.exports = app

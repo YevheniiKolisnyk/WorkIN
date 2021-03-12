@@ -1,0 +1,413 @@
+<main #top [formGroup]="form" [ngClass]="{'showPdf': showPdf}">
+  <p class="title">Editor</p>
+
+  <div class="personal-details">
+    <div class="container">
+      <p class="title">Personal Details</p>
+      <div class="wrapper">
+        <div class="left">
+          <div class="img-container">
+            <app-upload-photo
+              (uploadedFile)="onImageUpload($event)"
+              [className]="'create-cv'"
+              [controlName]="'userPic'"
+              [parentFormGroup]="form"
+            ></app-upload-photo>
+            <div class="validation-error">
+              <app-validation-error
+                [control]="'userPic'"
+                [errorType]="isControlValid('userPic')"
+                [errorsArray]="errorsArray"
+              ></app-validation-error>
+            </div>
+          </div>
+
+          <div class="form-control">
+            <input
+              autocomplete="none"
+              formControlName="position"
+              id="position"
+              placeholder="Your position"
+              type="text"
+            >
+            <label class="label-animate" for="position">Your position</label>
+          </div>
+
+          <div class="full-name">
+            <div class="form-control">
+              <input
+                formControlName="firstName"
+                id="firstName"
+                placeholder="First name"
+                type="text"
+              >
+              <label class="label-animate" for="firstName">First name</label>
+              <div class="validation-error">
+                <app-validation-error
+                  [control]="'firstName'"
+                  [errorType]="isControlValid('firstName')"
+                  [errorsArray]="errorsArray"
+                ></app-validation-error>
+              </div>
+            </div>
+
+            <div class="form-control">
+              <input
+                formControlName="lastName"
+                id="lastName"
+                placeholder="Last name"
+                type="text">
+              <label class="label-animate" for="lastName">Last name</label>
+              <div class="validation-error">
+                <app-validation-error
+                  [control]="'lastName'"
+                  [errorType]="isControlValid('lastName')"
+                  [errorsArray]="errorsArray"
+                ></app-validation-error>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="right">
+          <div class="date-of-birth">
+            <div class="day">
+              <yk-drop-down-filter
+                (outputItem)="setDay($event)"
+                [allowFilter]="false"
+                [autocomplete]="'off'"
+                [controlName]="'day'"
+                [dataArray]="days"
+                [parentFormGroup]="form"
+                [title]="'Day'"
+              ></yk-drop-down-filter>
+            </div>
+
+            <div class="month">
+              <yk-drop-down-filter
+                (outputItem)="setMonth($event)"
+                [allowFilter]="false"
+                [autocomplete]="'off'"
+                [controlName]="'month'"
+                [dataArray]="months"
+                [parentFormGroup]="form"
+                [title]="'Month'"
+              ></yk-drop-down-filter>
+            </div>
+
+            <div class="year">
+              <yk-drop-down-filter
+                (outputItem)="setYear($event)"
+                [allowFilter]="false"
+                [autocomplete]="'off'"
+                [controlName]="'year'"
+                [dataArray]="years"
+                [parentFormGroup]="form"
+                [title]="'Year'"
+              ></yk-drop-down-filter>
+            </div>
+
+            <div class="validation-error">
+              <app-validation-error
+                [control]="'dateOfBirth'"
+                [errorType]="isControlValid('dateOfBirth')"
+                [errorsArray]="errorsArray"
+              ></app-validation-error>
+            </div>
+          </div>
+
+          <div class="address">
+            <div class="country">
+              <yk-drop-down-filter
+                (outputItem)="setCountry($event)"
+                [allowFilter]="true"
+                [autocomplete]="'none'"
+                [controlName]="'country'"
+                [dataArray]="countries"
+                [parentFormGroup]="form"
+                [title]="'Country'"
+              ></yk-drop-down-filter>
+              <div class="validation-error">
+                <app-validation-error
+                  [control]="'country'"
+                  [errorType]="isControlValid('country')"
+                  [errorsArray]="errorsArray"
+                ></app-validation-error>
+              </div>
+            </div>
+
+            <div class="city">
+              <yk-drop-down-filter
+                (outputItem)="setCity($event)"
+                [allowFilter]="true"
+                [autocomplete]="'none'"
+                [controlName]="'city'"
+                [dataArray]="cities"
+                [parentFormGroup]="form"
+                [title]="'City'"
+              ></yk-drop-down-filter>
+              <div class="validation-error">
+                <app-validation-error
+                  [control]="'city'"
+                  [errorType]="isControlValid('city')"
+                  [errorsArray]="errorsArray"
+                ></app-validation-error>
+              </div>
+            </div>
+          </div>
+
+          <div class="wrapper">
+            <div class="form-control">
+              <input
+                autocomplete="none"
+                formControlName="nationality"
+                id="nationality"
+                placeholder="Nationality"
+                type="text">
+              <label class="label-animate" for="nationality">Nationality</label>
+            </div>
+
+            <div class="form-control">
+              <input
+                autocomplete="none"
+                formControlName="phone"
+                id="phone"
+                placeholder="Phone"
+                type="text">
+              <label class="label-animate" for="phone">Phone</label>
+              <div class="validation-error">
+                <app-validation-error
+                  [control]="'phone'"
+                  [errorType]="isControlValid('phone')"
+                  [errorsArray]="errorsArray"
+                ></app-validation-error>
+              </div>
+            </div>
+          </div>
+
+          <div class="email">
+            <input
+              formControlName="email"
+              id="email"
+              placeholder="Email"
+              type="text">
+            <label class="label-animate" for="email">Email</label>
+            <div class="validation-error">
+              <app-validation-error
+                [control]="'email'"
+                [errorType]="isControlValid('email')"
+                [errorsArray]="errorsArray"
+              ></app-validation-error>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="about-yourself">
+    <div class="container">
+      <p class="title">About yourself</p>
+      <div class="form-control">
+          <textarea
+            class="input"
+            cols="30"
+            formControlName="aboutYourself"
+            id="about"
+            placeholder="Include 2-3 clear sentences about yourself"
+            rows="10"
+          ></textarea>
+        <label class="label-animate" for="about">
+          Include 2-3 clear sentences about yourself
+        </label>
+
+        <div class="validation-error">
+          <app-validation-error
+            [control]="'aboutYourself'"
+            [errorType]="isControlValid('aboutYourself')"
+            [errorsArray]="errorsArray"
+          ></app-validation-error>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="education">
+    <app-cv-add-list
+      (outputList)="educationHistory = $event"
+      [cityControlName]="'educationCity'"
+      [countryControlName]="'educationCountry'"
+      [endDateControlName]="'educationEnd'"
+      [labelTitle]="'University'"
+      [orgControlName]="'degree'"
+      [parentFormGroup]="form.controls.educationGroup"
+      [showOrgDropdown]="true"
+      [startDateControlName]="'educationStart'"
+      [titleControlName]="'university'"
+      [title]="'School'"
+      [validationErrors]="errorsArray.education"
+    ></app-cv-add-list>
+  </div>
+
+  <div class="employment-history">
+    <app-cv-add-list
+      (outputList)="employmentHistory = $event"
+      [cityControlName]="'workCity'"
+      [countryControlName]="'workCountry'"
+      [endDateControlName]="'workEnd'"
+      [labelTitle]="'Job title'"
+      [orgControlName]="'employer'"
+      [parentFormGroup]="form.controls.employmentHistoryGroup"
+      [showOrgDropdown]="false"
+      [startDateControlName]="'workStart'"
+      [titleControlName]="'jobTitle'"
+      [title]="'Employment history'"
+      [validationErrors]="errorsArray.employmentHistory"
+    ></app-cv-add-list>
+  </div>
+
+  <div class="skills">
+    <app-chips
+      (outputArray)="skills = $event"
+      [controlName]="'skills'"
+      [parentFormGroup]="form"
+      [placeholder]="'Skill'"
+      [title]="'Skills'"
+    >
+    </app-chips>
+  </div>
+
+
+  <!--  <div class="links-and-languages">-->
+  <!--    <div class="container">-->
+  <!--      <div class="links" formGroupName="linksGroup">-->
+  <!--        <p class="title">Links</p>-->
+
+  <!--        <div class="add-links">-->
+  <!--          <div class="form-control">-->
+  <!--            <input-->
+  <!--              autocomplete="off"-->
+  <!--              formControlName="link"-->
+  <!--              id="link"-->
+  <!--              placeholder="Link"-->
+  <!--              type="text"-->
+  <!--            >-->
+  <!--            <label class="label-animate" for="link">Link</label>-->
+  <!--          </div>-->
+
+  <!--          <div class="wrapper">-->
+  <!--            <div class="form-control">-->
+  <!--              <input-->
+  <!--                autocomplete="off"-->
+  <!--                formControlName="linkLabel"-->
+  <!--                id="linkTitle"-->
+  <!--                placeholder="Label"-->
+  <!--                type="text"-->
+  <!--              >-->
+  <!--              <label class="label-animate" for="linkTitle">Label</label>-->
+  <!--            </div>-->
+  <!--            <button (click)="addLink()" class="add-btn">Save</button>-->
+  <!--          </div>-->
+
+  <!--          <ul class="link-list">-->
+  <!--            <li *ngFor="let item of links; let idx = index">-->
+  <!--              <p class="link-title">{{item.label}}</p>-->
+  <!--              <span class="line"></span>-->
+  <!--              <a [href]="'http://' + item.link" class="link" target="_blank">{{item.link}}</a>-->
+  <!--              <button (click)="deleteLink(idx)" class="delete">-->
+  <!--                <span class="iconify" data-icon="mi:delete-alt" data-inline="false"></span>-->
+  <!--              </button>-->
+  <!--            </li>-->
+  <!--          </ul>-->
+  <!--        </div>-->
+  <!--      </div>-->
+
+  <!--      <div class="languages" formGroupName="languagesGroup">-->
+  <!--        <div class="title">Languages</div>-->
+  <!--        <div class="add-languages">-->
+  <!--          <div class="form-control">-->
+  <!--            <input-->
+  <!--              autocomplete="off"-->
+  <!--              formControlName="languageName"-->
+  <!--              id="language-name"-->
+  <!--              placeholder="Language"-->
+  <!--              type="text">-->
+  <!--            <label class="label-animate" for="language-name">Language</label>-->
+  <!--          </div>-->
+
+  <!--          <div class="wrapper">-->
+  <!--            <div class="dropdown-container">-->
+  <!--              <yk-drop-down-filter-->
+  <!--                [allowFilter]="false"-->
+  <!--                [autocomplete]="'off'"-->
+  <!--                [controlName]="'languageLevel'"-->
+  <!--                [dataArray]="languageLevelsArray"-->
+  <!--                [parentFormGroup]="form.controls.languagesGroup"-->
+  <!--                [title]="'Level'">-->
+  <!--              </yk-drop-down-filter>-->
+  <!--            </div>-->
+
+  <!--            <button (click)="addLanguage()" class="save-btn" type="button">Save</button>-->
+  <!--          </div>-->
+  <!--        </div>-->
+
+  <!--        <ul class="languages-list">-->
+  <!--          <li *ngFor="let language of languages; let idx = index">-->
+  <!--            <p class="language">{{language.languageName}}</p>-->
+  <!--            <p class="language-level">{{language.languageLevel}}</p>-->
+  <!--            <button (click)="deleteLanguage(idx)" class="delete">-->
+  <!--              <span class="iconify" data-icon="mi:delete-alt" data-inline="false"></span>-->
+  <!--            </button>-->
+  <!--          </li>-->
+  <!--        </ul>-->
+  <!--      </div>-->
+  <!--    </div>-->
+  <!--  </div>-->
+
+  <div class="links">
+    <app-cv-add-list-simplified
+      (outputList)="links = $event"
+      [leftControlName]="'linkLabel'"
+      [leftControlTitle]="'Label'"
+      [parentFormGroup]="form.controls.linksGroup"
+      [rightControlName]="'link'"
+      [rightControlTitle]="'Link'"
+      [title]="'Websites & Social Links'"
+    >
+    </app-cv-add-list-simplified>
+  </div>
+
+  <div class="languages">
+    <app-cv-add-list-simplified
+      (outputList)="languages = $event"
+      [leftControlName]="'languageName'"
+      [leftControlTitle]="'Language'"
+      [parentFormGroup]="form.controls.languagesGroup"
+      [rightControlName]="'languageLevel'"
+      [rightControlTitle]="'Level'"
+      [title]="'Languages'"
+    >
+    </app-cv-add-list-simplified>
+  </div>
+
+  <button
+    (click)="onSubmit(top)"
+    [disabled]="showLoader"
+    class="save"
+    type="button"
+  >Save
+  </button>
+</main>
+
+<div [ngClass]="{'show-download': showPdf && submitted, 'hide-download': !showPdf && submitted}"
+     class="download-container">
+  <app-download-pdf
+    (showPdf)="showPdf = $event"
+    [pdfUrl]="pdfUrl"></app-download-pdf>
+</div>
+
+<div *ngIf="showLoader" class="loader">
+  <app-loader></app-loader>
+</div>
+
+<button (click)="test()" style="position:fixed;top: 20px;left: 20px;">switch</button>

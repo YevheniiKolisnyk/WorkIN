@@ -38,6 +38,24 @@ const vacancyScheme = new mongoose.Schema({
     type: String,
     required: true
   },
+  expectations: [
+    {
+      type: String,
+      required: true
+    }
+  ],
+  responsibilities: [
+    {
+      type: String,
+      required: true
+    }
+  ],
+  benefits: [
+    {
+      type: String,
+      required: true
+    }
+  ],
   salary: {
     type: Number,
     required: true
@@ -59,6 +77,14 @@ const vacancyScheme = new mongoose.Schema({
       cvSrc: {
         type: String,
         required: true
+      }
+    }
+  ],
+  subscribers: [
+    {
+      user: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Users'
       }
     }
   ],

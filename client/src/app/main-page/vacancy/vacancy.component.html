@@ -1,0 +1,39 @@
+<div class="vacancy">
+  <img [src]="vacancy.companyPic" alt="">
+
+  <div class="vacancy-info">
+    <div class="top">
+      <a [routerLink]="['/vacancy/' + vacancy._id]" class="vacancy-title">{{vacancy.title}}</a>
+
+
+      <div class="favorite">
+        <app-favorite [id]="vacancy._id"></app-favorite>
+      </div>
+    </div>
+
+    <div class="middle">
+      <p class="company-name">{{vacancy.companyName}}</p>
+    </div>
+
+    <div class="bottom">
+      <div class="vacancy-description">
+        <div class="description">
+          <span class="iconify" data-icon="carbon:location" data-inline="false"></span>
+          <p>{{vacancy.location}}</p>
+        </div>
+
+        <div class="description">
+          <span class="iconify" data-icon="bi:bar-chart-line" data-inline="false"></span>
+          <p>{{vacancy.experience}}</p>
+        </div>
+
+        <div class="description">
+          <span class="iconify" data-icon="ant-design:field-time-outlined" data-inline="false"></span>
+          <p>{{vacancy.workTime}}</p>
+        </div>
+      </div>
+
+      <p class="expiry-time">June 18,2020</p>
+    </div>
+  </div>
+</div>

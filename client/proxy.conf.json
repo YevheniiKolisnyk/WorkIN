@@ -1,0 +1,18 @@
+{
+  "/api/*": {
+    "target": "http://localhost:3000",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  },
+  "/uploads/*": {
+    "target": "http://localhost:3000",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  },
+  "/api/country/*": {
+    "target": "http://battuta.medunes.net/api/country/",
+    "secure": false
+  }
+}

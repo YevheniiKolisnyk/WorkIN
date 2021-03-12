@@ -1,0 +1,131 @@
+@import "../../../shared/variables";
+@import "../../../shared/mixins";
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: $primary-font;
+}
+
+.container {
+  width: 100%;
+  position: relative;
+
+  .title {
+    text-transform: capitalize;
+    width: 100%;
+    font-size: 35px;
+    color: $dark-blue;
+    margin-bottom: 50px;
+  }
+
+  .add-input {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    background-color: transparent;
+    font-size: 25px;
+    color: $bright-blue;
+  }
+
+  .add {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    textarea {
+      resize: none;
+      width: 93%;
+      padding: 10px;
+      height: 100px;
+      border: 1px solid $bright-blue;
+      border-radius: 20px;
+      background-color: $light-grey;
+      outline: none;
+      color: $dark-blue;
+      font-size: 18px;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    button {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #ffffff;
+      outline: none;
+      cursor: pointer;
+      border: 1px solid $bright-blue;
+      font-size: 20px;
+      border-radius: 5px;
+    }
+  }
+
+  ul {
+    width: 1000px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    li {
+      border: 1px solid $bright-blue;
+      border-radius: 20px;
+      padding: 40px 25px;
+      margin-top: 15px;
+      list-style: none;
+      display: flex;
+      align-items: center;
+
+      .arrow {
+        @include arrow();
+        margin-right: 20px;
+      }
+
+      .delete {
+        cursor: pointer;
+        margin-right: 20px;
+        display: none;
+
+        .iconify {
+          font-size: 20px;
+          color: #FF0000;
+        }
+      }
+
+      p {
+        width: calc(100% - 30px);
+        color: $dark-blue;
+        font-size: 18px;
+      }
+
+      &:hover {
+        border-color: #FF0000;
+
+        .arrow {
+          display: none;
+        }
+
+        .delete {
+            display: flex;
+        }
+      }
+    }
+  }
+
+  .error-message {
+    width: 100%;
+    position: absolute;
+    top: 100%;
+    left: 0;
+  }
+}

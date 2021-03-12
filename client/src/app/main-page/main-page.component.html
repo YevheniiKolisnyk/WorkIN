@@ -1,0 +1,135 @@
+<main>
+  <div class="search-container">
+    <div class="background">
+      <p>Find your dream job</p>
+    </div>
+
+    <div [formGroup]="form" class="search">
+      <div class="vacancy-search-container">
+        <span class="iconify" data-icon="eva:search-outline" data-inline="false"></span>
+        <input
+          class="vacancy-search"
+          formControlName="searchInput"
+          placeholder="Search for job Posting"
+          type="text">
+
+        <div
+          (click)="clearVacanciesInput()"
+          [ngClass]="{visible: form.get('searchInput').value}"
+          class="clear-vacancies-input"></div>
+      </div>
+
+      <div #dropdownContainer class="location-container">
+        <div class="location-search-container">
+          <span class="iconify location-icon" data-icon="carbon:location" data-inline="false"></span>
+          <input
+            #locationInput
+            (blur)="keepFocus()"
+            (click)="openLocationMenu()"
+            (input)="getFilteredList()"
+            class="location-search"
+            formControlName="locationInput"
+            placeholder="Set Location"
+            type="text">
+          <div
+            (click)="showLocationMenu ? closeLocationMenu() : openLocationMenu()"
+            [ngStyle]="{'transform': !showLocationMenu ? 'rotateX(0)': 'rotateX(180deg)'}"
+            class="arrow-container">
+             <span
+               class="iconify"
+               data-icon="eva:arrow-ios-downward-outline"
+               data-inline="false"></span>
+          </div>
+
+          <div
+            (click)="clearLocationInput()"
+            [ngClass]="{visible: form.get('locationInput').value}"
+            class="clear-location-input"
+          ></div>
+
+        </div>
+
+        <div #locationDropdown *ngIf="showLocationMenu" class="options">
+          <div
+            (click)="selectItem(i)"
+            *ngFor="let item of filteredList; let i = index"
+            class="item-container"
+          >
+            <p *ngIf="!showDropdownError || filteredList.length" class="item">{{item}}</p>
+          </div>
+          <div *ngIf="showDropdownError || !filteredList.length" class="error">
+            <p class="item">Not found</p>
+          </div>
+        </div>
+
+        <button
+          (click)="search()"
+          [disabled]="!form.get('searchInput').value && !form.get('locationInput').value"
+          class="btn"
+        >
+          Search
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!--  <div *ngIf="showLoader" class="loader-container">-->
+  <!--    <div class="vacancies">-->
+  <!--      <div class="vacancy-container">-->
+  <!--        <div *ngFor="let vacancy of vacancies" class="vacancy">-->
+  <!--          <div class="img"></div>-->
+  <!--          <div class="vacancy-info">-->
+  <!--            <div class="top">-->
+  <!--              <div class="vacancy-title"></div>-->
+  <!--              <div class="favorite"></div>-->
+  <!--            </div>-->
+  <!--            <div class="company-name"></div>-->
+  <!--            <div class="bottom">-->
+  <!--              <div class="vacancy-description"></div>-->
+  <!--              <div class="expiry-time"></div>-->
+  <!--            </div>-->
+  <!--          </div>-->
+  <!--        </div>-->
+  <!--      </div>-->
+  <!--    </div>-->
+
+  <!--    <div class="filter-container">-->
+  <!--      <div class="filter-title"></div>-->
+  <!--      <div class="line"></div>-->
+  <!--      <ul class="filter">-->
+  <!--        <li *ngFor="let tag of tags">-->
+  <!--          <div class="checkbox"></div>-->
+  <!--          <div class="label"></div>-->
+  <!--        </li>-->
+  <!--      </ul>-->
+  <!--    </div>-->
+  <!--  </div>-->
+
+
+  <div class="vacancies-container">
+    <div class="vacancies">
+      <div *ngIf="showLoader" class="loader">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="vacancy-container">
+        <app-vacancy
+          *ngFor="let vacancy of vacancies"
+          [vacancy]="vacancy"
+        ></app-vacancy>
+      </div>
+
+
+    </div>
+    <div class="filter-container">
+      <app-filter
+        (isPending)="showLoader = $event"
+        (response)="getTags($event)"
+        [tags]="tags"
+      ></app-filter>
+    </div>
+  </div>
+</main>
+

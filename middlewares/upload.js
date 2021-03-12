@@ -10,6 +10,8 @@ const storage = multer.diskStorage({
       dir = 'uploads/cv'
     } else if (file.fieldname === 'companyPic') {
       dir = 'uploads/companyPics'
+    } else if (file.fieldname === 'cvUserPic') {
+      dir = 'uploads/cv/pics'
     }
 
     cb(null, dir)

@@ -1,0 +1,8 @@
+<div *ngFor="let error of errorsArray[control]" class="error-container">
+  <p
+    *ngIf="error.type === errorType"
+    class="error-message"
+  >
+    {{error.message}}
+  </p>
+</div>
