@@ -1,0 +1,132 @@
+@import "../../../shared/variables";
+@import "../../../shared/mixins";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: $primary-font;
+}
+
+
+.container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 70px;
+  padding-bottom: 70px;
+  border-bottom: 1px solid #bbbbbb;
+
+  .wrapper {
+    position: relative;
+    width: 1000px;
+
+    .title {
+      font-size: 35px;
+      color: $dark-blue;
+      margin-bottom: 50px;
+    }
+
+    .list-container {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+
+      .add-item {
+        margin-right: 15px;
+        width: 200px;
+        height: 50px;
+        border: 1px solid $bright-blue;
+        border-radius: 15px;
+        padding: 5px 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: $light-grey;
+        margin-bottom: 15px;
+
+        input {
+          width: calc(100% - 25px);
+          height: 100%;
+          outline: none;
+          border-radius: 15px;
+          font-size: 18px;
+          background-color: transparent;
+          border: none;
+          color: $dark-blue;
+        }
+
+        .add {
+          width: 20px;
+          height: 20px;
+          border: 1px solid $bright-blue;
+          border-radius: 5px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+
+          .iconify {
+            color: $bright-blue;
+          }
+        }
+      }
+
+      .item-list {
+        position: relative;
+        margin: 0 15px 15px 0;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 50px;
+        background-color: $bright-blue;
+        color: #ffffff;
+        font-size: 18px;
+        border: 1px solid $bright-blue;
+        border-radius: 15px;
+
+        .item {
+          cursor: default;
+        }
+
+        .delete {
+          display: none;
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+          cursor: pointer;
+          align-items: center;
+          justify-content: center;
+
+          .iconify {
+            color: #FF0000;
+            font-size: 18px;
+          }
+        }
+
+        &:hover {
+          background-color: #ffffff;
+          color: #ff0000;
+          border-color: #ff0000;
+
+          p {
+            visibility: hidden;
+          }
+
+          .delete {
+            display: flex;
+          }
+        }
+      }
+    }
+
+    .error-message {
+      width: 100%;
+      position: absolute;
+      top: 100%;
+      left: 0;
+    }
+  }
+}

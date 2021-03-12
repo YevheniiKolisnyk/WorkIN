@@ -1,6 +1,5 @@
-import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core'
+import {Component, Input, OnInit} from '@angular/core'
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms'
-import {CountriesService} from '../../shared/services/countries.service'
 import {AuthService} from '../../shared/services/auth.service'
 
 import countriesJSON from '../../shared/countries.min.json'
@@ -14,9 +13,7 @@ export class RegisterPageComponent implements OnInit {
 
   @Input() canAnimate
   form: FormGroup
-
   error = ''
-
   errorMessages = {
     firsName: [
       {type: 'required', message: 'First name is required'}
@@ -48,26 +45,14 @@ export class RegisterPageComponent implements OnInit {
       {type: 'mustMatch', message: 'Passwords must match'}
     ]
   }
-
   countries: string[] = Object.keys(countriesJSON)
-  countriesInputItem = ''
-  countriesListHidden: boolean = true
-  countriesShowError = false
-  countriesSelectedIndex: number = -1
-  countriesFilteredList: string[] = []
-
+  country: string
   cities: string[] = []
-  citiesInputItem = ''
-  citiesListHidden: boolean = true
-  citiesShowError = false
-  citiesSelectedIndex: number = -1
-  citiesFilteredList: string[] = []
+  city: string
 
   constructor(
-    private countriesService: CountriesService,
     private authService: AuthService,
     private formBuilder: FormBuilder,
-    private ref: ChangeDetectorRef
   ) {
   }
 
@@ -113,110 +98,6 @@ export class RegisterPageComponent implements OnInit {
     }
   }
 
-
-  getFilteredList(type) {
-    if (type === 'countries') {
-      this.countriesListHidden = false
-      this.ref.detectChanges()
-      if (!this.countriesListHidden && this.countriesInputItem !== undefined) {
-        this.countriesFilteredList = this.countries.filter((item) => {
-          return item.toLowerCase().startsWith(this.countriesInputItem.toLowerCase())
-        })
-      }
-
-      if (this.countriesInputItem !== undefined && !this.countries.find(item => {
-        return item.toLowerCase().startsWith(this.countriesInputItem.toLowerCase())
-      })) {
-        this.countriesShowError = true
-      } else {
-        this.countriesShowError = false
-      }
-    } else {
-      this.citiesListHidden = false
-      this.ref.detectChanges()
-      if (!this.citiesListHidden && this.citiesInputItem !== undefined) {
-        this.citiesFilteredList = this.cities.filter((item) => {
-          return item.toLowerCase().startsWith(this.citiesInputItem.toLowerCase())
-        })
-      }
-
-      if (this.citiesInputItem !== undefined && !this.cities.find(item => {
-        return item.toLowerCase().startsWith(this.citiesInputItem.toLowerCase())
-      })) {
-        this.citiesShowError = true
-      } else {
-        this.citiesShowError = false
-      }
-    }
-  }
-
-  selectItem(idx, click, type) {
-    if (type === 'countries') {
-      this.countriesInputItem = this.countriesFilteredList[idx]
-      this.countriesSelectedIndex = idx
-      this.ref.detectChanges()
-      if (click) {
-        this.countriesListHidden = true
-        this.ref.detectChanges()
-      }
-    } else {
-      this.citiesInputItem = this.citiesFilteredList[idx]
-      this.citiesSelectedIndex = idx
-      this.ref.detectChanges()
-      if (click) {
-        this.citiesListHidden = true
-        this.ref.detectChanges()
-      }
-    }
-  }
-
-
-  toggleListDisplay(sender, type) {
-    if (type === 'countries') {
-      if (sender) {
-        this.countriesInputItem = ''
-        this.countriesFilteredList = this.countries
-        this.citiesInputItem = ''
-        this.citiesFilteredList = this.cities
-        this.getFilteredList('countries')
-        this.countriesListHidden = false
-        this.ref.detectChanges()
-      } else {
-        if (!this.countries.some(item => item === this.countriesInputItem)) {
-          this.countriesInputItem = ''
-          this.countriesFilteredList = this.countries
-          this.countriesListHidden = true
-          this.ref.detectChanges()
-        } else if (this.countriesInputItem) {
-          this.cities = countriesJSON[this.countriesInputItem]
-        }
-        this.countriesFilteredList = this.countries
-        this.countriesListHidden = true
-        this.ref.detectChanges()
-      }
-    } else {
-      if (sender) {
-        this.citiesInputItem = ''
-        this.citiesFilteredList = this.cities
-        this.getFilteredList('cities')
-        this.citiesListHidden = false
-        this.ref.detectChanges()
-      } else {
-        if (!this.cities.some(item => item === this.citiesInputItem)) {
-          this.citiesInputItem = ''
-          this.citiesFilteredList = this.cities
-          this.citiesListHidden = true
-          this.ref.detectChanges()
-        } else if (this.citiesInputItem) {
-          this.citiesFilteredList = this.cities
-          this.citiesListHidden = true
-          this.ref.detectChanges()
-        }
-      }
-    }
-  }
-
-
   onSubmit() {
     this.authService.register(this.form.value).subscribe(
       res => {
@@ -227,6 +108,9 @@ export class RegisterPageComponent implements OnInit {
       }
     )
   }
+
+  getCities(event) {
+    this.country = event
+    this.cities = countriesJSON[event]
+  }
 }
-
-

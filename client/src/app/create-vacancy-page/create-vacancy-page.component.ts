@@ -1,4 +1,11 @@
-import {AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core'
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  Renderer2,
+  ViewChild
+} from '@angular/core'
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms'
 import {VacanciesService} from '../shared/services/vacancies.service'
 import countriesJSON from '../shared/countries.min.json'
@@ -7,7 +14,7 @@ import {Router} from '@angular/router'
 @Component({
   selector: 'app-create-vacancy-page',
   templateUrl: './create-vacancy-page.component.html',
-  styleUrls: ['./create-vacancy-page.component.scss']
+  styleUrls: ['./create-vacancy-page.component.scss'],
 })
 export class CreateVacancyPageComponent implements OnInit, AfterViewInit {
 
@@ -26,10 +33,10 @@ export class CreateVacancyPageComponent implements OnInit, AfterViewInit {
       {type: 'maxlength', message: 'This field cannot be longer than 15 characters.'}
     ],
     country: [
-      {type: 'required', message: 'Country field cannot be empty.'},
+      {type: 'required', message: 'Country required.'},
     ],
     city: [
-      {type: 'required', message: 'City name field cannot be empty.'},
+      {type: 'required', message: 'City required.'},
     ],
     companyPic: [
       {type: 'required', message: 'Company picture required.'},
@@ -79,20 +86,12 @@ export class CreateVacancyPageComponent implements OnInit, AfterViewInit {
   form: FormGroup
   completeBar: number = 0
   progressBarOffset: number
-  imagePreview: string | ArrayBuffer = ''
-  showExperienceList: boolean = false
-  contractItem: string = ''
-  workTimeItem: string = ''
-  experienceItem: string = ''
-  showResponsibilityInput: boolean = false
   responsibilities: string[] = []
-  showExpectationsInput: boolean = false
   expectations: string[] = []
-  showBenefitsInput: boolean = false
   benefits: string[] = []
   tags: string[] = []
   expiryDays: number
-
+  showValidatorErrors: boolean = false
   contractTypes: string[] = [
     'Employment contract',
     'Commission contract',
@@ -100,20 +99,20 @@ export class CreateVacancyPageComponent implements OnInit, AfterViewInit {
     'Commission contract with an economic entity',
     'Student and postgraduate internship contract'
   ]
-
   workTimes: string[] = [
     'Full-Time',
     'Part-Time',
     'Fixed',
     'Flextime',
   ]
-
   experience: string[] = [
     'Trainee',
     'Junior',
     'Middle',
     'Senior'
   ]
+
+  submitted: boolean = false
 
   constructor(
     private formBuilder: FormBuilder,
@@ -131,6 +130,9 @@ export class CreateVacancyPageComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    setInterval(() => {
+      console.log(this.form.get('tags').valid)
+    }, 1000)
     this.form = this.formBuilder.group({
         title: new FormControl('', [
           Validators.required,
@@ -149,141 +151,61 @@ export class CreateVacancyPageComponent implements OnInit, AfterViewInit {
         contractType: new FormControl('', Validators.required),
         workTime: new FormControl('', Validators.required),
         experience: new FormControl('', Validators.required),
-        description: new FormControl('', [Validators.required, Validators.minLength(30)]),
+        description: new FormControl('', [
+          Validators.required,
+          Validators.minLength(30)
+        ]),
         salary: new FormControl('', Validators.required),
         expectations: new FormControl(''),
         responsibilities: new FormControl(''),
         benefits: new FormControl(''),
         tags: new FormControl('')
-      },
-      {
-        validators: [
-          // this.dateValidator(),
-          this.listValidator('responsibilities'),
-          this.listValidator('expectations'),
-          this.listValidator('benefits'),
-          this.listValidator('tags'),
-        ]
       }
     )
   }
 
-  listValidator(controlName) {
-    return (form: FormGroup) => {
-      const control = form.controls[controlName]
-      if (this[controlName].length < 3) {
-        control.setErrors({minlength: true})
-      } else {
-        control.setErrors(null)
-      }
-    }
-  }
-
   ngAfterViewInit() {
     this.progressBarOffset = this.progressBarRef.nativeElement.offsetTop
+
   }
 
-  onFileUpload(event) {
-    const file = event.target.files[0]
-    if (file) {
-      this.image = file
-
-      const reader = new FileReader()
-      reader.onload = () => {
-        this.imagePreview = reader.result
-      }
-
-      reader.readAsDataURL(file)
-    } else {
-      return
-    }
-  }
-
-  deleteImg() {
-    this.imagePreview = ''
-    this.image = undefined
-    this.form.controls['companyPic'].reset()
-  }
-
-  setExperienceItem(item) {
-    this.form.controls['experience'].setValue(item)
-    this.showExperienceList = false
+  onImageUpload(image) {
+    this.image = image
   }
 
   progressBarPercent() {
     let percent = 0
     Object.keys(this.form.controls).forEach(key => {
-        if (key === 'responsibilities') {
-          this.responsibilities.length > 2 ? percent++ : null
-          return
-        } else if (key === 'expectations') {
-          this.expectations.length > 2 ? percent++ : null
-          return
-        } else if (key === 'benefits') {
-          this.benefits.length > 2 ? percent++ : null
-          return
-        } else if (key === 'tags') {
-          this.tags.length > 2 ? percent++ : null
-          return
-        } else if (this.form.get(key).valid) {
-          percent++
-        }
+      if (this.form.get(key).valid) {
+        percent++
+      }
 
 
     })
     return Math.round((percent / 15) * 100)
   }
 
-  changeUserPic() {
-    this.fileInputRef.nativeElement.click()
-  }
 
   getCities(event) {
     this.countriesInputItem = event
     this.cities = countriesJSON[event]
   }
 
-  addTag() {
-    if (!this.form.value.tags) {
-      return
-    }
-    this.tags.push(this.form.value.tags)
-    this.form.controls['tags'].setValue('')
-  }
-
-  deleteTag(idx) {
-    this.tags.splice(idx, 1)
-    this.form.controls['tags'].markAsUntouched()
-    this.form.controls['tags'].updateValueAndValidity()
-  }
-
   getExpiryDays(event) {
     this.expiryDays = event
   }
 
-  isControlValid(control) {
-    if (this.form.get(control).invalid && this.form.get(control).touched && this.form.get(control).dirty) {
-      return Object.keys(this.form.get(control).errors).join()
+  isControlValid(controlName) {
+    if (!this.form.controls[controlName].valid && this.showValidatorErrors) {
+      return Object.keys(this.form.controls[controlName].errors).join("")
     } else {
       return null
     }
   }
 
-  validateForm() {
-    let errors = 0
-    Object.keys(this.form.controls).forEach(key => {
-      this.form.controls[key].markAsTouched()
-      this.form.controls[key].markAsDirty()
-      this.form.controls[key].updateValueAndValidity()
-      if (this.form.controls[key].errors) {
-        errors++
-      }
-    })
-    return errors
-  }
-
   submit() {
-    if (this.validateForm()) {
+    if (!this.form.valid) {
+      this.showValidatorErrors = true
       return
     }
     const data = this.form.value
@@ -297,4 +219,5 @@ export class CreateVacancyPageComponent implements OnInit, AfterViewInit {
       this.router.navigate(['/vacancy/', res._id])
     })
   }
+
 }

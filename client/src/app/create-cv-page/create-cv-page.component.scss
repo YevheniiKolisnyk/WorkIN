@@ -1,0 +1,304 @@
+@import "../shared/variables";
+@import "../shared/mixins";
+
+@mixin cv-title() {
+  font-size: 35px;
+  color: $dark-blue;
+  margin-bottom: 70px;
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: $primary-font;
+}
+
+main {
+  width: 100%;
+  max-height: 6000px;
+  display: flex;
+  padding: 0 150px 200px;
+  flex-direction: column;
+  align-items: center;
+  transition: .6s ease;
+  overflow: hidden;
+
+  .title {
+    font-size: 65px;
+    color: $dark-blue;
+  }
+
+  .personal-details {
+    width: 100%;
+    margin-top: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 70px;
+    border-bottom: 1px solid #BBBBBB;
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      width: 1000px;
+
+      .title {
+        @include cv-title();
+      }
+
+      .wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+
+        .left {
+          width: 440px;
+          display: flex;
+          flex-direction: column;
+
+          .img-container {
+            position: relative;
+            margin-bottom: 40px;
+
+            .validation-error {
+              position: absolute;
+              top: 100%;
+              left: 190px;
+              transform: translateY(-100%);
+            }
+          }
+
+          .form-control {
+            @include form-control(440px, 40px);
+          }
+
+          .full-name {
+            width: 440px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .form-control {
+              @include form-control(210px, 0);
+
+              .validation-error {
+                @include validation-error();
+              }
+            }
+          }
+        }
+
+        .right {
+          margin-left: 120px;
+          width: 440px;
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+
+          .date-of-birth {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            position: relative;
+
+            .day {
+              width: 80px;
+            }
+
+            .month {
+              width: 175px;
+            }
+
+            .year {
+              width: 145px;
+            }
+
+            .validation-error {
+              @include validation-error();
+            }
+          }
+
+          .address {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 40px;
+
+            .country, .city {
+              width: 210px;
+              position: relative;
+
+              .validation-error {
+                @include validation-error();
+              }
+            }
+          }
+
+          .wrapper {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .form-control {
+              @include form-control(210px, 40px);
+
+              .validation-error {
+                @include validation-error();
+              }
+            }
+
+          }
+
+          .email {
+            @include form-control(440px, 0);
+
+            .validation-error {
+              @include validation-error();
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .about-yourself {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 70px;
+    padding-bottom: 70px;
+    border-bottom: 1px solid #BBBBBB;
+
+    .container {
+      width: 1000px;
+      display: flex;
+      flex-direction: column;
+
+      .title {
+        @include cv-title();
+      }
+
+      .form-control {
+        @include form-control(100%, 0);
+
+        .input {
+          padding: 10px;
+          resize: none;
+          transition: .3s ease;
+          -moz-transition: .3s ease;
+          -webkit-transition: .3s ease;
+
+          &:focus {
+            height: 310px;
+          }
+        }
+
+        .validation-error {
+          @include validation-error();
+        }
+      }
+    }
+  }
+
+  .education, .employment-history {
+    width: 100%;
+    margin-top: 70px;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 70px;
+    border-bottom: 1px solid #BBBBBB;
+  }
+
+  .skills {
+    width: 100%;
+  }
+
+  .links, .languages {
+    width: 100%;
+    margin-top: 70px;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 70px;
+    border-bottom: 1px solid #BBBBBB;
+  }
+
+  .save {
+    margin-top: 70px;
+    @include confirm-btn();
+  }
+}
+
+.showPdf {
+  max-height: 0;
+  padding: 0;
+}
+
+.loader {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.download-container {
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  visibility: hidden;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  top: -100%;
+}
+
+.show-download {
+  animation-name: show-download;
+  animation-duration: .6s;
+  animation-delay: .6s;
+  animation-fill-mode: forwards;
+  //top: 50%;
+  visibility: visible;
+}
+
+.hide-download {
+  animation-name: hide-download;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  top: -100%;
+}
+
+@keyframes show-download {
+  0% {
+    top: -100%;
+    visibility: visible;
+  }
+  70% {
+    top: 60%;
+  }
+  100% {
+    visibility: visible;
+    top: 50%;
+  }
+}
+
+@keyframes hide-download {
+  0% {
+    top: 50%;
+    visibility: visible;
+  }
+  30% {
+    top: 60%;
+  }
+  100% {
+    visibility: hidden;
+    top: -100%;
+  }
+}

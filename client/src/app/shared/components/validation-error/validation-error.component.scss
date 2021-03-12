@@ -1,0 +1,14 @@
+@import "../../mixins";
+@import "../../variables";
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.error-message {
+  font-size: 18px;
+  color: $error-color;
+  font-family: $primary-font;
+}

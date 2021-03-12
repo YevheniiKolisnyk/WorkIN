@@ -1,0 +1,9 @@
+<div class="container">
+  <p class="title">Filter</p>
+  <ul class="filter">
+    <li *ngFor="let tag of tags">
+      <input (change)="selectFilter($event, tag)" [id]="tag" type="checkbox" class="checkbox">
+      <label class="checkbox-label" [for]="tag">{{tag}}</label>
+    </li>
+  </ul>
+</div>

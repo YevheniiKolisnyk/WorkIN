@@ -1,0 +1,20 @@
+<div class="container">
+  <div
+    class="progress-bar">
+    <p
+      [ngStyle]="{'color': progressBarPercent() === 100 ? '#81F67E' : '#FF0000'}"
+      class="percent"
+    >
+      {{progressBarPercent()}}%<span>Complete</span>
+    </p>
+    <div class="bar">
+      <div
+        [ngStyle]="{
+      'width': progressBarPercent() + '%',
+      'background-color': progressBarPercent() === 100 ? '#81F67E' : '#FF0000'
+      }"
+        class="complete-bar"
+      ></div>
+    </div>
+  </div>
+</div>

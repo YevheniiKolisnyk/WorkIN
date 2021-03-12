@@ -8,10 +8,10 @@
     </button>
   </div>
 
-  <div *ngIf="canShowInput" class="add">
-        <textarea (keydown.enter)="addListItem()"
-                  [formControlName]="controlName"
-                  cols="30" rows="10">
+  <div *ngIf="canShowInput" class="add" [@addList]>
+        <textarea
+          [formControlName]="controlName"
+          cols="30" rows="10">
         </textarea>
     <button (click)="addListItem()">
       <span class="iconify" data-icon="bi:plus" data-inline="false"></span>
@@ -19,7 +19,7 @@
   </div>
 
   <ul class="list">
-    <li *ngFor="let item of itemList; let idx = index" class="item">
+    <li *ngFor="let item of itemList; let idx = index" class="item" [@list]>
       <div class="arrow"></div>
       <div (click)="deleteListItem(idx)" class="delete">
         <span class="iconify" data-icon="mi:delete-alt" data-inline="false"></span>

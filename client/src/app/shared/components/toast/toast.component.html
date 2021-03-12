@@ -1,0 +1,11 @@
+<div
+  [@state]
+  *ngIf="message"
+  [ngClass]="{
+  'success': type === 'success',
+  'error': type === 'error'
+  }"
+  class="toast"
+>
+  <p class="message">{{message}}</p>
+</div>

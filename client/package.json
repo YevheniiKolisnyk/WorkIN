@@ -19,7 +19,7 @@
     "@angular/platform-browser": "~10.1.0",
     "@angular/platform-browser-dynamic": "~10.1.0",
     "@angular/router": "~10.1.0",
-    "drop-down-filter": "0.0.3",
+    "drop-down-filter": "^1.0.8",
     "google-libphonenumber": "^3.2.14",
     "ngx-international-phone-number": "^1.0.6",
     "ngx-intl-tel-input": "^3.0.3",

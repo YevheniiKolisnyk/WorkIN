@@ -48,7 +48,7 @@ export class VacanciesService {
       fd.append(key, data[key])
     }
 
-    return this.http.post<Vacancy>(`api/vacancy/create`, data)
+    return this.http.post<Vacancy>(`api/vacancy/create`, fd)
   }
 
   applyVacancy(id): Observable<Vacancy> {

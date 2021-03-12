@@ -16,6 +16,7 @@
     "@sendgrid/mail": "^7.2.5",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
+    "drop-down-filter": "^1.0.2",
     "express": "^4.17.1",
     "express-validator": "^6.6.1",
     "fs-extra": "^9.1.0",

@@ -32,11 +32,10 @@
     align-items: center;
     justify-content: space-between;
     width: 440px;
-    position: relative;
+    margin-bottom: 50px;
 
-    .form-control {
-      @include form-control(215px);
-      @include dropdown();
+    .dropdown {
+      width: 215px;
     }
   }
 

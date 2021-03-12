@@ -1,0 +1,16 @@
+<div (click)="favorite()" class="container">
+  <div *ngIf="!includeInFavorite()" [@scaleAnimation] class="star">
+                  <span
+                    class="iconify"
+                    data-icon="ant-design:star-outlined"
+                    data-inline="false"
+                  ></span>
+  </div>
+  <div *ngIf="includeInFavorite()" [@scaleAnimation] class="star">
+                    <span
+                      class="iconify"
+                      data-icon="ant-design:star-filled"
+                      data-inline="false"
+                    ></span>
+  </div>
+</div>

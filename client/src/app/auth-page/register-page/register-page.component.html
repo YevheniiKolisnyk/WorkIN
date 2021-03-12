@@ -58,58 +58,31 @@
   </div>
 
   <div class="address">
-    <div class="form-control">
-
-      <div *ngFor="let error of errorMessages.country" class="error-messages">
-        <p
-          *ngIf="form.get('country').hasError(error.type) && form.get('country').touched"
-          class="error-message"
-        >
-          {{error.message}}
-        </p>
-      </div>
+    <div class="dropdown">
+      <yk-drop-down-filter
+      [allowFilter]="true"
+      [controlName]="'country'"
+      [parentFormGroup]="form"
+      [title]="'Country'"
+      [dataArray]="countries"
+      (outputItem)="getCities($event)"
+      [autocomplete]="'none'"
+      >
+      </yk-drop-down-filter>
     </div>
 
-    <div class="form-control">
-      <input
-        (blur)="toggleListDisplay(false, 'cities')"
-        (focus)="toggleListDisplay(true, 'cities')"
-        (input)="getFilteredList('cities')"
-        [(ngModel)]="citiesInputItem"
-        [ngClass]="{invalid: form.get('city').invalid && form.get('city').touched}"
-        autocomplete="none"
-        formControlName="city"
-        id="city"
-        placeholder="City"
-        type="text">
-      <label [ngClass]="{'label-animate': !canAnimate}" for="city">City</label>
-      <div *ngIf="!citiesListHidden && !citiesShowError" class="options">
-        <div
-          (click)="selectItem(i, true, 'cities')"
-          (mouseenter)="selectItem(i,  false, 'cities')"
-          *ngFor="let item of citiesFilteredList;let i = index"
-          class="item"
-        >
-          <p>{{item}}</p>
-        </div>
-      </div>
-
-      <div *ngIf="!citiesListHidden && citiesShowError" class="options">
-        <div class="error">
-          <p>Not found</p>
-        </div>
-      </div>
-
-      <div *ngFor="let error of errorMessages.city" class="error-messages">
-        <p
-          *ngIf="form.get('city').hasError(error.type) && form.get('city').touched"
-          class="error-message"
-        >
-          {{error.message}}
-        </p>
-      </div>
+    <div class="dropdown">
+      <yk-drop-down-filter
+        [allowFilter]="true"
+        [controlName]="'city'"
+        [parentFormGroup]="form"
+        [title]="'City'"
+        [dataArray]="cities"
+        (outputItem)="city = $event"
+        [autocomplete]="'none'"
+      >
+      </yk-drop-down-filter>
     </div>
-
   </div>
 
   <div class="form-control">

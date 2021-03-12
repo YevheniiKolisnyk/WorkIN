@@ -16,7 +16,7 @@ module.exports.register = async function (req, res) {
 
     const hashedPassword = await bcrypt.hash(req.body.password, 10)
 
-    const {firstName, lastName, email, country, state, city, phone} = req.body
+    const {firstName, lastName, email, country, city, phone} = req.body
 
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
@@ -28,7 +28,6 @@ module.exports.register = async function (req, res) {
       lastName,
       email,
       country,
-      state,
       city,
       phone,
       password: hashedPassword

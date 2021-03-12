@@ -10,25 +10,11 @@
       </div>
 
       <div class="right">
-        <div class="favorite" (click)="addToFavorite()">
-          <div *ngIf="!includeInFavorite()">
-          <span
-            class="iconify"
-            data-icon="ant-design:star-outlined"
-            data-inline="false"
-          ></span>
-          </div>
-
-          <div *ngIf="includeInFavorite()">
-            <span
-                  class="iconify"
-                  data-icon="ant-design:star-filled"
-                  data-inline="false"
-            ></span>
-          </div>
+        <div class="favorite">
+          <app-favorite [id]="vacancy._id"></app-favorite>
         </div>
 
-        <button class="btn" (click)="apply()">{{isApplied() ? 'Cancel' : 'Apply'}}</button>
+        <button (click)="apply()" class="btn">{{isApplied() ? 'Cancel' : 'Apply'}}</button>
       </div>
     </div>
   </div>
@@ -95,6 +81,15 @@
             <p class="text">{{item}}</p>
           </li>
         </ul>
+      </div>
+
+      <div class="tags-container">
+        <p class="title">Tags</p>
+        <div class="tags">
+          <div *ngFor="let tag of vacancy.tags" class="tag">
+            <p>{{tag}}</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -129,3 +129,8 @@ export interface City {
   geonameName: string
   geonameId?: string
 }
+
+export interface Toast {
+  type: string
+  message: string
+}

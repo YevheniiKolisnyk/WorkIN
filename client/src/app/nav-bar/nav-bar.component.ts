@@ -36,4 +36,5 @@ export class NavBarComponent implements OnInit {
   viewProfile(id) {
     this.router.navigate(['/user/', id])
   }
+
 }

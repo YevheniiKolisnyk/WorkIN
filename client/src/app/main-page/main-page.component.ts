@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core'
+import {ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core'
 import {VacanciesService} from '../shared/services/vacancies.service'
 import {User, Vacancy} from '../shared/iterfaces'
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms'
@@ -13,23 +13,23 @@ import {AuthService} from '../shared/services/auth.service'
 })
 export class MainPageComponent implements OnInit {
   @ViewChild('locationInput') locationInputRef: ElementRef
-  user: User
+  @ViewChild('dropdownContainer') locationDropdownContainerRef: ElementRef
+  @ViewChild('locationDropdown') locationDropdownRef: ElementRef
 
+  user: User
   canShowStars: boolean = false
   form: FormGroup
-  favoriteList: string[]
 
   showLoader: boolean = true
   tags: string[]
   checkboxValues: string[] = []
-  searchInputItem: string
   vacancies: Vacancy[] = []
+  showLocationMenu: boolean = false
   locations: string[]
-  locationsInputItem: string = ''
-  locationsListHidden: boolean = true
-  locationsShowError: boolean = false
-  locationsSelectedIndex: number = -1
-  locationsFilteredList: string[] = []
+  showDropdownError: boolean = false
+  filteredList: string[] = []
+  searchQuery: string
+  locationQuery: string
 
   constructor(
     private route: ActivatedRoute,
@@ -38,35 +38,40 @@ export class MainPageComponent implements OnInit {
     private FormBuilder: FormBuilder,
     private ref: ChangeDetectorRef,
     private profileService: ProfileService,
-    private authService: AuthService
+    private authService: AuthService,
+    private renderer: Renderer2
   ) {
-
+    this.renderer.listen('window', 'click', (e: Event) => {
+      if (!this.locationDropdownRef) {
+        return
+      }
+      if (!this.locationDropdownContainerRef.nativeElement.contains(e.target)) {
+        this.closeLocationMenu()
+      }
+    })
   }
 
   ngOnInit(): void {
     if (this.route.snapshot.queryParamMap.get('keywords') === 'ALL') {
-      this.searchInputItem = ''
+      this.searchQuery = ''
     } else if (this.route.snapshot.queryParamMap.get('keywords')) {
-      this.searchInputItem = this.route.snapshot.queryParamMap.get('keywords')
+
+      this.searchQuery = this.route.snapshot.queryParamMap.get('keywords')
     }
 
     if (this.route.snapshot.queryParamMap.get('location') === 'GLOBAL') {
-      this.locationsInputItem = ''
+      this.locationQuery = ''
     } else if (this.route.snapshot.queryParamMap.get('location')) {
-      this.locationsInputItem = this.route.snapshot.queryParamMap.get('location')
+      this.locationQuery = this.route.snapshot.queryParamMap.get('location')
     }
 
     this.form = this.FormBuilder.group({
-      searchInput: new FormControl(null, Validators.required),
-      locationInput: new FormControl(null)
+      searchInput: new FormControl(this.searchQuery, Validators.required),
+      locationInput: new FormControl(this.locationQuery)
     })
 
     this.authService.currentUser.subscribe(user => {
       this.user = user
-      if (user) {
-        this.favoriteList = user.favorite.map(item => item._id)
-        this.canShowStars = true
-      }
     })
     this.getAll()
   }
@@ -81,66 +86,55 @@ export class MainPageComponent implements OnInit {
     })
   }
 
-  getFilteredList() {
-    this.locationsListHidden = false
-    this.ref.detectChanges()
+  openLocationMenu() {
+    this.showLocationMenu = true
+    this.locationInputRef.nativeElement.focus()
+    this.filteredList = this.locations
+    this.form.controls.locationInput.setValue('')
+  }
 
-    if (!this.locationsListHidden && this.locationsInputItem !== undefined) {
-      this.locationsFilteredList = this.locations.filter((item) => {
-        return item.toLowerCase().startsWith(this.locationsInputItem.toLowerCase())
+  closeLocationMenu() {
+    this.showLocationMenu = false
+    this.locationInputRef.nativeElement.blur()
+    if (!this.locations.includes(this.form.controls.locationInput.value)) {
+      this.form.controls.locationInput.setValue('')
+      this.showDropdownError = false
+    }
+  }
+
+  getFilteredList() {
+    if (this.showLocationMenu && this.form.value.locationInput !== undefined) {
+      this.filteredList = this.locations.filter((item) => {
+        return item.toLowerCase().startsWith(this.form.value.locationInput.toLowerCase())
       })
     }
 
-    if (this.locationsInputItem !== undefined && !this.locations.find(item => {
-      return item.toLowerCase().startsWith(this.locationsInputItem.toLowerCase())
+    if (this.form.value.locationInput !== undefined && !this.locations.find(item => {
+      return item.toLowerCase().startsWith(this.form.value.locationInput.toLowerCase())
     })) {
-      this.locationsShowError = true
+      this.showDropdownError = true
     } else {
-      this.locationsShowError = false
+      this.showDropdownError = false
     }
   }
 
-  selectItem(idx, click,) {
-    this.locationsInputItem = this.locationsFilteredList[idx]
-    this.locationsSelectedIndex = idx
-    this.ref.detectChanges()
-    if (click) {
-      this.locationsListHidden = true
-      this.ref.detectChanges()
+  selectItem(idx) {
+    this.locationInputRef.nativeElement.focus()
+    this.form.controls.locationInput.setValue(this.filteredList[idx])
+    this.showLocationMenu = false
+    this.locationInputRef.nativeElement.blur()
+  }
+
+  keepFocus() {
+    if (this.showLocationMenu) {
+      this.locationInputRef.nativeElement.focus()
     }
   }
 
-  toggleListDisplay(sender) {
-    if (sender) {
-      this.locationsInputItem = ''
-      this.getFilteredList()
-      this.locationsListHidden = false
-      this.ref.detectChanges()
-    } else {
-      if (!this.locations.some(item => item === this.locationsInputItem)) {
-        this.locationsInputItem = ''
-        this.locationsFilteredList = this.locations
-        this.locationsListHidden = true
-        this.ref.detectChanges()
-      } else if (this.locationsInputItem) {
-
-      }
-      this.locationsFilteredList = this.locations
-      this.locationsListHidden = true
-      this.ref.detectChanges()
-    }
-  }
-
-  focusLocation() {
-    if (this.locationsListHidden) {
-      this.toggleListDisplay(true)
-    } else {
-      this.toggleListDisplay(false)
-    }
-  }
 
   search() {
     this.showLoader = true
+    this.closeLocationMenu()
     const location = this.form.value.locationInput ? this.form.value.locationInput : "GLOBAL"
     const keywords = this.form.value.searchInput ? this.form.value.searchInput : 'ALL'
     this.vacanciesService.search(keywords, location).subscribe(res => {
@@ -155,45 +149,20 @@ export class MainPageComponent implements OnInit {
     })
   }
 
-  selectFilter(event, tag) {
-    this.showLoader = true
-    if (event.target.checked) {
-      this.checkboxValues.push(tag)
-      this.vacanciesService.searchByTags(this.checkboxValues).subscribe(res => {
-        this.vacancies = res
-        this.showLoader = false
-      })
-    } else {
-      this.checkboxValues = this.checkboxValues.filter(el => el != tag)
-      if (!this.checkboxValues.length) {
-        this.getAll()
-      } else {
-        this.vacanciesService.searchByTags(this.checkboxValues).subscribe(res => {
-          this.vacancies = res
-          this.showLoader = false
-        })
-      }
-    }
 
-
-  }
-
-  includeInFavorite(id) {
-    return this.user.favorite.some(item => item._id === id)
-  }
 
   clearVacanciesInput() {
-    this.form.controls['searchInput'].reset()
+    this.form.controls.searchInput.setValue('')
   }
 
   clearLocationInput() {
-    this.form.controls['locationInput'].reset()
+    this.form.controls.locationInput.setValue('')
   }
-
-  favorite(id) {
-    this.vacanciesService.toFavorite(id).subscribe(res => {
-      this.user.favorite = res.user.favorite
-      this.authService.updateUser(res.user)
-    })
+  getTags(res) {
+     if (res) {
+       this.vacancies = res
+     } else {
+       this.getAll()
+     }
   }
 }

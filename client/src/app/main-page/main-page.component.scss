@@ -119,6 +119,7 @@ main {
             .iconify {
               font-size: 30px;
               color: $bright-blue;
+              user-select: none;
             }
 
           }
@@ -157,7 +158,7 @@ main {
         .options {
           border-radius: 15px;
           position: absolute;
-          top: 100%;
+          top: 102%;
           left: 0;
           width: 250px;
           max-height: 200px;
@@ -168,8 +169,12 @@ main {
           z-index: 2;
           border: 1px solid $bright-blue;
 
+          &::-webkit-scrollbar {
+            display: none;
+          }
 
-          .item {
+
+          .item-container {
             min-height: 48px;
             padding: 0 20px;
             color: $dark-blue;
@@ -183,7 +188,7 @@ main {
               color: #ffffff;
             }
 
-            p {
+            .item {
               margin: 0;
             }
           }
@@ -193,8 +198,12 @@ main {
             display: flex;
             align-items: center;
             font-size: 14px;
-            color: $dark-grey;
+            color: #757575;
             padding: 0 15px;
+
+             p {
+               text-align: center;
+             }
           }
         }
 
@@ -228,98 +237,98 @@ main {
         display: flex;
         flex-direction: column;
 
-        .vacancy {
-          margin-top: 35px;
-          padding-bottom: 20px;
-          border-bottom: 1px solid #bbbbbb;
-          display: flex;
-          align-items: center;
-
-          img {
-            border-radius: 20px;
-            width: 100px;
-            height: 100px;
-            margin-right: 15px;
-          }
-
-          .vacancy-info {
-            width: calc(100% - 115px);
-            display: flex;
-            flex-direction: column;
-
-            .top {
-              display: flex;
-              justify-content: space-between;
-              margin-bottom: 5px;
-
-              .vacancy-title {
-                text-decoration: none;
-                font-size: 25px;
-                color: $bright-blue;
-              }
-
-              .favorite {
-                cursor: pointer;
-                user-select: none;
-                width: 40px;
-                height: 45px;
-
-                .iconify {
-                  font-size: 40px;
-                  color: $bright-blue;
-                }
-              }
-            }
-
-            .middle {
-              margin-bottom: 15px;
-
-              .company-name {
-                font-size: 19px;
-              }
-            }
-
-            .bottom {
-              display: flex;
-              align-items: center;
-              justify-content: space-between;
-
-              .vacancy-description {
-                width: 510px;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-
-
-                .description {
-                  width: 170px;
-                  display: flex;
-                  align-items: center;
-
-                  &:nth-child(2) {
-                    width: 110px;
-                  }
-
-                  .iconify {
-                    font-size: 20px;
-                    color: $dark-grey;
-                    margin-right: 5px;
-                  }
-
-                  p {
-                    font-size: 15px;
-                    color: $dark-grey;
-                  }
-                }
-              }
-
-              .expiry-time {
-                font-size: 15px;
-                color: $dark-grey;
-              }
-            }
-          }
-        }
+        //.vacancy {
+        //  margin-top: 35px;
+        //  padding-bottom: 20px;
+        //  border-bottom: 1px solid #bbbbbb;
+        //  display: flex;
+        //  align-items: center;
+        //
+        //  img {
+        //    border-radius: 20px;
+        //    width: 100px;
+        //    height: 100px;
+        //    margin-right: 15px;
+        //  }
+        //
+        //  .vacancy-info {
+        //    width: calc(100% - 115px);
+        //    display: flex;
+        //    flex-direction: column;
+        //
+        //    .top {
+        //      display: flex;
+        //      justify-content: space-between;
+        //      margin-bottom: 5px;
+        //
+        //      .vacancy-title {
+        //        text-decoration: none;
+        //        font-size: 25px;
+        //        color: $bright-blue;
+        //      }
+        //
+        //      .favorite {
+        //        cursor: pointer;
+        //        user-select: none;
+        //        width: 40px;
+        //        height: 45px;
+        //
+        //        .iconify {
+        //          font-size: 40px;
+        //          color: $bright-blue;
+        //        }
+        //      }
+        //    }
+        //
+        //    .middle {
+        //      margin-bottom: 15px;
+        //
+        //      .company-name {
+        //        font-size: 19px;
+        //      }
+        //    }
+        //
+        //    .bottom {
+        //      display: flex;
+        //      align-items: center;
+        //      justify-content: space-between;
+        //
+        //      .vacancy-description {
+        //        width: 510px;
+        //        display: flex;
+        //        align-items: center;
+        //        justify-content: space-between;
+        //
+        //
+        //        .description {
+        //          width: 170px;
+        //          display: flex;
+        //          align-items: center;
+        //
+        //          &:nth-child(2) {
+        //            width: 110px;
+        //          }
+        //
+        //          .iconify {
+        //            font-size: 20px;
+        //            color: $dark-grey;
+        //            margin-right: 5px;
+        //          }
+        //
+        //          p {
+        //            font-size: 15px;
+        //            color: $dark-grey;
+        //          }
+        //        }
+        //      }
+        //
+        //      .expiry-time {
+        //        font-size: 15px;
+        //        color: $dark-grey;
+        //      }
+        //    }
+        //  }
+        //}
       }
 
       .error-msg {
@@ -331,70 +340,6 @@ main {
 
     .filter-container {
       width: 400px;
-      display: flex;
-      flex-direction: column;
-
-      .title {
-        font-size: 25px;
-        color: $dark-blue;
-        padding-bottom: 20px;
-        border-bottom: 1px solid #bbbbbb;
-        list-style: none;
-        margin-bottom: 30px;
-      }
-
-      .filter {
-        li {
-          display: flex;
-          list-style: none;
-
-          input {
-            display: none;
-          }
-
-          label {
-            position: relative;
-            cursor: pointer;
-            font-size: 19px;
-            color: $dark-blue;
-            display: flex;
-            align-items: center;
-            margin-bottom: 25px;
-
-            &:before {
-              content: '';
-              -webkit-appearance: none;
-              background: transparent;
-              border: 1px solid $dark-grey;
-              border-radius: 5px;
-              cursor: pointer;
-              width: 20px;
-              height: 20px;
-              margin-right: 15px;
-              display: inline-block;
-              position: relative;
-            }
-          }
-
-
-          input:checked + label:before {
-            background-color: $bright-blue;
-          }
-
-          input:checked + label:after {
-            content: '';
-            position: absolute;
-            top: 5px;
-            left: 7px;
-            width: 6px;
-            height: 10px;
-            border: solid #ffffff;
-            border-width: 0 2px 2px 0;
-            transform: rotate(45deg);
-          }
-        }
-      }
-
     }
   }
 

@@ -37,6 +37,11 @@
   }
 }
 
+@mixin title() {
+  font-size: 30px;
+  color: $dark-blue;
+  margin-bottom: 25px;
+}
 
 * {
   margin: 0;
@@ -104,11 +109,6 @@ main {
         justify-content: space-between;
         align-items: flex-end;
 
-        .favorite {
-          font-size: 40px;
-          color: #ffffff;
-        }
-
         .btn {
           width: 180px;
           height: 50px;
@@ -169,14 +169,15 @@ main {
         border-bottom: 1px solid #bbbbbb;
 
         .title {
-          font-size: 30px;
-          color: $dark-blue;
-          margin-bottom: 25px;
+          @include title();
         }
 
         .text {
           font-size: 18px;
           color: $dark-blue;
+           p{
+             display: block;
+           }
         }
       }
 
@@ -190,6 +191,38 @@ main {
 
       .benefits {
         @include list();
+      }
+
+      .tags-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin-top: 30px;
+        border-bottom: 1px solid #bbbbbb;
+        padding-bottom: 15px;
+
+        .title {
+          @include title();
+        }
+
+        .tags {
+          width: 100%;
+          display: flex;
+          align-items: center;
+
+          .tag {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50px;
+            padding: 15px;
+            background-color: $bright-blue;
+            font-size: 18px;
+            margin: 0 15px 15px 0;
+            color: #ffffff;
+            border-radius: 15px;
+          }
+        }
       }
     }
   }

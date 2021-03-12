@@ -1,0 +1,159 @@
+<div class="container">
+  <div class="head-container">
+    <p class="title">{{title}}</p>
+    <div *ngIf="!canShowInput" class="head">
+
+      <button (click)="canShowInput = true" class="add-input" type="button">
+        <span class="iconify" data-icon="bi:plus" data-inline="false"></span>
+        Add
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="canShowInput" [@addList] [formGroup]="parentFormGroup" class="add">
+    <div class="wrapper">
+      <div class="left">
+        <div class="form-control">
+          <input
+            [formControlName]="titleControlName"
+            [id]="titleControlName"
+            [placeholder]="labelTitle"
+            type="text">
+          <label [for]="titleControlName" class="label-animate">{{labelTitle}}</label>
+          <div class="validation-error">
+            <app-validation-error
+              [control]="titleControlName"
+              [errorType]="isControlValid(titleControlName)"
+              [errorsArray]="validationErrors"
+            ></app-validation-error>
+          </div>
+        </div>
+
+        <div class="duration">
+          <div class="calendar">
+            <app-calendar
+              (output)="setStartDate($event)"
+              [controlName]="startDateControlName"
+              [fixedDate]="false"
+              [parenFormGroup]="parentFormGroup"
+              [stillHere]="false"
+              [title]="'Start date'"
+            ></app-calendar>
+            <div class="validation-error">
+              <app-validation-error
+                [control]="startDateControlName"
+                [errorType]="isControlValid(startDateControlName)"
+                [errorsArray]="validationErrors"
+              ></app-validation-error>
+            </div>
+          </div>
+
+          <div *ngIf="parentFormGroup.controls[startDateControlName].value" class="calendar">
+            <app-calendar
+              (output)="setEndDate($event)"
+              [controlName]="endDateControlName"
+              [fixedDate]="false"
+              [parenFormGroup]="parentFormGroup"
+              [stillHere]="true"
+              [title]="'End date'"
+            ></app-calendar>
+            <div class="validation-error">
+              <app-validation-error
+                [control]="endDateControlName"
+                [errorType]="isControlValid(endDateControlName)"
+                [errorsArray]="validationErrors"
+              ></app-validation-error>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="right">
+        <div *ngIf="showOrgDropdown" class="form-control">
+          <yk-drop-down-filter
+            [allowFilter]="false"
+            [controlName]="orgControlName"
+            [dataArray]="degrees"
+            [parentFormGroup]="parentFormGroup"
+            [title]="'Degree'"
+          ></yk-drop-down-filter>
+          <div class="validation-error">
+            <app-validation-error
+              [control]="orgControlName"
+              [errorType]="isControlValid(orgControlName)"
+              [errorsArray]="validationErrors"
+            ></app-validation-error>
+          </div>
+        </div>
+
+        <div *ngIf="!showOrgDropdown" class="employer">
+          <input [formControlName]="orgControlName" [id]="orgControlName" placeholder="Employer" type="text">
+          <label [for]="orgControlName" class="label-animate">Employer</label>
+          <div class="validation-error">
+            <app-validation-error
+              [control]="orgControlName"
+              [errorType]="isControlValid(orgControlName)"
+              [errorsArray]="validationErrors"
+            ></app-validation-error>
+          </div>
+        </div>
+
+        <div class="address">
+          <div class="country">
+            <yk-drop-down-filter
+              (outputItem)="setCountry($event)"
+              [allowFilter]="true"
+              [autocomplete]="'none'"
+              [controlName]="countryControlName"
+              [dataArray]="countries"
+              [parentFormGroup]="parentFormGroup"
+              [title]="'Country'"
+            ></yk-drop-down-filter>
+            <div class="validation-error">
+              <app-validation-error
+                [control]="countryControlName"
+                [errorType]="isControlValid(countryControlName)"
+                [errorsArray]="validationErrors"
+              ></app-validation-error>
+            </div>
+          </div>
+
+          <div class="city">
+            <yk-drop-down-filter
+              [allowFilter]="true"
+              [autocomplete]="'none'"
+              [controlName]="cityControlName"
+              [dataArray]="cities"
+              [parentFormGroup]="parentFormGroup"
+              [title]="'City'"
+            ></yk-drop-down-filter>
+            <div class="validation-error">
+              <app-validation-error
+                [control]="cityControlName"
+                [errorType]="isControlValid(cityControlName)"
+                [errorsArray]="validationErrors"
+              ></app-validation-error>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <button (click)="saveUniversity()" class="add-btn">Save</button>
+  </div>
+
+  <ul class="list">
+    <li *ngFor="let item of itemList; let idx = index" [@list] class="item">
+      <div class="arrow"></div>
+      <div (click)="deleteListItem(idx)" class="delete">
+        <span class="iconify" data-icon="mi:delete-alt" data-inline="false"></span>
+      </div>
+      <div class="item">
+        <p class="title">{{item.title}}</p>
+        <p class="subtitle">{{item.org}}</p>
+        <p class="info">{{item.startDate}} - {{item.endDate}} | {{item.country}}, {{item.city}}</p>
+      </div>
+    </li>
+  </ul>
+</div>
+

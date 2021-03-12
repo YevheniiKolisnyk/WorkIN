@@ -31,21 +31,21 @@ export class VacancyPageComponent implements OnInit {
     })
   }
 
-  includeInFavorite() {
-    return this.vacancy.subscribers.some(item => item._id === this.user._id)
-  }
+  // includeInFavorite() {
+  //   return this.vacancy.subscribers.some(item => item._id === this.user._id)
+  // }
 
   isApplied() {
     return this.vacancy.applicants.some(item => item._id === this.user._id)
   }
 
-  addToFavorite() {
-    this.vacanciesService.toFavorite(this.vacancy._id).subscribe((res) => {
-      this.vacancy.subscribers = res.vacancy.subscribers
-      this.user.favorite = res.user.favorite
-      this.authService.updateUser(res.user)
-    })
-  }
+  // addToFavorite() {
+  //   this.vacanciesService.toFavorite(this.vacancy._id).subscribe((res) => {
+  //     this.vacancy.subscribers = res.vacancy.subscribers
+  //     this.user.favorite = res.user.favorite
+  //     this.authService.updateUser(res.user)
+  //   })
+  // }
 
   apply() {
     this.vacanciesService.applyVacancy(this.vacancy._id).subscribe(res => {

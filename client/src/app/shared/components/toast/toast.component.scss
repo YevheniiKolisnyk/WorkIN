@@ -1,0 +1,40 @@
+@import "../../../shared/variables";
+@import "../../../shared/mixins";
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: $primary-font;
+}
+
+.toast {
+  z-index: 1000;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 400px;
+  height: 60px;
+  background-color: #ffffff;
+  border: 1px solid;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+    .message {
+      font-size: 18px;
+      color: $dark-blue;
+      user-select: none;
+      text-transform: uppercase;
+    }
+}
+
+.success {
+  border-color: $bright-blue;
+}
+
+.error {
+  border-color: $error-color;
+}

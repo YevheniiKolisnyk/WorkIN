@@ -1,10 +1,12 @@
 import {Component, EventEmitter, Input, Output,} from '@angular/core'
 import {FormGroup} from '@angular/forms'
+import {elementsAnimations} from '../../animations/elements.animations'
 
 @Component({
   selector: 'app-add-list',
   templateUrl: './add-list.component.html',
-  styleUrls: ['./add-list.component.scss']
+  styleUrls: ['./add-list.component.scss'],
+  animations: elementsAnimations
 })
 export class AddListComponent {
 
@@ -20,7 +22,7 @@ export class AddListComponent {
 
 
   addListItem() {
-    if (!this.parentFormGroup.value[this.controlName]) {
+    if (!this.parentFormGroup.value[this.controlName].trim()) {
       return
     }
     this.itemList.push(this.parentFormGroup.value[this.controlName])
